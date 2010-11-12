@@ -91,6 +91,8 @@
 #define LED_ROJO							22
 #define LED_VERDE							23
 
+#define TIEMPO_ESPERA					10
+
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
 ///                       Variables                         ///
@@ -105,7 +107,9 @@ int vectorMovil[9];
 
 boolean modo_mantinimiento = false;
 
+boolean limpiarPantalla = true;
 
+long millisAntes = 0;
 
 //# Caracteres especiales
 //# ==================================
@@ -886,7 +890,7 @@ void GuardarNumero()
 	{
 		EEPROM.write(position+c,vectorMovil[c]+48);
 	}
-	// Quitamos el guión bajo  del cursor
+	// Quitamos el guiÃ³n bajo  del cursor
 	lcd.noCursor();
 	// Mostramos la informacion
 	MostrarInfo(CAMBIO,CORRECTO);
@@ -1096,7 +1100,8 @@ void loop()
   valor = LeeTeclado();
   if ( valor >=0 )
   {
-
+	millisAntes = millis();
+	limpiarPantalla = true;
 		switch(modo_teclado)
 		{
 			case MENU:
@@ -1113,17 +1118,35 @@ void loop()
 				ComprobarTecla(valor, EDICION);
 				Serial.println("Edicion");
 				break;
+			case PANTALLA:
+				modo_teclado = MENU;
+				Serial.println("Menu");
+				// Llego al primer nivel
+				Root.goDown();
+				Root.goUp();
+				break;
 			}
 
-
     Serial.println(Root.id);
-
+		
   } 
-
+  unsigned long millisAhora = millis();
+  
+  // Comprobamos que han pasado mas de n segundos sin pulsar nada
+  if (millisAhora - millisAntes > TIEMPO_ESPERA*1000)
+  {
+		if (limpiarPantalla == true)
+		{
+			limpiarPantalla = false;
+			lcd.clear();
+		}
+		lcd.setCursor(0,0);
+		lcd.print("Por hacer");
+		delay(200);
+	}
 
 
 }
-
 
 
 
