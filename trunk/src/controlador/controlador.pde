@@ -23,24 +23,14 @@
 #include <EEPROM.h>
 
 
-//# Variables de electricas
-//# ==================================
-int pinRed = 1;
-int pinGrupo = 2;
-// Supongo que todo va bien
-boolean red = true;
-boolean grupo = false;
-boolean smsRedActivado = true;
-boolean smsGrupoActivado = false;
 
 
 
-
-
-
-
-//# Macros
-//# ==================================
+///////////////////////////////////////////////////////////////
+///                                                         ///
+///                         Macros                          ///
+///                                                         ///
+///////////////////////////////////////////////////////////////
 #define FILAS_LCD       				2
 #define COLUMNAS_LCD       			16
 
@@ -103,13 +93,20 @@ boolean smsGrupoActivado = false;
 #define EDICION								1
 #define PANTALLA							2
 
-//# Variables
-//# ==================================
+
+///////////////////////////////////////////////////////////////
+///                                                         ///
+///                       Variables                         ///
+///                                                         ///
+///////////////////////////////////////////////////////////////
+
 
 int modo_teclado = MENU;
 int movilIndice;
 int movilAux;
 int vectorMovil[9];
+
+
 
 //# Caracteres especiales
 //# ==================================
@@ -117,6 +114,16 @@ uint8_t flechaArriba[8]    = {
   0x4,0xE,0x15,0x4,0x4,0x4,0x0};
 uint8_t flechaAbajo[8]  = {
   0x0,0x4,0x4,0x4,0x15,0xE,0x4};
+
+
+//# Lectura teclado
+//# ==================================
+int  adc_key_val[5] ={ 
+  30, 150, 360, 535, 760 };
+int adc_key_in;
+int key=-1;
+int oldkey=-1;
+int valor;
 
 //# Clases
 //# ==================================
@@ -132,16 +139,9 @@ LCDMenu2 Root(top, lcd , FILAS_LCD, COLUMNAS_LCD, 0, 1);
 
 
 
-//# Lectura teclado
-//# ==================================
-int  adc_key_val[5] ={ 
-  30, 150, 360, 535, 760 };
-int adc_key_in;
-int key=-1;
-int oldkey=-1;
-int valor;
 
-boolean editarNumero = false; 
+
+
 
 
 ///////////////////////////////////////////////////////////////
