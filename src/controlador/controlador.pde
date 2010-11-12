@@ -6,14 +6,7 @@
 // 9 -> Activar envio sms
 // 10 -> Permitir llamar al invento
 
-// Datos iniciales que se escriben a la eeprom
-// Nombre      Numero       Envio sms    Permitir llamar 
-// Tino       636465812        Si              Si
-// Angelica   636465815        No              Si
-// Marcos     616356347        Si              Si
-// Oscar      638736444        No              Si
-// Antonio    607543524        No              Si
-// Isra       655191999        No              Si        
+  
 
 //# Librerias
 //# ==================================
@@ -93,6 +86,10 @@
 #define EDICION								1
 #define PANTALLA							2
 
+#define PIN_INTERRUPTOR				19
+
+#define LED_ROJO							22
+#define LED_VERDE							23
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -105,6 +102,8 @@ int modo_teclado = MENU;
 int movilIndice;
 int movilAux;
 int vectorMovil[9];
+
+boolean modo_mantinimiento = false;
 
 
 
@@ -971,11 +970,30 @@ int ObtenerTecla(unsigned int input)
 
 
 
+///////////////////////////////////////////////////////////////
+///                                                         ///
+///                  Interruptor - Fisico                   ///
+///                                                         ///
+///////////////////////////////////////////////////////////////
+
+void DesactivarEnvioSms()
+{
+	// Pongo el invento en modo mantenimiento
+	modo_mantinimiento = true;
+	// Cambio el led y lo pongo en rojo
+	digitalWrite(LED_VERDE, LOW);
+	digitalWrite(LED_ROJO, HIGH);
+}
 
 
-
-
-
+void ActivarEnvioSms()
+{
+	// Pongo el invento en modo mantenimiento
+	modo_mantinimiento = false;
+	// Cambio el led y lo pongo en verde
+	digitalWrite(LED_VERDE, HIGH);
+	digitalWrite(LED_ROJO, LOW);
+}
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -992,11 +1010,27 @@ int ObtenerTecla(unsigned int input)
 //# ==================================
 void setup()
 {
+	// Inicializar el display
   lcd.begin(FILAS_LCD,COLUMNAS_LCD);
   lcd.createChar(0, flechaArriba);
   lcd.createChar(1, flechaAbajo);  
   IniciarMenu();
 
+	// Definion de funciones para el interruptor manual
+	// Activado del interruptor (le damos tension al pin)
+	// Desactivamos el envio de sms
+	attachInterrupt(PIN_INTERRUPTOR, DesactivarEnvioSms, RISING);
+	// Desactivado del interruptor (le quitamos tension al pin)
+	// Activamos el envio de sms
+	attachInterrupt(PIN_INTERRUPTOR, ActivarEnvioSms, FALLING);
+	
+	// Defino los led de interruptor
+	pinMode(LED_VERDE, OUTPUT);
+	pinMode(LED_ROJO, OUTPUT);
+	// Enciendo el led del interruptor en verde
+	digitalWrite(LED_VERDE, HIGH);
+	digitalWrite(LED_ROJO, LOW);
+	
   Serial.begin(9600);
   Serial.println("DEBUG:");
   Serial.println("================");
