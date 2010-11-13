@@ -14,6 +14,7 @@
 #include <Menu.h>
 #include <LCDMenu2.h>
 #include <EEPROM.h>
+#include <DallasTemperature.h>
 
 
 
@@ -91,7 +92,11 @@
 #define LED_ROJO							22
 #define LED_VERDE							23
 
-#define TIEMPO_ESPERA					10
+#define TIEMPO_ESPERA					10 // Tiempo de espera del display
+																 // para mostrar el estado
+
+#define PIN_TEMPERATURA				52 // Temporal hasta usar el sensor doble
+
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -99,6 +104,16 @@
 ///                                                         ///
 ///////////////////////////////////////////////////////////////
 
+byte celsius[8] = {
+	B01110,
+	B01010,
+	B01110,
+	B00000,
+	B00000,
+	B00000,
+	B00000,
+	B00000
+};
 
 int modo_teclado = MENU;
 int movilIndice;
@@ -128,6 +143,8 @@ int key=-1;
 int oldkey=-1;
 int valor;
 
+DallasTemperature sensorTemperatura; // Este es el sensor de temperatura
+int temperatura ; // Despreciamos los decimales para mostrar en pantalla
 //# Clases
 //# ==================================
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
@@ -370,6 +387,10 @@ void ComprobarTecla(int tecla, int modo_teclado)
 						break;
 				}
 				break;
+		case PANTALLA:
+			DesactivarMostrarSensores();
+			break;
+				
   }
 }
 
@@ -890,7 +911,7 @@ void GuardarNumero()
 	{
 		EEPROM.write(position+c,vectorMovil[c]+48);
 	}
-	// Quitamos el guiÃ³n bajo  del cursor
+	// Quitamos el guion bajo  del cursor
 	lcd.noCursor();
 	// Mostramos la informacion
 	MostrarInfo(CAMBIO,CORRECTO);
@@ -968,11 +989,55 @@ int ObtenerTecla(unsigned int input)
   return k;
 }
 
- 
+///////////////////////////////////////////////////////////////
+///                                                         ///
+///                       Sensores                          ///
+///                                                         ///
+///////////////////////////////////////////////////////////////
 
 
+int  LeerTemperatura()
+{
+    switch(sensorTemperatura.isValid())
+    {
+        case 1:
+            Serial.println("Invalid CRC");
+            sensorTemperatura.reset(); // reset sensor 
+            return -1;
+        case 2:
+            Serial.println("Not a valid device");
+            sensorTemperatura.reset(); // reset sensor 
+            return -1;
+    }
+    return (int) sensorTemperatura.getTemperature();
 
+}
 
+void MostrarSensores(boolean pantalla)
+{
+		if (pantalla == true)
+		{
+			modo_teclado = PANTALLA; 
+			lcd.clear();
+			lcd.setCursor(0,0);
+			lcd.print("T.:     H.:   %");
+			lcd.setCursor(6,0);
+			lcd.write(3); // Soy así de friki :-)
+			lcd.setCursor(0,1);
+			lcd.print("Modo: amodo"); // Falta que hacer :-)		
+			limpiarPantalla = false;
+		}
+		lcd.setCursor(4,0);
+		lcd.print(LeerTemperatura());
+		delay(100);
+		Serial.print("Funcion Mostrar Sensores");
+}
+
+void DesactivarMostrarSensores()
+{
+	modo_teclado = MENU;
+	Root.display();
+}
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -1034,6 +1099,10 @@ void setup()
 	// Enciendo el led del interruptor en verde
 	digitalWrite(LED_VERDE, HIGH);
 	digitalWrite(LED_ROJO, LOW);
+	
+	// Iniciamos el sensor de temperatura
+	sensorTemperatura.begin(52);
+	lcd.createChar(3, celsius);
 	
   Serial.begin(9600);
   Serial.println("DEBUG:");
@@ -1097,37 +1166,44 @@ void loop()
   //      grupo = false;
   //    }
   //  }  
+  
   valor = LeeTeclado();
   if ( valor >=0 )
   {
 	millisAntes = millis();
 	limpiarPantalla = true;
-		switch(modo_teclado)
-		{
-			case MENU:
-				// Mira los botones y muestra menu
-				ComprobarTecla(valor, MENU);
-				// Si la tecla es enter mira a ver si tiene alguna funcion especifica
-				if ( valor == TECLA_SELECCIONAR ) 
-				{
-					Serial.println("selectKey");
-					ComprobarFuncion();
-				}
-				break;
-			case EDICION:
-				ComprobarTecla(valor, EDICION);
-				Serial.println("Edicion");
-				break;
-			case PANTALLA:
-				modo_teclado = MENU;
-				Serial.println("Menu");
-				// Llego al primer nivel
-				Root.goDown();
-				Root.goUp();
-				break;
-			}
+		
+		int aux = modo_teclado; // Recojo el modo antes de entrar en los 
+														// al entrar en la funciones puede cambiar 
+		ComprobarTecla(valor, modo_teclado);
+		if ( aux == MENU && valor == TECLA_SELECCIONAR)
+		{												
+			ComprobarFuncion();
+		}
+		
 
-    Serial.println(Root.id);
+		//~ switch(modo_teclado)
+		//~ {
+			//~ case MENU:
+				//~ // Mira los botones y muestra menu
+				//~ ComprobarTecla(valor, MENU);
+				//~ // Si la tecla es enter mira a ver si tiene alguna funcion especifica
+				//~ if ( valor == TECLA_SELECCIONAR ) 
+				//~ {
+					//~ Serial.println("selectKey");
+					//~ ComprobarFuncion();
+				//~ }
+				//~ break;
+			//~ case EDICION:
+				//~ ComprobarTecla(valor, EDICION);
+				//~ Serial.println("Edicion");
+				//~ break;
+			//~ case PANTALLA:
+				//~ ComprobarTecla(valor, PANTALLA);
+				//~ break;
+			//~ }
+//~ 
+    //~ //Serial.println(Root.id);
 		
   } 
   unsigned long millisAhora = millis();
@@ -1135,14 +1211,8 @@ void loop()
   // Comprobamos que han pasado mas de n segundos sin pulsar nada
   if (millisAhora - millisAntes > TIEMPO_ESPERA*1000)
   {
-		if (limpiarPantalla == true)
-		{
-			limpiarPantalla = false;
-			lcd.clear();
-		}
-		lcd.setCursor(0,0);
-		lcd.print("Por hacer");
-		delay(200);
+		MostrarSensores(limpiarPantalla);
+
 	}
 
 
