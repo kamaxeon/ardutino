@@ -87,7 +87,9 @@
 #define EDICION								1
 #define PANTALLA							2
 
-#define PIN_INTERRUPTOR				19
+#define INTERRUPTOR						24
+#define RED										26
+#define GRUPO									28
 
 #define LED_ROJO							22
 #define LED_VERDE							23
@@ -95,9 +97,13 @@
 #define TIEMPO_ESPERA					10 // Tiempo de espera del display
 																 // para mostrar el estado
 
+
+// Definiciones de pruebas tabla de prototipos y demas
 #define PIN_TEMPERATURA				52 // Temporal hasta usar el sensor doble
 
-
+#define INTERRUPTOR_AUX				25
+#define RED_AUX								27
+#define GRUPO_AUX							29
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
 ///                       Variables                         ///
@@ -1028,7 +1034,12 @@ void MostrarSensores(boolean pantalla)
 			limpiarPantalla = false;
 		}
 		lcd.setCursor(4,0);
-		lcd.print(LeerTemperatura());
+		// Si es menor de 10 grado pongo un cero delante
+		int aux = LeerTemperatura();
+		if ( aux < 10) {
+			lcd.print(0);
+		}
+		lcd.print(aux);
 		delay(100);
 		Serial.print("Funcion Mostrar Sensores");
 }
@@ -1045,24 +1056,28 @@ void DesactivarMostrarSensores()
 ///                                                         ///
 ///////////////////////////////////////////////////////////////
 
-void DesactivarEnvioSms()
+void DesactivarEnvioSms(boolean modo)
 {
+	if ( modo == true)
+	{
 	// Pongo el invento en modo mantenimiento
 	modo_mantinimiento = true;
 	// Cambio el led y lo pongo en rojo
 	digitalWrite(LED_VERDE, LOW);
 	digitalWrite(LED_ROJO, HIGH);
-}
-
-
-void ActivarEnvioSms()
-{
-	// Pongo el invento en modo mantenimiento
+	}
+	else
+	{
+	// Pongo el invento en modo normal
 	modo_mantinimiento = false;
 	// Cambio el led y lo pongo en verde
-	digitalWrite(LED_VERDE, HIGH);
+	digitalWrite(LED_VERDE, HIGH);		
 	digitalWrite(LED_ROJO, LOW);
+	}
 }
+
+
+
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -1085,28 +1100,37 @@ void setup()
   lcd.createChar(1, flechaAbajo);  
   IniciarMenu();
 
-	// Definion de funciones para el interruptor manual
-	// Activado del interruptor (le damos tension al pin)
-	// Desactivamos el envio de sms
-	attachInterrupt(PIN_INTERRUPTOR, DesactivarEnvioSms, RISING);
-	// Desactivado del interruptor (le quitamos tension al pin)
-	// Activamos el envio de sms
-	attachInterrupt(PIN_INTERRUPTOR, ActivarEnvioSms, FALLING);
+
+	// Defino los las entradas testigos de red y grupo
+	pinMode(RED, OUTPUT);
+	pinMode(GRUPO, OUTPUT);
+	
+	// Defino el puerto del interruptor
+	pinMode(INTERRUPTOR, INPUT);
 	
 	// Defino los led de interruptor
 	pinMode(LED_VERDE, OUTPUT);
 	pinMode(LED_ROJO, OUTPUT);
-	// Enciendo el led del interruptor en verde
-	digitalWrite(LED_VERDE, HIGH);
-	digitalWrite(LED_ROJO, LOW);
+
 	
 	// Iniciamos el sensor de temperatura
-	sensorTemperatura.begin(52);
+	sensorTemperatura.begin(PIN_TEMPERATURA);
 	lcd.createChar(3, celsius);
 	
   Serial.begin(9600);
   Serial.println("DEBUG:");
   Serial.println("================");
+  
+  // Pruebas por no tener tension estandar
+  pinMode(INTERRUPTOR_AUX, OUTPUT);
+  pinMode(RED_AUX, OUTPUT);
+  pinMode(GRUPO_AUX, OUTPUT);
+
+	
+  digitalWrite(INTERRUPTOR_AUX, HIGH);
+  digitalWrite(RED_AUX, HIGH);
+  digitalWrite(GRUPO_AUX, HIGH);  
+
 }
 
 
@@ -1167,6 +1191,17 @@ void loop()
   //    }
   //  }  
   
+  // Parte de controll del interruptor
+  if (digitalRead(INTERRUPTOR) == HIGH)
+  {
+		DesactivarEnvioSms(true);
+	}
+	else
+	{
+		DesactivarEnvioSms(false);
+	}
+	
+	// Parte de lectura del teclado
   valor = LeeTeclado();
   if ( valor >=0 )
   {
@@ -1181,31 +1216,10 @@ void loop()
 			ComprobarFuncion();
 		}
 		
-
-		//~ switch(modo_teclado)
-		//~ {
-			//~ case MENU:
-				//~ // Mira los botones y muestra menu
-				//~ ComprobarTecla(valor, MENU);
-				//~ // Si la tecla es enter mira a ver si tiene alguna funcion especifica
-				//~ if ( valor == TECLA_SELECCIONAR ) 
-				//~ {
-					//~ Serial.println("selectKey");
-					//~ ComprobarFuncion();
-				//~ }
-				//~ break;
-			//~ case EDICION:
-				//~ ComprobarTecla(valor, EDICION);
-				//~ Serial.println("Edicion");
-				//~ break;
-			//~ case PANTALLA:
-				//~ ComprobarTecla(valor, PANTALLA);
-				//~ break;
-			//~ }
-//~ 
-    //~ //Serial.println(Root.id);
 		
   } 
+  
+  // Parte mostrar sensores por pantalla
   unsigned long millisAhora = millis();
   
   // Comprobamos que han pasado mas de n segundos sin pulsar nada
