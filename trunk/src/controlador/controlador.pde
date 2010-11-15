@@ -1183,20 +1183,14 @@ void loop()
 	if (digitalRead(RED) == HIGH)
 	{
 		// Tenemos tension
-		
-		// Compruebo si hay tension en grupo, el caso que ha vuelto la red
-		// Si es asi espero 0.2 sg para comprobar que es estable
-				delay(200);
-				// Vuelvo a leer si es estable marco
-				if (digitalRead(RED) == HIGH)
-				{
-					// Comprobamos si tenemos que enviar el sms de recuperacion
-					if ( red == false )
-					{
-						Serial.print("Ha vuelto la red");
-						red = true;
-					}
-				}
+
+		// Comprobamos si tenemos que enviar el sms de recuperacion
+		if ( red == false )
+		{
+			Serial.print("Ha vuelto la red");
+			red = true;
+		}
+
 	}
 	else
 	{
