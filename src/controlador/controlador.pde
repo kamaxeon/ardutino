@@ -154,7 +154,7 @@ int temperatura ; // Despreciamos los decimales para mostrar en pantalla
 //# Clases
 //# ==================================
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
-//LiquidCrystal lcd(2,3,4,5,6,7); // Neuste Version, RW wird nicht mehr gebraucht 
+
 
 Menu top("Root",0);
 
@@ -163,6 +163,11 @@ LCDMenu2 Root(top, lcd , FILAS_LCD, COLUMNAS_LCD, 0, 1);
 
 
 
+
+// Variable electricas
+
+boolean red			= true ; // Asumo que hay tension de la red
+boolean grupo 	= false; // Asumo que el grupo esta parado
 
 
 
@@ -1030,7 +1035,7 @@ void MostrarSensores(boolean pantalla)
 			lcd.setCursor(6,0);
 			lcd.write(3); // Soy así de friki :-)
 			lcd.setCursor(0,1);
-			lcd.print("Modo: amodo"); // Falta que hacer :-)		
+			lcd.print("Modo: "); 		
 			limpiarPantalla = false;
 		}
 		lcd.setCursor(4,0);
@@ -1040,8 +1045,24 @@ void MostrarSensores(boolean pantalla)
 			lcd.print(0);
 		}
 		lcd.print(aux);
-		delay(100);
-		Serial.print("Funcion Mostrar Sensores");
+		
+		// Ahora miramos en que modo estamos
+		String aux2 = "";
+		if (grupo == true)
+		{
+			aux2 = "grupo        ";
+		}
+		else if (red == true)
+		{
+			aux2="red         ";
+		}
+		else
+		{
+			aux2 = "sin tension";
+		}
+		lcd.setCursor(6 ,1);
+		lcd.print(aux2);
+		//delay(100);
 }
 
 void DesactivarMostrarSensores()
@@ -1154,6 +1175,67 @@ void EnvioSmsGrupo(boolean activado)
 //# ==================================
 void loop()
 {
+
+
+	//~ // Logica de la parte electrica
+	//~ 
+	// Comprobamos la tension en la red
+	if (digitalRead(RED) == HIGH)
+	{
+		// Tenemos tension
+		
+		// Compruebo si hay tension en grupo, el caso que ha vuelto la red
+		// Si es asi espero 0.2 sg para comprobar que es estable
+				delay(200);
+				// Vuelvo a leer si es estable marco
+				if (digitalRead(RED) == HIGH)
+				{
+					// Comprobamos si tenemos que enviar el sms de recuperacion
+					if ( red == false )
+					{
+						Serial.print("Ha vuelto la red");
+						red = true;
+					}
+				}
+	}
+	else
+	{
+		// No tenemos tension
+		// Volvemos a leer el valor pasado 0.2 segundos
+		delay(200);
+		if (digitalRead(RED) == LOW)
+		{
+
+			// Comprobamos que no hemos enviado el sms
+			if (red == true )
+			{
+				Serial.print("Caida de red");
+			red = false;
+			}
+		}
+	}
+	
+	// Comprobamos el estado del grupo
+	if (digitalRead(GRUPO) == HIGH)
+	{
+		// En grupo esta en marcha
+		if ( grupo == false )
+		{
+			Serial.print("Ha arrancado el grupo");
+			grupo = true;
+		}
+	}
+	else
+	{
+		if ( grupo == true)
+		{
+			Serial.print("Ha parado el grupo");
+			grupo = false;
+		}
+	}
+
+
+
 
   //  // Leemos el valor del grupo
   //  if ( analogRead(pinRed) > 750 ) 
