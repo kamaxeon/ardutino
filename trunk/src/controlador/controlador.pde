@@ -1142,15 +1142,6 @@ void setup()
   Serial.println("DEBUG:");
   Serial.println("================");
   
-  // Pruebas por no tener tension estandar
-  pinMode(INTERRUPTOR_AUX, OUTPUT);
-  pinMode(RED_AUX, OUTPUT);
-  pinMode(GRUPO_AUX, OUTPUT);
-
-	
-  digitalWrite(INTERRUPTOR_AUX, HIGH);
-  digitalWrite(RED_AUX, HIGH);
-  digitalWrite(GRUPO_AUX, HIGH);  
 
 }
 
@@ -1183,14 +1174,31 @@ void loop()
 	if (digitalRead(RED) == HIGH)
 	{
 		// Tenemos tension
-
-		// Comprobamos si tenemos que enviar el sms de recuperacion
-		if ( red == false )
-		{
-			Serial.print("Ha vuelto la red");
-			red = true;
-		}
-
+		
+		// Compruebo si hay tension en grupo, el caso que ha vuelto la red
+		// Si es asi espero 0.2 sg para comprobar que es estable
+				// Vuelvo a leer si es estable marco
+				if (digitalRead(GRUPO) == HIGH)
+				{
+					delay (200);
+					if (digitalRead(RED) == HIGH)
+					{
+						// Comprobamos si tenemos que enviar el sms de recuperacion
+						if ( red == false )
+						{
+							Serial.print("Ha vuelto la red");
+							red = true;
+						}
+					}
+				}
+				else
+				{
+					// Este cambio nunca se debería dar pero por si las moscas
+					// Teoricamente siempre que vuelve la tensión el grupo debe
+					// estar levantado, pero nunca se sabe
+					red = true;
+				}
+					
 	}
 	else
 	{
