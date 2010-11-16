@@ -444,10 +444,10 @@ void GenerarMenuNumerosAdmitidos()
        break;  
        
      }
-   Serial.println(aux);
+   //Serial.println(aux);
    // Ahora tocamos los menus internos de ese numero
    // Envio de sms
-   if ( aux[10] == 'A')
+   if ( aux[DESPLAZAMIENTO_SMS] == 'A')
    {
      switch(i) {
        case TFNO1:
@@ -506,7 +506,7 @@ void GenerarMenuNumerosAdmitidos()
      }
    }
    // Permitir llamadas
-   if ( aux[12] == 'A')
+   if ( aux[DESPLAZAMIENTO_LLAMADAS] == 'A')
    {
      switch(i) {
        case TFNO1:
@@ -580,18 +580,7 @@ boolean ComprobarNumeroInicializado(int movil)
  }
 }
 
-void EnviarSmsDirecto(int movil)
-{
-  // Comprueba que el numero esta definido 
-  if ( ComprobarNumeroInicializado(movil)) {
-    MostrarInfo("Por implementar", "Gracias");
-  }
-  else
-  {
-  // Numero no definido
-    MostrarInfo(ERROR_TFNO,NO_DEFINIDO);
-  }
-}
+
 void CambiarMenusActivacion(int movil, int opcion)
 {
   // Comprueba que el numero esta definido 
@@ -1047,19 +1036,8 @@ void MostrarSensores(boolean pantalla)
 		lcd.print(aux);
 		
 		// Ahora miramos en que modo estamos
-		String aux2 = "";
-		if (grupo == true)
-		{
-			aux2 = "grupo        ";
-		}
-		else if (red == true)
-		{
-			aux2="red         ";
-		}
-		else
-		{
-			aux2 = "sin tension";
-		}
+		String aux2 = ObtenerModo();
+
 		lcd.setCursor(6 ,1);
 		lcd.print(aux2);
 		//delay(100);
@@ -1071,6 +1049,103 @@ void DesactivarMostrarSensores()
 	Root.display();
 }
 
+
+
+
+///////////////////////////////////////////////////////////////
+///                                                         ///
+///                        Sms						                   ///
+///                                                         ///
+///////////////////////////////////////////////////////////////
+
+
+void EnviarSmsDirecto(int movil)
+{
+  // Comprueba que el numero esta definido 
+  if ( ComprobarNumeroInicializado(movil)) {
+    String tfno = ObtenerTelefono(movil);
+    String sms = CrearCuerpoSms();
+    EnviarSms(tfno, sms);
+  }
+  else
+  {
+  // Numero no definido
+    MostrarInfo(ERROR_TFNO,NO_DEFINIDO);
+  }
+}
+
+
+void EnviarSmsAlertaTension(int fuente, boolean estado)
+{
+	String textoFuente;
+	String textoEstado;
+	if (fuente == RED)
+	{
+		textoFuente = "de la red";
+	}
+	else
+	{
+		textoFuente = "del grupo";
+	}
+	
+	if (estado == true)
+	{
+		textoEstado = "Arranque ";
+	}
+	else
+	{
+		textoEstado = "Caida ";
+	}
+		
+	String sms;
+	sms.concat(textoEstado);
+	sms.concat(textoFuente);
+	sms.concat(CrearCuerpoSms());
+	
+	for (int a = 0 ; a < NUMERO_TOTAL_TELEFONOS ; a ++)
+		if (EEPROM.read(TAMANO_REGISTRO*a + DESPLAZAMIENTO_SMS) == 'A')
+		{
+			String tfno = ObtenerTelefono(a);
+			EnviarSms(tfno, sms);
+		}
+			
+}
+
+String CrearCuerpoSms()
+{
+	temperatura = LeerTemperatura();
+	String temp;
+	//itoa(temperatura, temp, 10); // Cambio de tipo
+	String hora = "22:22";
+	String modo = ObtenerModo();
+
+	String sms = "";
+	sms.concat("Hora: ");
+	sms.concat(hora);
+	sms.concat("\n");
+	sms.concat("T.: ");
+	sms.concat(temp);
+	sms.concat("   H.: ");
+	sms.concat("53 ");
+	sms.concat("%");
+	sms.concat("\n");
+	sms.concat("Modo: ");
+	sms.concat(modo);
+	
+	return sms;
+}
+
+void EnviarSms(String tfno, String texto)
+{
+	//Falta por hacer la funcion, por ahora imprimo por pantalla
+	
+	Serial.println("Enviando sms");
+	Serial.print("Telefono: ");
+	Serial.println(tfno);
+	Serial.print("Mensaje: ");
+	Serial.println(texto);
+	delay(1000);
+}
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
 ///                  Interruptor - Fisico                   ///
@@ -1097,8 +1172,37 @@ void DesactivarEnvioSms(boolean modo)
 	}
 }
 
+///////////////////////////////////////////////////////////////
+///                                                         ///
+///                  Funciones auxiliares                   ///
+///                                                         ///
+///////////////////////////////////////////////////////////////
 
+String ObtenerModo()
+{
+		if (grupo == true)
+	{
+		return "grupo      ";
+	}
+	else if (red == true)
+	{
+		return "red        ";
+	}
+	else
+	{
+		return "sin tension";
+	}
+}
 
+String ObtenerTelefono(int movil)
+{
+	String tfno;
+	for (int a = 0 ; a < LONGITUD_TELEFONO ; a ++)
+	{
+		tfno.concat(EEPROM.read(movil*TAMANO_REGISTRO+a));
+	}
+	return tfno;
+}
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -1168,7 +1272,11 @@ void loop()
 {
 
 
-	// Logica de la parte electrica
+	//////////////////////////////////////////////////////////////
+	//																													//
+	//                Inicio parte electrica                    //
+	//																													//
+	//////////////////////////////////////////////////////////////
 	
 	// Comprobamos la tension en la red
 	if (digitalRead(RED) == HIGH)
@@ -1188,6 +1296,10 @@ void loop()
 						{
 							Serial.print("Ha vuelto la red");
 							red = true;
+							if (modo_mantinimiento == false)
+							{
+								EnviarSmsAlertaTension(RED, true);
+							}
 						}
 					}
 				}
@@ -1212,7 +1324,11 @@ void loop()
 			if (red == true )
 			{
 				Serial.print("Caida de red");
-			red = false;
+				red = false;
+				if (modo_mantinimiento == false)
+				{
+					EnviarSmsAlertaTension(RED, false);
+				}
 			}
 		}
 	}
@@ -1225,6 +1341,10 @@ void loop()
 		{
 			Serial.print("Ha arrancado el grupo");
 			grupo = true;
+			if (modo_mantinimiento == false)
+			{
+				EnviarSmsAlertaTension(GRUPO, true);
+			}
 		}
 	}
 	else
@@ -1233,11 +1353,19 @@ void loop()
 		{
 			Serial.print("Ha parado el grupo");
 			grupo = false;
+			if (modo_mantinimiento == false)
+			{
+				EnviarSmsAlertaTension(GRUPO, false);
+			}
 		}
 	}
 
+	//////////////////////////////////////////////////////////////
+	//																													//
+	//                Inicio parte interruptor                  //
+	//																													//
+	//////////////////////////////////////////////////////////////
   
-  // Parte de control del interruptor
   if (digitalRead(INTERRUPTOR) == HIGH)
   {
 		DesactivarEnvioSms(true);
@@ -1247,8 +1375,13 @@ void loop()
 		DesactivarEnvioSms(false);
 	}
 	
-	// Parte de lectura del teclado
-  valor = LeeTeclado();
+	
+	//////////////////////////////////////////////////////////////
+	//																													//
+	//                Inicio parte del teclado                  //
+	//																													//
+	//////////////////////////////////////////////////////////////  
+	valor = LeeTeclado();
   if ( valor >=0 )
   {
 	millisAntes = millis();
@@ -1265,6 +1398,12 @@ void loop()
 		
   } 
   
+  
+	//////////////////////////////////////////////////////////////
+	//																													//
+	//                Inicio sensores en pantalla               //
+	//																													//
+	////////////////////////////////////////////////////////////// 
   // Parte mostrar sensores por pantalla
   unsigned long millisAhora = millis();
   
