@@ -939,7 +939,7 @@ void GuardarNumero()
 
 
 
-///////////////////////////////////////////////////////////////
+ ///////////////////////////////////////////////////////////////
 ///                                                         ///
 ///                         Teclado                         ///
 ///                                                         ///
@@ -1168,8 +1168,8 @@ void loop()
 {
 
 
-	//~ // Logica de la parte electrica
-	//~ 
+	// Logica de la parte electrica
+	
 	// Comprobamos la tension en la red
 	if (digitalRead(RED) == HIGH)
 	{
@@ -1178,7 +1178,7 @@ void loop()
 		// Compruebo si hay tension en grupo, el caso que ha vuelto la red
 		// Si es asi espero 0.2 sg para comprobar que es estable
 				// Vuelvo a leer si es estable marco
-				if (digitalRead(GRUPO) == HIGH)
+				if (digitalRead(GRUPO) == HIGH && red == false)
 				{
 					delay (200);
 					if (digitalRead(RED) == HIGH)
@@ -1236,46 +1236,8 @@ void loop()
 		}
 	}
 
-
-
-
-  //  // Leemos el valor del grupo
-  //  if ( analogRead(pinRed) > 750 ) 
-  //  {
-  //    // Todo va bien, ahora compruebo si el grupo esta en marcha
-  //    // Este caso seria el caso de una vuelta de tension a la red
-  //    if ( analogRead(pinGrupo) > 750 ) 
-  //    {
-  //      // Espero  5 segundos y vuelto a hacer la comprobacion
-  //      delay(5000);
-  //      if ( analogRead(pinRed) > 750 ) 
-  //      {
-  //        // Tenemos tenemos luz
-  //        if ( smsRedActivado == false ) 
-  //        {
-  //          EnvioSmsRed(true);
-  //          smsRedActivado = true;
-  //          red = true;
-  //        }    
-  //        if (analogRead(pinGrupo) < 750 ) 
-  //        {
-  //          if ( smsGrupoActivado == true )
-  //          {                                 
-  //            EnvioSmsGrupo(false);
-  //            smsGrupoActivado = false;
-  //            grupo = false;
-  //          }
-  //        }
-  //      }
-  //    if ( analogRead(pinGrupo) < 750 && grupo == true ) 
-  //    {
-  //      EnvioSmsGrupo(false);
-  //      smsGrupoActivado = false;
-  //      grupo = false;
-  //    }
-  //  }  
   
-  // Parte de controll del interruptor
+  // Parte de control del interruptor
   if (digitalRead(INTERRUPTOR) == HIGH)
   {
 		DesactivarEnvioSms(true);
