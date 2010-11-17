@@ -1308,7 +1308,14 @@ void loop()
 					// Este cambio nunca se debería dar pero por si las moscas
 					// Teoricamente siempre que vuelve la tensión el grupo debe
 					// estar levantado, pero nunca se sabe
-					red = true;
+					if ( red == false)
+					{
+						red = true;
+						if ( modo_mantinimiento == false)
+						{
+							EnviarSmsAlertaTension(RED, true);
+						}
+					}
 				}
 					
 	}
