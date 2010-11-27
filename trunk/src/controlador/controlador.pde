@@ -3,8 +3,8 @@
 // Estructura dejamos 15 byte para cada telefono, solo usamos 11 pero asi no aseguramos futuras
 // ampliaciones
 // 0 - 8 -> Numeros telefono
-// 9 -> Activar envio sms
-// 10 -> Permitir llamar al invento
+// 10 -> Activar envio sms
+// 12 -> Permitir llamar al invento
 
   
 
@@ -46,6 +46,12 @@
 #define LONGITUD_TELEFONO				9
 #define NUMERO_TOTAL_TELEFONOS		8
 
+// Posicion de memoria donde se guarda el estado de la camara
+#define	ESTADO_CAMARA			121 
+																
+#define ARRANCAR_CAMARA		"Arrancar camara"
+#define PARAR_CAMARA			"Parar camara"
+
 #define TFNO1								0
 #define TFNO2								1
 #define TFNO3								2
@@ -67,6 +73,10 @@
 #define BORRAR_NUMERO					"Borrar numero"
 #define ENV_SMS							"Enviar sms"
 
+#define CONFIGURAR					"Configurando"
+#define MODEM								"el modem gsm"
+
+
 #define A0									48 // Caracter ascii para el 0
 #define A1									49 // Caracter ascii para el 1
 #define A2									50 // Caracter ascii para el 2
@@ -87,23 +97,26 @@
 #define EDICION								1
 #define PANTALLA							2
 
-#define INTERRUPTOR						24
-#define RED										26
-#define GRUPO									28
-
-#define LED_ROJO							22
-#define LED_VERDE							23
+// Pines fisicos usados
+#define LED_ROJO							23
+#define LED_VERDE							25
+#define RED										27
+#define GRUPO									29
+#define INTERRUPTOR						31
+#define TESTIGO_SECADO				33
+#define INTERRUPTOR_SECADO		35
+#define PIN_TEMPERATURA				37 // Temporal hasta usar el sensor doble
 
 #define TIEMPO_ESPERA					10 // Tiempo de espera del display
 																 // para mostrar el estado
 
-
+#define TIEMPO_ESPERA_MODEM		500
 // Definiciones de pruebas tabla de prototipos y demas
-#define PIN_TEMPERATURA				52 // Temporal hasta usar el sensor doble
 
-#define INTERRUPTOR_AUX				25
-#define RED_AUX								27
-#define GRUPO_AUX							29
+
+//~ #define INTERRUPTOR_AUX				25
+//~ #define RED_AUX								27
+//~ #define GRUPO_AUX							29
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
 ///                       Variables                         ///
@@ -132,6 +145,12 @@ boolean limpiarPantalla = true;
 
 long millisAntes = 0;
 
+
+int numeroRing = 0;
+char caracter=0;
+//~ String movilIsra="655191999"; // Solo para pruebas
+
+unsigned long millisLlamada = 0;
 //# Caracteres especiales
 //# ==================================
 uint8_t flechaArriba[8]    = {
@@ -153,7 +172,7 @@ DallasTemperature sensorTemperatura; // Este es el sensor de temperatura
 int temperatura ; // Despreciamos los decimales para mostrar en pantalla
 //# Clases
 //# ==================================
-LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+LiquidCrystal lcd(8, 11, 9, 4, 5, 6, 7);
 
 
 Menu top("Root",0);
@@ -192,7 +211,9 @@ boolean grupo 	= false; // Asumo que el grupo esta parado
 
 // Menu inicial
 Menu Item1("Num. admitidos",1);
-Menu Item2("Acerca de",2);
+Menu Item2("Camara", 2);
+Menu Item3("Config. modem", 3);
+Menu Item4("Acerca de", 4);
 
 // Submenu 1
 Menu Item11(SIN_RELLENAR, 11);
@@ -260,7 +281,8 @@ Menu Item183(EDITAR_NUMERO, 183); // Editar numero
 Menu Item184(BORRAR_NUMERO, 184); //Borrar Numero
 Menu Item185(ENV_SMS, 185); // Enviar sms de pruebas
 
-
+// Submenu 2.1
+Menu Item21(SIN_RELLENAR, 21);
 
 //# Function
 //# ==================================
@@ -271,6 +293,8 @@ void IniciarMenu()
   // Menu principales
   top.addChild(Item1);
   top.addChild(Item2);
+  top.addChild(Item3);
+  top.addChild(Item4);
 
   // Menu 1 (Telefonos)
   Item1.addChild(Item11);
@@ -338,6 +362,9 @@ void IniciarMenu()
   Item18.addChild(Item184);
   Item18.addChild(Item185);
 
+	// Menu 2.1
+	Item2.addChild(Item21);
+	
   // Usa vez creado mostramos el display :-) 
 
   Root.display();
@@ -364,12 +391,12 @@ void ComprobarTecla(int tecla, int modo_teclado)
 	
 				case TECLA_SELECCIONAR:
 					Root.goEnter();
-					//Serial.println("'enter'");
+					Serial.println("'enter'");
 					break;
 	
 				case TECLA_IZQUIERDA:
 					Root.goBack();
-					//Serial.println("'back'"); 
+					Serial.println("'back'"); 
 					break;
 			}
 			break;
@@ -648,10 +675,24 @@ void ComprobarFuncion()
       GenerarMenuNumerosAdmitidos();
       break;
 
-    case 2:
+		
+		case 2: // Menu de camara
+			GenerarMenuCamara();
+			break;
+			
+		case 3: // Menu de modem
+		  ConfigurarModem();
+		  MostrarInfo(CONFIGURAR, MODEM);
+		  break;
+		  
+    case 4:
       MostrarInfo(NOMBRE_APLICACION, VERSION_APLICACION);
       break;
     
+    case 21:
+			CambiarEstadoCamara();
+			GenerarMenuCamara();
+			break;
     // Opciones telefono 1
     case 111: // Telefono 1 - envio sms
       CambiarMenusActivacion(TFNO1, ENVIAR_SMS);
@@ -793,6 +834,8 @@ void ComprobarFuncion()
   if (modo_teclado == MENU)
   {
 		GenerarMenuNumerosAdmitidos();
+		// Aqui tengo que poner la funciones
+		GenerarMenuCamara();
   	Root.display();    
   }
 
@@ -1020,11 +1063,11 @@ void MostrarSensores(boolean pantalla)
 			modo_teclado = PANTALLA; 
 			lcd.clear();
 			lcd.setCursor(0,0);
-			lcd.print("T.:     H.:   %");
+			lcd.print("T.:      H.:   %");
 			lcd.setCursor(6,0);
 			lcd.write(3); // Soy así de friki :-)
 			lcd.setCursor(0,1);
-			lcd.print("Modo: "); 		
+			lcd.print("M.:      C.:   "); 		
 			limpiarPantalla = false;
 		}
 		lcd.setCursor(4,0);
@@ -1038,8 +1081,12 @@ void MostrarSensores(boolean pantalla)
 		// Ahora miramos en que modo estamos
 		String aux2 = ObtenerModo();
 
-		lcd.setCursor(6 ,1);
+		lcd.setCursor(4 ,1);
 		lcd.print(aux2);
+		
+		String aux3 = ObtenerModoCamara();
+		lcd.setCursor(13, 1);
+		lcd.print(aux3);
 		//delay(100);
 }
 
@@ -1100,6 +1147,7 @@ void EnviarSmsAlertaTension(int fuente, boolean estado)
 	String sms;
 	sms.concat(textoEstado);
 	sms.concat(textoFuente);
+	sms.concat("\n");
 	sms.concat(CrearCuerpoSms());
 	
 	for (int a = 0 ; a < NUMERO_TOTAL_TELEFONOS ; a ++)
@@ -1113,38 +1161,76 @@ void EnviarSmsAlertaTension(int fuente, boolean estado)
 
 String CrearCuerpoSms()
 {
+	String aux1;
+	String aux2;
 	temperatura = LeerTemperatura();
+	String camara = ObtenerModoCamara();
+
 	String temp;
-	//itoa(temperatura, temp, 10); // Cambio de tipo
 	String hora = "22:22";
 	String modo = ObtenerModo();
+	
+	if (camara == "on ")
+	{
+		aux1 = "encendida";
+	}
+	else
+	{
+		aux1 = "apagada";
+	}
+	if (modo == "gru")
+	{
+		aux2 = "grupo";
+	}
+	else if (modo == "red")
+	{
+		aux2 = "red electrica";
+	}
+	else
+	{
+		aux2 = "sin conexion";
+	}
+	
 
-	String sms = "";
+	String sms;
 	sms.concat("Hora: ");
-	sms.concat(hora);
+	sms.concat("--");
 	sms.concat("\n");
-	sms.concat("T.: ");
-	sms.concat(temp);
-	sms.concat("   H.: ");
-	sms.concat("53 ");
+	sms.concat("Temperatura: ");
+	sms.concat(temperatura);
+	sms.concat(" grados");
+	sms.concat("\n");
+	sms.concat("Humedad: ");
+	sms.concat("-- ");
 	sms.concat("%");
 	sms.concat("\n");
 	sms.concat("Modo: ");
-	sms.concat(modo);
+	sms.concat(aux2);
+	sms.concat("\n");	
+	sms.concat("Camara: ");
+	sms.concat(aux1);
 	
 	return sms;
 }
 
 void EnviarSms(String tfno, String texto)
 {
-	//Falta por hacer la funcion, por ahora imprimo por pantalla
-	
-	Serial.println("Enviando sms");
-	Serial.print("Telefono: ");
-	Serial.println(tfno);
-	Serial.print("Mensaje: ");
-	Serial.println(texto);
-	delay(1000);
+	String aux = "ArduTino informa:\n";
+	aux.concat(texto);
+	Serial2.print("AT");
+	delay(TIEMPO_ESPERA_MODEM);
+	Serial2.println("AT+CMGF=1");
+	delay(TIEMPO_ESPERA_MODEM);
+	Serial2.print("AT+CMGS=");
+	delay(TIEMPO_ESPERA_MODEM);
+	Serial2.print(tfno + "\r\n");
+	delay(TIEMPO_ESPERA_MODEM);
+	Serial2.println(aux);
+	delay(TIEMPO_ESPERA_MODEM);
+	Serial2.print(0x1A,BYTE);
+	delay(TIEMPO_ESPERA_MODEM);
+	Serial2.flush();
+	delay(TIEMPO_ESPERA_MODEM);
 }
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -1174,6 +1260,83 @@ void DesactivarEnvioSms(boolean modo)
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
+///                  Modem GSM					                     ///
+///                                                         ///
+///////////////////////////////////////////////////////////////
+
+
+
+
+void ConfigurarModem()
+{
+		Serial2.println("AT");
+		delay(TIEMPO_ESPERA_MODEM);
+		Serial2.println("ATE0");
+		delay(TIEMPO_ESPERA_MODEM);
+		Serial2.println("AT+CLIP=1");
+		delay(TIEMPO_ESPERA_MODEM);
+		Serial2.flush();
+		MostrarInfo(CONFIGURAR, MODEM);
+}
+
+
+void ComprobarLineaModem(String linea)
+{
+	String telefono;
+  if (linea.startsWith("RING"))
+  {
+    Serial.println("Llamada nueva");
+    if (numeroRing == 4 )
+    {
+      // Cortamos la llamada si por casualidad no esta
+      // activo el reconocimiento de llamadas al 4 tono
+      Serial2.println("ATH");
+      numeroRing = 0;
+    }
+    else
+    {
+      numeroRing += 1;
+    }
+  }
+  if (linea.startsWith("+CLIP"))
+  {
+    Serial.println("Podemos identificar el numero");
+
+    int inicio = linea.indexOf('"') + 1; // Uno despues de "
+    int final = linea.indexOf('"', inicio); // Uno antes de "
+    // Solo me quedo con los ultimos 9 numeros del movil
+    String numero = linea.substring(final-9,final); 
+    Serial2.println("ATH");
+    delay(TIEMPO_ESPERA_MODEM);
+    Serial.println("Cortamos la llamada sabiendo el numero");
+    numeroRing = 0;
+		for (int a = 0 ; a < NUMERO_TOTAL_TELEFONOS ; a ++)
+		{
+			if (EEPROM.read(TAMANO_REGISTRO*a + DESPLAZAMIENTO_LLAMADAS) == 'A')
+			{
+				telefono = ObtenerTelefono(a);
+			}
+			if (numero == telefono)
+			{
+				unsigned long millisAhora = millis();
+				// Solo admito una llamada cada 10 sg, para prevenir loops
+				if (millisAhora - millisLlamada > 10000)
+					{
+						Serial.println(millisAhora - millisLlamada);
+						millisLlamada = millis();
+						String sms = CrearCuerpoSms();
+						EnviarSms(telefono, sms);
+					}
+			}
+
+		}
+    // Cortamos la llamada
+
+  }
+}
+
+///////////////////////////////////////////////////////////////
+///                                                         ///
 ///                  Funciones auxiliares                   ///
 ///                                                         ///
 ///////////////////////////////////////////////////////////////
@@ -1182,17 +1345,30 @@ String ObtenerModo()
 {
 		if (grupo == true)
 	{
-		return "grupo      ";
+		return "gru";
 	}
 	else if (red == true)
 	{
-		return "red        ";
+		return "red";
 	}
 	else
 	{
-		return "sin tension";
+		return "des";
 	}
 }
+
+String ObtenerModoCamara()
+{
+		if (digitalRead(TESTIGO_SECADO) == HIGH)
+	{
+		return "on ";
+	}
+	else 
+	{
+		return "off";
+	}
+}
+
 
 String ObtenerTelefono(int movil)
 {
@@ -1203,6 +1379,47 @@ String ObtenerTelefono(int movil)
 	}
 	return tfno;
 }
+
+void ActivarCamara()
+{
+	char estado = EEPROM.read(ESTADO_CAMARA);
+	
+	if ( estado == 'A')
+	{
+		digitalWrite(INTERRUPTOR_SECADO, HIGH);
+	}
+	else
+	{
+		digitalWrite(INTERRUPTOR_SECADO, LOW);
+	}
+}
+
+void GenerarMenuCamara()
+{
+	if (EEPROM.read(ESTADO_CAMARA) == 'A')
+	{
+		Item21.SetName(PARAR_CAMARA);
+	}
+	else
+	{
+		Item21.SetName(ARRANCAR_CAMARA);
+	}
+}
+
+void CambiarEstadoCamara()
+{
+		if (EEPROM.read(ESTADO_CAMARA) == 'A')
+		{
+			EEPROM.write(ESTADO_CAMARA, AKO);
+		}
+		else
+		{
+			EEPROM.write(ESTADO_CAMARA, AOK);
+		}
+		ActivarCamara();
+		MostrarInfo(CAMBIO, CORRECTO);
+}
+
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -1223,17 +1440,24 @@ void setup()
   lcd.begin(FILAS_LCD,COLUMNAS_LCD);
   lcd.createChar(0, flechaArriba);
   lcd.createChar(1, flechaAbajo);  
-  IniciarMenu();
+
 
 
 	// Defino los las entradas testigos de red y grupo
-	pinMode(RED, OUTPUT);
-	pinMode(GRUPO, OUTPUT);
+	pinMode(RED, INPUT);
+	pinMode(GRUPO, INPUT);
 	
-	// Defino el puerto del interruptor
+	// Defino el testigo de la camara
+	pinMode(TESTIGO_SECADO, INPUT);
+	
+	// Defino el interruptor de arranque de la camara
+	pinMode(INTERRUPTOR_SECADO, OUTPUT);
+	ActivarCamara();
+	
+	// Defino el puerto del interruptor manual de corte de sms
 	pinMode(INTERRUPTOR, INPUT);
 	
-	// Defino los led de interruptor
+	// Defino los led de interruptor manual de corte de sms
 	pinMode(LED_VERDE, OUTPUT);
 	pinMode(LED_ROJO, OUTPUT);
 
@@ -1242,10 +1466,18 @@ void setup()
 	sensorTemperatura.begin(PIN_TEMPERATURA);
 	lcd.createChar(3, celsius);
 	
+	// Iniciamos el puerto del movil
+  Serial2.begin(9600);
+  ConfigurarModem();
+  
+	
+	// Inciamos el Serial de consola
   Serial.begin(9600);
   Serial.println("DEBUG:");
   Serial.println("================");
   
+   // Iniciamos el menu
+   IniciarMenu();
 
 }
 
@@ -1271,7 +1503,21 @@ void EnvioSmsGrupo(boolean activado)
 void loop()
 {
 
-
+	//////////////////////////////////////////////////////////////
+	//																													//
+	//                Inicio parte interruptor                  //
+	//																													//
+	//////////////////////////////////////////////////////////////
+  
+  if (digitalRead(INTERRUPTOR) == HIGH)
+  {
+		DesactivarEnvioSms(true);
+	}
+	else
+	{
+		DesactivarEnvioSms(false);
+	}
+	
 	//////////////////////////////////////////////////////////////
 	//																													//
 	//                Inicio parte electrica                    //
@@ -1367,21 +1613,7 @@ void loop()
 		}
 	}
 
-	//////////////////////////////////////////////////////////////
-	//																													//
-	//                Inicio parte interruptor                  //
-	//																													//
-	//////////////////////////////////////////////////////////////
-  
-  if (digitalRead(INTERRUPTOR) == HIGH)
-  {
-		DesactivarEnvioSms(true);
-	}
-	else
-	{
-		DesactivarEnvioSms(false);
-	}
-	
+
 	
 	//////////////////////////////////////////////////////////////
 	//																													//
@@ -1421,6 +1653,45 @@ void loop()
 
 	}
 
+	//////////////////////////////////////////////////////////////
+	//																													//
+	//                Inicio llamadas entrantes                 //
+	//																													//
+	////////////////////////////////////////////////////////////// 
+ 
+ String texto;
+  if(Serial2.available() > 0)
+  {
+		Serial.println("Estoy en el bucle");
+    // Comprobamos si es nueva linea		
+    if((caracter = Serial2.read()) == 10) {  
+			Serial.println("Estoy en el bucle 1");
+			unsigned long millisSerial = millis(); 
+      while( Serial2.available() > 0) {
+				unsigned long millisSerial2 = millis();
+				Serial.println("Estoy en el bucle 2");
+        caracter = Serial2.read();
+        // Comprobamos si es nueva linea o retorno de carro
+        if((caracter == 10)||(caracter == 13)) 
+        { 
+					Serial.println("Estoy en el bucle 4");
+          break;                      
+        }
+        Serial.println("Estoy en el bucle 5");
+        texto.concat(caracter);
+        // No espero mas de 3 segundos para salir del serial
+        // Esto lo pongo por si hay basura sin retorno de carro
+        //~ if (millisSerial2 - millisSerial > 3000)
+        //~ {
+					//~ Serial2.flush();
+					//~ Serial.println("Estoy en el bucle 6");
+					//~ break;
+				//~ }
+        
+      }
+    }
+    ComprobarLineaModem(texto);
+  }
 
 }
 
