@@ -211,7 +211,7 @@ boolean grupo 	= false; // Asumo que el grupo esta parado
 
 // Menu inicial
 Menu Item1("Num. admitidos",1);
-Menu Item2("Camara", 2);
+//~ Menu Item2("Camara", 2);
 Menu Item3("Config. modem", 3);
 Menu Item4("Acerca de", 4);
 
@@ -282,7 +282,7 @@ Menu Item184(BORRAR_NUMERO, 184); //Borrar Numero
 Menu Item185(ENV_SMS, 185); // Enviar sms de pruebas
 
 // Submenu 2.1
-Menu Item21(SIN_RELLENAR, 21);
+//~ Menu Item21(SIN_RELLENAR, 21);
 
 //# Function
 //# ==================================
@@ -292,7 +292,7 @@ void IniciarMenu()
 {
   // Menu principales
   top.addChild(Item1);
-  top.addChild(Item2);
+  //~ top.addChild(Item2);
   top.addChild(Item3);
   top.addChild(Item4);
 
@@ -363,7 +363,7 @@ void IniciarMenu()
   Item18.addChild(Item185);
 
 	// Menu 2.1
-	Item2.addChild(Item21);
+	//~ Item2.addChild(Item21);
 	
   // Usa vez creado mostramos el display :-) 
 
@@ -676,9 +676,9 @@ void ComprobarFuncion()
       break;
 
 		
-		case 2: // Menu de camara
-			GenerarMenuCamara();
-			break;
+		//~ case 2: // Menu de camara
+			//~ GenerarMenuCamara();
+			//~ break;
 			
 		case 3: // Menu de modem
 		  ConfigurarModem();
@@ -689,10 +689,10 @@ void ComprobarFuncion()
       MostrarInfo(NOMBRE_APLICACION, VERSION_APLICACION);
       break;
     
-    case 21:
-			CambiarEstadoCamara();
-			GenerarMenuCamara();
-			break;
+    //~ case 21:
+			//~ CambiarEstadoCamara();
+			//~ GenerarMenuCamara();
+			//~ break;
     // Opciones telefono 1
     case 111: // Telefono 1 - envio sms
       CambiarMenusActivacion(TFNO1, ENVIAR_SMS);
@@ -835,7 +835,7 @@ void ComprobarFuncion()
   {
 		GenerarMenuNumerosAdmitidos();
 		// Aqui tengo que poner la funciones
-		GenerarMenuCamara();
+		//~ GenerarMenuCamara();
   	Root.display();    
   }
 
@@ -1380,45 +1380,45 @@ String ObtenerTelefono(int movil)
 	return tfno;
 }
 
-void ActivarCamara()
-{
-	char estado = EEPROM.read(ESTADO_CAMARA);
-	
-	if ( estado == 'A')
-	{
-		digitalWrite(INTERRUPTOR_SECADO, HIGH);
-	}
-	else
-	{
-		digitalWrite(INTERRUPTOR_SECADO, LOW);
-	}
-}
+//~ void ActivarCamara()
+//~ {
+	//~ char estado = EEPROM.read(ESTADO_CAMARA);
+	//~ 
+	//~ if ( estado == 'A')
+	//~ {
+		//~ digitalWrite(INTERRUPTOR_SECADO, HIGH);
+	//~ }
+	//~ else
+	//~ {
+		//~ digitalWrite(INTERRUPTOR_SECADO, LOW);
+	//~ }
+//~ }
 
-void GenerarMenuCamara()
-{
-	if (EEPROM.read(ESTADO_CAMARA) == 'A')
-	{
-		Item21.SetName(PARAR_CAMARA);
-	}
-	else
-	{
-		Item21.SetName(ARRANCAR_CAMARA);
-	}
-}
+//~ void GenerarMenuCamara()
+//~ {
+	//~ if (EEPROM.read(ESTADO_CAMARA) == 'A')
+	//~ {
+		//~ Item21.SetName(PARAR_CAMARA);
+	//~ }
+	//~ else
+	//~ {
+		//~ Item21.SetName(ARRANCAR_CAMARA);
+	//~ }
+//~ }
 
-void CambiarEstadoCamara()
-{
-		if (EEPROM.read(ESTADO_CAMARA) == 'A')
-		{
-			EEPROM.write(ESTADO_CAMARA, AKO);
-		}
-		else
-		{
-			EEPROM.write(ESTADO_CAMARA, AOK);
-		}
-		ActivarCamara();
-		MostrarInfo(CAMBIO, CORRECTO);
-}
+//~ void CambiarEstadoCamara()
+//~ {
+		//~ if (EEPROM.read(ESTADO_CAMARA) == 'A')
+		//~ {
+			//~ EEPROM.write(ESTADO_CAMARA, AKO);
+		//~ }
+		//~ else
+		//~ {
+			//~ EEPROM.write(ESTADO_CAMARA, AOK);
+		//~ }
+		//~ ActivarCamara();
+		//~ MostrarInfo(CAMBIO, CORRECTO);
+//~ }
 
 
 ///////////////////////////////////////////////////////////////
@@ -1452,7 +1452,7 @@ void setup()
 	
 	// Defino el interruptor de arranque de la camara
 	pinMode(INTERRUPTOR_SECADO, OUTPUT);
-	ActivarCamara();
+	//~ ActivarCamara();
 	
 	// Defino el puerto del interruptor manual de corte de sms
 	pinMode(INTERRUPTOR, INPUT);
