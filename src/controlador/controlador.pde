@@ -107,7 +107,7 @@
 #define INTERRUPTOR_SECADO		35
 #define PIN_TEMPERATURA			37 // Temporal hasta usar el sensor doble
 
-#define TIEMPO_ESPERA			10 // Tiempo de espera del display
+#define TIEMPO_ESPERA			15 // Tiempo de espera del display
 // para mostrar el estado
 
 #define TIEMPO_ESPERA_MODEM		500
@@ -1389,7 +1389,9 @@ void ComprobarLineaModem(String linea)
     digitalWrite(INTERRUPTOR_SECADO, HIGH);
     delay(5000);
     digitalWrite(INTERRUPTOR_SECADO, LOW);
-    EnviarSms(origenSms, "Orden ejecutada correctamente");
+    String sms2 = "Orden ejecutada\n";
+    sms2.concat(CrearCuerpoSms());
+    EnviarSms(origenSms, sms2);
   }	
 
 
@@ -1461,7 +1463,9 @@ void setup()
   // Inicializar el display
   lcd.begin(FILAS_LCD,COLUMNAS_LCD);
   lcd.createChar(0, flechaArriba);
-  lcd.createChar(1, flechaAbajo);  
+  lcd.createChar(1, flechaAbajo); 
+  MostrarInfo("Bienvenido a", NOMBRE_APLICACION); 
+  
 
 
 
