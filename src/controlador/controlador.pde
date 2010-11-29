@@ -15,7 +15,9 @@
 #include <LCDMenu2.h>
 #include <EEPROM.h>
 #include <DallasTemperature.h>
-
+#include <WProgram.h>
+#include <Wire.h>
+#include <DS1307.h>
 
 
 
@@ -1155,7 +1157,6 @@ String CrearCuerpoSms()
   String camara = ObtenerModoCamara();
 
   String temp;
-  String hora = "22:22";
   String modo = ObtenerModo();
 
   if (camara == "on ")
@@ -1179,10 +1180,19 @@ String CrearCuerpoSms()
     aux2 = "sin conexion";
   }
 
-
+  
   String sms;
   sms.concat("Hora: ");
-  sms.concat("--");
+  sms.concat(RTC.get(DS1307_HR,true)); 
+  sms.concat(":"); 
+  sms.concat(RTC.get(DS1307_MIN,false)); 
+  sms.concat("\n");
+  sms.concat("Fecha: ");
+  sms.concat(RTC.get(DS1307_DATE,false));  
+  sms.concat("/");
+  sms.concat(RTC.get(DS1307_MTH,false));
+  sms.concat("/");
+  sms.concat(RTC.get(DS1307_YR,false));
   sms.concat("\n");
   sms.concat("Temperatura: ");
   sms.concat(temperatura);
@@ -1198,6 +1208,7 @@ String CrearCuerpoSms()
   sms.concat("Camara: ");
   sms.concat(aux1);
 
+  Serial.println(sms);
   return sms;
 }
 
@@ -1319,7 +1330,7 @@ void ComprobarLineaModem(String linea)
         // Solo admito una llamada cada 10 sg, para prevenir loops
         if (millisAhora - millisLlamada > 10000)
         {
-          //Serial.println(millisAhora - millisLlamada);
+          Serial.println(millisAhora - millisLlamada);
           millisLlamada = millis();
           String sms = CrearCuerpoSms();
           EnviarSms(telefono, sms);
@@ -1428,7 +1439,6 @@ String ObtenerTelefono(int movil)
   }
   return tfno;
 }
-
 
 
 
