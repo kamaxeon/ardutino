@@ -139,12 +139,15 @@ int movilIndice;
 int movilAux;
 int vectorMovil[9];
 
+boolean smsValido = false;
+
 boolean modo_mantinimiento = false;
 
 boolean limpiarPantalla = true;
 
 long millisAntes = 0;
 
+String origenSms;
 
 int numeroRing = 0;
 char caracter=0;
@@ -188,7 +191,7 @@ LCDMenu2 Root(top, lcd , FILAS_LCD, COLUMNAS_LCD, 0, 1);
 boolean red			= true ; // Asumo que hay tension de la red
 boolean grupo 	= false; // Asumo que el grupo esta parado
 
-
+String telefono;
 
 
 
@@ -1264,17 +1267,26 @@ void DesactivarEnvioSms(boolean modo)
 ///                                                         ///
 ///////////////////////////////////////////////////////////////
 
-
+void BorrarTodosSms() {
+  delay(TIEMPO_ESPERA_MODEM);
+  Serial2.println("AT+CMGD=0,4");
+  delay(4000);
+}
 
 
 void ConfigurarModem()
 {
 		Serial2.println("AT");
 		delay(TIEMPO_ESPERA_MODEM);
+		// Opciones de echo
 		Serial2.println("ATE0");
 		delay(TIEMPO_ESPERA_MODEM);
+		// Identificacion de llamadas
 		Serial2.println("AT+CLIP=1");
 		delay(TIEMPO_ESPERA_MODEM);
+		// Borramos todos los sms
+		Serial2.println("AT+CMGD=0,4");
+		delay(4000);
 		Serial2.flush();
 		MostrarInfo(CONFIGURAR, MODEM);
 }
@@ -1282,7 +1294,7 @@ void ConfigurarModem()
 
 void ComprobarLineaModem(String linea)
 {
-	String telefono;
+
   if (linea.startsWith("RING"))
   {
     Serial.println("Llamada nueva");
@@ -1300,7 +1312,7 @@ void ComprobarLineaModem(String linea)
   }
   if (linea.startsWith("+CLIP"))
   {
-    Serial.println("Podemos identificar el numero");
+    //Serial.println("Podemos identificar el numero");
 
     int inicio = linea.indexOf('"') + 1; // Uno despues de "
     int final = linea.indexOf('"', inicio); // Uno antes de "
@@ -1308,7 +1320,7 @@ void ComprobarLineaModem(String linea)
     String numero = linea.substring(final-9,final); 
     Serial2.println("ATH");
     delay(TIEMPO_ESPERA_MODEM);
-    Serial.println("Cortamos la llamada sabiendo el numero");
+    //Serial.println("Cortamos la llamada sabiendo el numero");
     numeroRing = 0;
 		for (int a = 0 ; a < NUMERO_TOTAL_TELEFONOS ; a ++)
 		{
@@ -1322,7 +1334,7 @@ void ComprobarLineaModem(String linea)
 				// Solo admito una llamada cada 10 sg, para prevenir loops
 				if (millisAhora - millisLlamada > 10000)
 					{
-						Serial.println(millisAhora - millisLlamada);
+						//Serial.println(millisAhora - millisLlamada);
 						millisLlamada = millis();
 						String sms = CrearCuerpoSms();
 						EnviarSms(telefono, sms);
@@ -1330,9 +1342,61 @@ void ComprobarLineaModem(String linea)
 			}
 
 		}
-    // Cortamos la llamada
+    
 
   }
+  if (linea.startsWith("+CMTI: \"SM\""))
+  {
+		//Serial.println("Nos ha entrado un sms");
+		//Serial.println("Vamos a leerlo");
+		Serial2.flush();
+		Serial2.println("at+cmgr=1");
+		delay(400);
+	}
+	
+	if (linea.startsWith("+CMGR:"))
+	{
+		// borramos los sms
+		BorrarTodosSms();
+		String auxSms;
+		// El mensaje lo pongo como no valido hasta comprobarlo
+		smsValido = false;
+
+		//Serial.println("El numero del sms es");
+		int b = 0;
+		for (int a = 0; a < 4 ; a++)
+		{
+			//Recorremos y nos quedamos con la comilla final
+			b = linea.indexOf('""', b) + 1;
+		}
+		auxSms = linea.substring(b-10,b-1);
+		
+		for (int a = 0 ; a < NUMERO_TOTAL_TELEFONOS ; a ++)
+		{
+			if (EEPROM.read(TAMANO_REGISTRO*a + DESPLAZAMIENTO_LLAMADAS) == 'A')
+			{
+				telefono = ObtenerTelefono(a);
+			}
+			if (auxSms == telefono)
+			{
+				smsValido = true;
+				origenSms = telefono;
+			}
+
+		}		
+		
+	}
+	
+	if (linea.toLowerCase().startsWith("p") && smsValido == true)
+	{
+		smsValido = false;
+		digitalWrite(INTERRUPTOR_SECADO, HIGH);
+		delay(5000);
+		digitalWrite(INTERRUPTOR_SECADO, LOW);
+		EnviarSms(origenSms, "Orden ejecutada correctamente");
+	}	
+	
+	
 }
 
 ///////////////////////////////////////////////////////////////
@@ -1662,31 +1726,23 @@ void loop()
  String texto;
   if(Serial2.available() > 0)
   {
-		Serial.println("Estoy en el bucle");
+		//Serial.println("Estoy en el bucle");
     // Comprobamos si es nueva linea		
     if((caracter = Serial2.read()) == 10) {  
-			Serial.println("Estoy en el bucle 1");
+			//Serial.println("Estoy en el bucle 1");
 			unsigned long millisSerial = millis(); 
       while( Serial2.available() > 0) {
 				unsigned long millisSerial2 = millis();
-				Serial.println("Estoy en el bucle 2");
+				//Serial.println("Estoy en el bucle 2");
         caracter = Serial2.read();
         // Comprobamos si es nueva linea o retorno de carro
         if((caracter == 10)||(caracter == 13)) 
         { 
-					Serial.println("Estoy en el bucle 4");
+					//Serial.println("Estoy en el bucle 4");
           break;                      
         }
-        Serial.println("Estoy en el bucle 5");
+        //Serial.println("Estoy en el bucle 5");
         texto.concat(caracter);
-        // No espero mas de 3 segundos para salir del serial
-        // Esto lo pongo por si hay basura sin retorno de carro
-        //~ if (millisSerial2 - millisSerial > 3000)
-        //~ {
-					//~ Serial2.flush();
-					//~ Serial.println("Estoy en el bucle 6");
-					//~ break;
-				//~ }
         
       }
     }
