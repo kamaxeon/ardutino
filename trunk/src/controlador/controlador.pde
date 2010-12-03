@@ -1183,14 +1183,14 @@ String CrearCuerpoSms()
   
   String sms;
   sms.concat("Hora: ");
-  sms.concat(RTC.get(DS1307_HR,true)); 
+  sms.concat(GenerarDigito(RTC.get(DS1307_HR,true))); 
   sms.concat(":"); 
-  sms.concat(RTC.get(DS1307_MIN,false)); 
+  sms.concat(GenerarDigito(RTC.get(DS1307_MIN,false))); 
   sms.concat("\n");
   sms.concat("Fecha: ");
-  sms.concat(RTC.get(DS1307_DATE,false));  
+  sms.concat(GenerarDigito(RTC.get(DS1307_DATE,false)));  
   sms.concat("/");
-  sms.concat(RTC.get(DS1307_MTH,false));
+  sms.concat(GenerarDigito(RTC.get(DS1307_MTH,false)));
   sms.concat("/");
   sms.concat(RTC.get(DS1307_YR,false));
   sms.concat("\n");
