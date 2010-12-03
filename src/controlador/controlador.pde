@@ -1443,7 +1443,18 @@ String ObtenerTelefono(int movil)
 }
 
 
-
+String GenerarDigito(int numero)
+{
+	String digito[2];
+	String aux[1];
+	if ( numero < 10 )
+	{
+		digito.concat(0);
+	}
+	itoa(numero, aux, 10);
+	digito.concat(aux);
+	return digito;
+}
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -1508,15 +1519,7 @@ void setup()
 }
 
 
-void EnvioSmsRed(boolean activado) 
-{
-  delay(10); // Por implementar
-}
 
-void EnvioSmsGrupo(boolean activado) 
-{
-  delay(10); // Por implementar
-}
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
