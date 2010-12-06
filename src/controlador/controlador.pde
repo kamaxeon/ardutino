@@ -180,6 +180,7 @@ LCDMenu2 Root(top, lcd , FILAS_LCD, COLUMNAS_LCD, 0, 1);
 
 
 
+boolean modo_fecha = false; // El modo de configuracion de fecha
 
 // Variable electricas
 
@@ -189,9 +190,9 @@ boolean grupo 	= false; // Asumo que el grupo esta parado
 String telefono;
 
 
-
-
-
+int vectorFecha[5]; //hora, minutos, dia, mes, ano
+int fechaIndice ;
+int vectorPosicionesFecha [5] = { 12, 15, 9, 12, 15 };
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
 ///                         Menu                            ///
@@ -209,7 +210,7 @@ String telefono;
 
 // Menu inicial
 Menu Item1("Num. admitidos",1);
-//~ Menu Item2("Camara", 2);
+Menu Item2("Config. fecha", 2);
 Menu Item3("Config. modem", 3);
 Menu Item4("Acerca de", 4);
 
@@ -290,8 +291,8 @@ void IniciarMenu()
 {
   // Menu principales
   top.addChild(Item1);
-  //~ top.addChild(Item2);
   top.addChild(Item3);
+  top.addChild(Item2);
   top.addChild(Item4);
 
   // Menu 1 (Telefonos)
@@ -379,22 +380,22 @@ void ComprobarTecla(int tecla, int modo_teclado)
 
     case TECLA_ARRIBA:
       Root.goUp();
-      Serial.println("'up'");
+      //~ Serial.println("'up'");
       break;
 
     case TECLA_ABAJO:
       Root.goDown();
-      Serial.println("'down'");
+      //~ Serial.println("'down'");
       break;
 
     case TECLA_SELECCIONAR:
       Root.goEnter();
-      Serial.println("'enter'");
+      //~ Serial.println("'enter'");
       break;
 
     case TECLA_IZQUIERDA:
       Root.goBack();
-      Serial.println("'back'"); 
+      //~ Serial.println("'back'"); 
       break;
     }
     break;
@@ -402,24 +403,59 @@ void ComprobarTecla(int tecla, int modo_teclado)
     switch (tecla)
     {
     case TECLA_ARRIBA:
-      EditarNumeroVertical(1);
-      Serial.println("Arriba edicion");
+      if (modo_fecha == false) 
+      {
+        EditarNumeroVertical(1);
+      }
+      else
+      {
+        EditarFechaVertical(1);
+      }
+      //~ Serial.println("Arriba edicion");
       break;
 
     case TECLA_ABAJO:
-      EditarNumeroVertical(-1);
-      Serial.println("Abajo edicion");
+      if (modo_fecha == false)
+      {
+        EditarNumeroVertical(-1);
+      }
+      else
+      {
+        EditarFechaVertical(-1);
+      }
+      //~ Serial.println("Abajo edicion");
       break;
 
     case TECLA_SELECCIONAR:
-      GuardarNumero();
+      if (modo_fecha == false)
+      {
+        GuardarNumero();
+      }
+      else
+      {
+        GuardarFecha();
+      }
       break;
 
     case TECLA_IZQUIERDA:
-      EditarNumeroHorizontal(-1); 
+      if (modo_fecha == false)
+      {
+        EditarNumeroHorizontal(-1); 
+      }
+      else
+      {
+        EditarFechaHorizontal(-1);
+      }
       break;
     case TECLA_DERECHA:
-      EditarNumeroHorizontal(1);
+      if (modo_fecha == false)
+      {
+        EditarNumeroHorizontal(1);
+      }
+      else
+      {
+        EditarFechaHorizontal(1);
+      }
       break;
     }
     break;
@@ -673,6 +709,10 @@ void ComprobarFuncion()
     GenerarMenuNumerosAdmitidos();
     break;
 
+  case 2: // Configuracion de la fecha del RTC
+    EditarFecha();
+    break;
+    
   case 3: // Menu de modem
     ConfigurarModem();
     MostrarInfo(CONFIGURAR, MODEM);
@@ -1048,6 +1088,7 @@ int  LeerTemperatura()
 
 void MostrarSensores(boolean pantalla)
 {
+  lcd.noCursor(); // Por si las moscas
   if (pantalla == true)
   {
     modo_teclado = PANTALLA; 
@@ -1294,17 +1335,9 @@ void ComprobarLineaModem(String linea)
   if (linea.startsWith("RING"))
   {
     Serial.println("Llamada nueva");
-    if (numeroRing == 4 )
-    {
-      // Cortamos la llamada si por casualidad no esta
-      // activo el reconocimiento de llamadas al 4 tono
-      Serial2.println("ATH");
-      numeroRing = 0;
-    }
-    else
-    {
-      numeroRing += 1;
-    }
+    Serial2.println("ATH");
+    delay(TIEMPO_ESPERA_MODEM);
+    //Serial.println("Cortamos la llamada");
   }
   if (linea.startsWith("+CLIP"))
   {
@@ -1314,9 +1347,7 @@ void ComprobarLineaModem(String linea)
     int final = linea.indexOf('"', inicio); // Uno antes de "
     // Solo me quedo con los ultimos 9 numeros del movil
     String numero = linea.substring(final-9,final); 
-    Serial2.println("ATH");
-    delay(TIEMPO_ESPERA_MODEM);
-    //Serial.println("Cortamos la llamada sabiendo el numero");
+
     numeroRing = 0;
     for (int a = 0 ; a < NUMERO_TOTAL_TELEFONOS ; a ++)
     {
@@ -1399,6 +1430,166 @@ void ComprobarLineaModem(String linea)
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
+///                  Funciones de fecha                     ///
+///                                                         ///
+///////////////////////////////////////////////////////////////
+
+void EditarFecha()
+{
+  modo_teclado = EDICION;
+  modo_fecha = true;
+  
+  vectorFecha[0] = RTC.get(DS1307_HR,true);
+  vectorFecha[1] = RTC.get(DS1307_MIN,false);
+  vectorFecha[2] = RTC.get(DS1307_DATE,false);
+  vectorFecha[3] = RTC.get(DS1307_MTH,false);
+  vectorFecha[4] = RTC.get(DS1307_YR,false) - 2000;
+  
+  // Ahora hacemos la parte del display
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Hora:");
+  lcd.setCursor(11,0);
+  lcd.print(GenerarDigito(vectorFecha[0]));
+  lcd.print(":");
+  lcd.print(GenerarDigito(vectorFecha[1]));
+  lcd.setCursor(0,1);
+  lcd.print("Fecha:");
+  lcd.setCursor(8,1);
+  lcd.print(GenerarDigito(vectorFecha[2]));
+  lcd.print("/");
+  lcd.print(GenerarDigito(vectorFecha[3]));
+  lcd.print("/");
+  lcd.print(GenerarDigito(vectorFecha[4]));
+  lcd.setCursor(12,0);
+  lcd.cursor();
+  fechaIndice = 0; // Pongo el indice de posicion al principio
+}
+
+
+void EditarFechaHorizontal(int aux)
+{
+  int linea = 0;
+  // Desplazamiento a la izquierda
+  if (aux == -1 && fechaIndice > 0 )
+  {
+    fechaIndice -= 1;
+  }
+  // Desplazamiento a la derecha
+  if ( aux == 1 && fechaIndice < 4)
+  {
+    fechaIndice += 1; 
+  }
+  
+  // Ahora comprobamos la linea en la que estamos 
+  if (fechaIndice > 1)
+  {
+    linea = 1;
+  }
+  lcd.setCursor(vectorPosicionesFecha[fechaIndice], linea);
+}
+
+void EditarFechaVertical(int aux)
+{
+  int linea = 0;
+  // Matriz para saber los maximos y mínimos valores que puede alcanzar cada campo en la fecha
+  int vectorFechaMaximo [5] = { 23, 59, 31, 12, 99 };
+  int vectorFechaMinimo [5] = { 00, 00, 01, 01, 10 };
+  if ( aux == 1 )
+  { 
+    // Si no hemos llegado al valor mayor sumamos uno
+    if (vectorFecha[fechaIndice] < vectorFechaMaximo[fechaIndice])
+    {
+      vectorFecha[fechaIndice] += 1;
+    }
+    // Si hemos llegado a valor mayor volvemos al menor
+    else
+    {
+      vectorFecha[fechaIndice] = vectorFechaMinimo[fechaIndice];
+    }
+  }
+  // Restando
+  if ( aux == -1 )
+  {
+    // Si no hemos llegado al valor menor restamos uno
+    if (vectorFecha[fechaIndice] > vectorFechaMinimo[fechaIndice])
+    {
+      vectorFecha[fechaIndice] += -1;
+    }
+    // Si hemos llegado a valor menor volvemos al mayor
+    else
+    {
+      vectorFecha[fechaIndice] = vectorFechaMaximo[fechaIndice];
+    }
+  }
+    // Ahora comprobamos la linea en la que estamos 
+  if (fechaIndice > 1)
+  {
+    linea = 1;
+  }
+  lcd.setCursor((vectorPosicionesFecha[fechaIndice])-1, linea);
+  lcd.print(GenerarDigito(vectorFecha[fechaIndice]));
+  lcd.setCursor(vectorPosicionesFecha[fechaIndice], linea);
+}
+
+void GuardarFecha()
+{
+  int diasMeses [12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+  
+  // Miramos si el ano es bisiesto
+  if ( ComprobarAnoBisiesto(vectorFecha[4])) {
+    // Le sumamos el dia en febrero del ano bisiesto
+    diasMeses[1] = 29;
+  }
+  // Comprueba que no tenga mas dias que los que tiene el mes
+  if ( diasMeses[(vectorFecha[3]-1)] < vectorFecha[2] ){
+    // La fecha es incorrecta
+    // Mostramos un error por el display
+    MostrarInfo("Error: Fecha", "no correcta");
+    // Volvemos a la editar la fecha
+    EditarFecha();
+  }
+  // La fecha es la correcta y solo nos queda guardarla en el RTC
+  else 
+  {
+    // Paramos el reloj
+    RTC.stop();
+    // Ponemos la nueva fecha
+    RTC.set(DS1307_SEC,00);     // Segundos
+    RTC.set(DS1307_HR, vectorFecha[0]);      // Horas 
+    RTC.set(DS1307_MIN,vectorFecha[1]);     // Minutos 
+    RTC.set(DS1307_DOW,CalcularDiaSemana(vectorFecha[4],vectorFecha[3],vectorFecha[2]));      // Dia de la semana
+    RTC.set(DS1307_DATE,vectorFecha[2]);    // Dia del mes 
+    RTC.set(DS1307_MTH,vectorFecha[3]);     // Mes 
+    RTC.set(DS1307_YR,vectorFecha[4]);      // Ano 
+    // Arrancamos el reloj
+    RTC.start();   
+    // Quitamos el guion bajo  del cursor
+    lcd.noCursor();
+    // Mostramos la informacion
+    MostrarInfo(CAMBIO,CORRECTO);
+    // Salimos del modo registro
+    modo_teclado = MENU;
+    // Salimos del modo editar fecha
+    modo_fecha = false;
+    // Mostramos el menu
+    Root.display();
+  }
+
+}
+
+int ComprobarAnoBisiesto(int ano){
+  return ((ano % 4 == 0 && ano % 100 != 0) || ano % 400 == 0);
+}
+
+int CalcularDiaSemana(int y, int m, int d)	/* 0 = Sunday */
+{
+	static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+	y -= m < 3;
+	return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
+}
+///////////////////////////////////////////////////////////////
+///                                                         ///
 ///                  Funciones auxiliares                   ///
 ///                                                         ///
 ///////////////////////////////////////////////////////////////
@@ -1445,8 +1636,8 @@ String ObtenerTelefono(int movil)
 
 String GenerarDigito(int numero)
 {
-	String digito[2];
-	String aux[1];
+	String digito;
+	char aux[2];
 	if ( numero < 10 )
 	{
 		digito.concat(0);
@@ -1715,7 +1906,3 @@ void loop()
   }
 
 }
-
-
-
-
