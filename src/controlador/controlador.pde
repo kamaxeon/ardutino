@@ -6,18 +6,16 @@
 // 10 -> Activar envio sms
 // 12 -> Permitir llamar al invento
 
-
-
 //# Librerias
 //# ==================================
 #include <LiquidCrystal.h>
 #include <Menu.h>
 #include <LCDMenu2.h>
 #include <EEPROM.h>
-#include <DallasTemperature.h>
 #include <WProgram.h>
 #include <Wire.h>
 #include <DS1307.h>
+#include <SHT1x.h>
 
 
 
@@ -98,6 +96,7 @@
 #define PANTALLA			2
 
 // Pines fisicos usados
+
 #define LED_ROJO			23
 #define LED_VERDE			25
 #define RED				27
@@ -105,18 +104,23 @@
 #define INTERRUPTOR			31
 #define TESTIGO_SECADO		        33
 #define INTERRUPTOR_SECADO		35
-#define PIN_TEMPERATURA			37 // Temporal hasta usar el sensor doble
+#define PIN_DATOS     37
+#define PIN_RELOJ     39
+
 
 #define TIEMPO_ESPERA			15 // Tiempo de espera del display
 // para mostrar el estado
 
 #define TIEMPO_ESPERA_MODEM		500
 
+
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
 ///                       Variables                         ///
 ///                                                         ///
 ///////////////////////////////////////////////////////////////
+
+SHT1x sensor(PIN_DATOS, PIN_RELOJ);
 
 byte celsius[8] = {
   B01110,
@@ -166,8 +170,7 @@ int key=-1;
 int oldkey=-1;
 int valor;
 
-DallasTemperature sensorTemperatura; // Este es el sensor de temperatura
-int temperatura ; // Despreciamos los decimales para mostrar en pantalla
+
 //# Clases
 //# ==================================
 LiquidCrystal lcd(8, 11, 9, 4, 5, 6, 7);
@@ -361,8 +364,6 @@ void IniciarMenu()
   Item18.addChild(Item184);
   Item18.addChild(Item185);
 
-  // Menu 2.1
-  //~ Item2.addChild(Item21);
 
   // Usa vez creado mostramos el display :-) 
 
@@ -1071,19 +1072,12 @@ int ObtenerTecla(unsigned int input)
 
 int  LeerTemperatura()
 {
-  switch(sensorTemperatura.isValid())
-  {
-  case 1:
-    Serial.println("Invalid CRC");
-    sensorTemperatura.reset(); // reset sensor 
-    return -1;
-  case 2:
-    Serial.println("Not a valid device");
-    sensorTemperatura.reset(); // reset sensor 
-    return -1;
-  }
-  return (int) sensorTemperatura.getTemperature();
+  return (int)round(sensor.readTemperatureC());
+}
 
+int LeerHumedad()
+{
+  return (int)round(sensor.readHumidity());
 }
 
 void MostrarSensores(boolean pantalla)
@@ -1102,12 +1096,10 @@ void MostrarSensores(boolean pantalla)
     limpiarPantalla = false;
   }
   lcd.setCursor(4,0);
-  // Si es menor de 10 grado pongo un cero delante
-  int aux = LeerTemperatura();
-  if ( aux < 10) {
-    lcd.print(0);
-  }
-  lcd.print(aux);
+  lcd.print(GenerarDigito(LeerTemperatura()));
+  lcd.setCursor(13,0);
+  lcd.print(GenerarDigito(LeerHumedad()));
+  
 
   // Ahora miramos en que modo estamos
   String aux2 = ObtenerModo();
@@ -1194,9 +1186,7 @@ String CrearCuerpoSms()
 {
   String aux1;
   String aux2;
-  temperatura = LeerTemperatura();
   String camara = ObtenerModoCamara();
-
   String temp;
   String modo = ObtenerModo();
 
@@ -1236,11 +1226,11 @@ String CrearCuerpoSms()
   sms.concat(RTC.get(DS1307_YR,false));
   sms.concat("\n");
   sms.concat("Temperatura: ");
-  sms.concat(temperatura);
+  sms.concat(GenerarDigito(LeerTemperatura()));
   sms.concat(" grados");
   sms.concat("\n");
   sms.concat("Humedad: ");
-  sms.concat("-- ");
+  sms.concat(GenerarDigito(LeerHumedad()));
   sms.concat("%");
   sms.concat("\n");
   sms.concat("Modo: ");
@@ -1691,7 +1681,7 @@ void setup()
 
 
   // Iniciamos el sensor de temperatura
-  sensorTemperatura.begin(PIN_TEMPERATURA);
+  //sensorTemperatura.begin(PIN_TEMPERATURA);
   lcd.createChar(3, celsius);
 
   // Iniciamos el puerto del movil
