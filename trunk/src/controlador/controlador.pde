@@ -74,6 +74,10 @@
 #define CONFIGURAR			"Configurando"
 #define MODEM				"el modem gsm"
 
+//#define ATENCION    "Atencion"
+#define ENVIANDO_SMS      "Enviando sms"
+#define ENVIADO_SMS       "Alerta enviada"
+
 
 #define A0				48 // Caracter ascii para el 0
 #define A1				49 // Caracter ascii para el 1
@@ -97,20 +101,23 @@
 
 // Pines fisicos usados
 
-#define LED_ROJO			23
-#define LED_VERDE			25
-#define RED				27
-#define GRUPO				29
-#define INTERRUPTOR			31
-#define TESTIGO_SECADO		        33
-#define INTERRUPTOR_SECADO		35
-#define PIN_DATOS     37
-#define PIN_RELOJ     39
+#define TESTIGO_SECADO		    23
+#define GRUPO				          25
+#define RED				            27
+#define INTERRUPTOR_SECADO		29
+#define LED_ROJO			        31
+#define LED_VERDE			        33
+#define PIN_RELOJ             35
+#define PIN_DATOS             37
+#define INTERRUPTOR			      39
+
+
 
 
 #define TIEMPO_ESPERA			15 // Tiempo de espera del display
 // para mostrar el estado
 
+#define TIEMPO_ESPERA_CAIDA_ELECTRICA_COMPROBAR_CAMARA 300 //Eso
 #define TIEMPO_ESPERA_MODEM		500
 
 
@@ -144,7 +151,8 @@ boolean modo_mantinimiento = false;
 
 boolean limpiarPantalla = true;
 
-long millisAntes = 0;
+unsigned long millisAntes = 0;
+unsigned long millisCaidaElectrica = 0;
 
 String origenSms;
 
@@ -164,7 +172,7 @@ uint8_t flechaAbajo[8]  = {
 //# Lectura teclado
 //# ==================================
 int  adc_key_val[5] ={ 
-  30, 150, 360, 535, 760 };
+  30, 200, 400, 600, 800 };
 int adc_key_in;
 int key=-1;
 int oldkey=-1;
@@ -188,7 +196,13 @@ boolean modo_fecha = false; // El modo de configuracion de fecha
 // Variable electricas
 
 boolean red			= true ; // Asumo que hay tension de la red
+boolean auxRed ;
 boolean grupo 	= false; // Asumo que el grupo esta parado
+boolean auxGrupo ;
+boolean camara  = true ; // Asumo que la camara esta encendida
+boolean auxCamara;
+boolean comprobrar_camara = true ; // Variable que se usa para tener
+// entre que se cae la red electrica y si vuelve a comprobar la camara
 
 String telefono;
 
@@ -1012,7 +1026,7 @@ void GuardarNumero()
 
 
 
-int LeeTeclado()
+int LeerTeclado()
 {
   //leemos el sensor analogico
   adc_key_in = analogRead(0);    // read the value from the sensor  
@@ -1095,9 +1109,17 @@ void MostrarSensores(boolean pantalla)
     lcd.print("M.:      C.:   "); 		
     limpiarPantalla = false;
   }
-  lcd.setCursor(4,0);
+  lcd.setCursor(3,0);
+  if (LeerTemperatura()>0)
+  {
+    lcd.print(" ");
+  }
   lcd.print(GenerarDigito(LeerTemperatura()));
-  lcd.setCursor(13,0);
+  lcd.setCursor(12,0);
+  if (LeerTemperatura()<99)
+  {
+    lcd.print(" ");
+  }
   lcd.print(GenerarDigito(LeerHumedad()));
   
 
@@ -1133,9 +1155,12 @@ void EnviarSmsDirecto(int movil)
 {
   // Comprueba que el numero esta definido 
   if ( ComprobarNumeroInicializado(movil)) {
+    MostrarInfo("Enviando sms", "de pruebas");
     String tfno = ObtenerTelefono(movil);
     String sms = CrearCuerpoSms();
     EnviarSms(tfno, sms);
+    MostrarInfo("Sms de pruebas", "enviado");
+    Root.display();
   }
   else
   {
@@ -1170,6 +1195,32 @@ void EnviarSmsAlertaTension(int fuente, boolean estado)
   String sms;
   sms.concat(textoEstado);
   sms.concat(textoFuente);
+  sms.concat("\n");
+  sms.concat(CrearCuerpoSms());
+
+  for (int a = 0 ; a < NUMERO_TOTAL_TELEFONOS ; a ++)
+    if (EEPROM.read(TAMANO_REGISTRO*a + DESPLAZAMIENTO_SMS) == 'A')
+    {
+      String tfno = ObtenerTelefono(a);
+      EnviarSms(tfno, sms);
+    }
+
+}
+
+void EnviarSmsAlertaCamara(boolean estado)
+{
+  String textoAuxiliar;
+  if ( estado == true )
+  {
+    textoAuxiliar = "Ha arrancada la camara";
+  }
+  else
+  {
+    textoAuxiliar = "Ha parado la camara";
+  }
+
+  String sms;
+  sms.concat(textoAuxiliar);
   sms.concat("\n");
   sms.concat(CrearCuerpoSms());
 
@@ -1247,19 +1298,19 @@ void EnviarSms(String tfno, String texto)
 {
   String aux = "ArduTino informa:\n";
   aux.concat(texto);
-  Serial2.print("AT");
+  Serial1.print("AT");
   delay(TIEMPO_ESPERA_MODEM);
-  Serial2.println("AT+CMGF=1");
+  Serial1.println("AT+CMGF=1");
   delay(TIEMPO_ESPERA_MODEM);
-  Serial2.print("AT+CMGS=");
+  Serial1.print("AT+CMGS=");
   delay(TIEMPO_ESPERA_MODEM);
-  Serial2.print(tfno + "\r\n");
+  Serial1.print(tfno + "\r\n");
   delay(TIEMPO_ESPERA_MODEM);
-  Serial2.println(aux);
+  Serial1.println(aux);
   delay(TIEMPO_ESPERA_MODEM);
-  Serial2.print(0x1A,BYTE);
+  Serial1.print(0x1A,BYTE);
   delay(TIEMPO_ESPERA_MODEM);
-  Serial2.flush();
+  Serial1.flush();
   delay(TIEMPO_ESPERA_MODEM);
 }
 ///////////////////////////////////////////////////////////////
@@ -1295,27 +1346,34 @@ void DesactivarEnvioSms(boolean modo)
 ///////////////////////////////////////////////////////////////
 
 void BorrarTodosSms() {
+  // Solo haria falta borrar el primero, pero se borrar tres por capricho
   delay(TIEMPO_ESPERA_MODEM);
-  Serial2.println("AT+CMGD=0,4");
-  delay(4000);
+  Serial1.println("AT+CMGD=1");
+  delay(1000);
+  Serial1.println("AT+CMGD=2");
+  delay(1000);
+  Serial1.println("AT+CMGD=3");
+  delay(1000);
 }
 
 
 void ConfigurarModem()
 {
-  Serial2.println("AT");
+  MostrarInfo(CONFIGURAR, MODEM);
+  Serial1.println("AT");
   delay(TIEMPO_ESPERA_MODEM);
   // Opciones de echo
-  Serial2.println("ATE0");
+  Serial1.println("ATE0");
   delay(TIEMPO_ESPERA_MODEM);
   // Identificacion de llamadas
-  Serial2.println("AT+CLIP=1");
+  Serial1.println("AT+CLIP=1");
+  delay(TIEMPO_ESPERA_MODEM);
+  // Le decimos que nos devuelva por consola la entrada de sms
+  Serial1.println("AT+CNMI=1,1");
   delay(TIEMPO_ESPERA_MODEM);
   // Borramos todos los sms
-  Serial2.println("AT+CMGD=0,4");
-  delay(4000);
-  Serial2.flush();
-  MostrarInfo(CONFIGURAR, MODEM);
+  BorrarTodosSms();
+  Serial1.flush();
 }
 
 
@@ -1325,7 +1383,7 @@ void ComprobarLineaModem(String linea)
   if (linea.startsWith("RING"))
   {
     Serial.println("Llamada nueva");
-    Serial2.println("ATH");
+    Serial1.println("ATH");
     delay(TIEMPO_ESPERA_MODEM);
     //Serial.println("Cortamos la llamada");
   }
@@ -1348,13 +1406,17 @@ void ComprobarLineaModem(String linea)
       if (numero == telefono)
       {
         unsigned long millisAhora = millis();
-        // Solo admito una llamada cada 10 sg, para prevenir loops
-        if (millisAhora - millisLlamada > 10000)
+        // Solo admito una llamada cada 20 sg, para prevenir loops
+        if (millisAhora - millisLlamada > 20000)
         {
           Serial.println(millisAhora - millisLlamada);
           millisLlamada = millis();
           String sms = CrearCuerpoSms();
+          // Mostramos en el display que enviamos un sms
+          MostrarInfo("Enviando estado", ENVIANDO_SMS);
           EnviarSms(telefono, sms);
+          MostrarInfo("Evniando estado", ENVIADO_SMS);
+          millisAntes = millis() - 18000; 
         }
       }
 
@@ -1366,8 +1428,8 @@ void ComprobarLineaModem(String linea)
   {
     //Serial.println("Nos ha entrado un sms");
     //Serial.println("Vamos a leerlo");
-    Serial2.flush();
-    Serial2.println("at+cmgr=1");
+    Serial1.flush();
+    Serial1.println("at+cmgr=1");
     delay(400);
   }
 
@@ -1406,6 +1468,8 @@ void ComprobarLineaModem(String linea)
 
   if (linea.toLowerCase().startsWith("p") && smsValido == true)
   {
+    // Mostramos en el display que enviamos un sms
+    MostrarInfo("Ejecutando orden", ENVIANDO_SMS);
     smsValido = false;
     digitalWrite(INTERRUPTOR_SECADO, HIGH);
     delay(5000);
@@ -1413,6 +1477,8 @@ void ComprobarLineaModem(String linea)
     String sms2 = "Orden ejecutada\n";
     sms2.concat(CrearCuerpoSms());
     EnviarSms(origenSms, sms2);
+    MostrarInfo("Orden ejecutada", ENVIADO_SMS);
+    millisAntes = millis() - 18000; 
   }	
 
 
@@ -1637,6 +1703,38 @@ String GenerarDigito(int numero)
 	return digito;
 }
 
+String GenerarTextoAlertaDisplay(boolean estado, int alerta)
+{
+
+  String aux1;
+  String aux2;
+  if (estado == true)
+  {
+    aux1 = "Arranque ";
+  }
+  else
+  {
+    aux1 = "Parada ";
+  }
+  if (alerta == RED)
+  {
+    aux2 = "red";
+  }
+  else if (alerta == GRUPO)
+  {
+    aux2 = "grupo";
+  }
+  else
+  {
+    aux2 = "camara";
+  }
+  
+  aux1.concat(aux2); // Construimos la alerta
+  
+  return aux1; // Devolvemos la alerta
+  
+  
+}
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
 ///                         Setup                           ///
@@ -1685,7 +1783,7 @@ void setup()
   lcd.createChar(3, celsius);
 
   // Iniciamos el puerto del movil
-  Serial2.begin(9600);
+  Serial1.begin(9600);
   ConfigurarModem();
 
 
@@ -1734,103 +1832,207 @@ void loop()
   //                                                          //
   //////////////////////////////////////////////////////////////
 
-  // Comprobamos la tension en la red
-  if (digitalRead(RED) == HIGH)
+  //~ // Comprobamos la tension en la red
+  //~ if (digitalRead(RED) == HIGH)
+  //~ {
+    //~ // Tenemos tension
+//~ 
+    //~ // Compruebo si hay tension en grupo, el caso que ha vuelto la red
+    //~ // Si es asi espero 0.2 sg para comprobar que es estable
+    //~ // Vuelvo a leer si es estable marco
+    //~ if (digitalRead(GRUPO) == HIGH && red == false)
+    //~ {
+      //~ delay (200);
+      //~ if (digitalRead(RED) == HIGH)
+      //~ {
+        //~ // Comprobamos si tenemos que enviar el sms de recuperacion
+        //~ if ( red == false )
+        //~ {
+          //~ Serial.println("Ha vuelto la red");
+          //~ red = true;
+          //~ if (modo_mantinimiento == false)
+          //~ {
+            //~ EnviarSmsAlertaTension(RED, true);
+          //~ }
+        //~ }
+      //~ }
+    //~ }
+    //~ else
+    //~ {
+      //~ // Este cambio nunca se debería dar pero por si las moscas
+      //~ // Teoricamente siempre que vuelve la tensión el grupo debe
+      //~ // estar levantado, pero nunca se sabe
+      //~ if ( red == false)
+      //~ {
+        //~ red = true;
+        //~ if ( modo_mantinimiento == false)
+        //~ {
+          //~ EnviarSmsAlertaTension(RED, true);
+        //~ }
+      //~ }
+    //~ }
+//~ 
+  //~ }
+  //~ else
+  //~ {
+    //~ // No tenemos tension
+    //~ // Volvemos a leer el valor pasado 0.2 segundos
+    //~ delay(200);
+    //~ if (digitalRead(RED) == LOW)
+    //~ {
+//~ 
+      //~ // Comprobamos que no hemos enviado el sms
+      //~ if (red == true )
+      //~ {
+        //~ Serial.println("Caida de red");
+        //~ red = false;
+        //~ // Marcamos el tiempo en que se cayo la red para la proxima
+        //~ // comprobacion del estado de la camara
+        //~ millisCaidaElectrica = millis();
+        //~ comprobrar_camara = false;
+        //~ if (modo_mantinimiento == false)
+        //~ {
+          //~ EnviarSmsAlertaTension(RED, false);
+        //~ }
+      //~ }
+    //~ }
+  //~ }
+
+  //~ // Comprobamos el estado del grupo
+  //~ if (digitalRead(GRUPO) == HIGH)
+  //~ {
+    //~ // El grupo no esta en marcha ??
+    //~ if ( grupo == false )
+    //~ {
+      //~ Serial.println("Ha arrancado el grupo");
+      //~ grupo = true;
+      //~ if (modo_mantinimiento == false)
+      //~ {
+        //~ EnviarSmsAlertaTension(GRUPO, true);
+      //~ }
+    //~ }
+  //~ }
+  //~ else
+  //~ {
+    //~ if ( grupo == true)
+    //~ {
+      //~ Serial.println("Ha parado el grupo");
+      //~ grupo = false;
+      //~ if (modo_mantinimiento == false)
+      //~ {
+        //~ EnviarSmsAlertaTension(GRUPO, false);
+      //~ }
+    //~ }
+  //~ }
+
+  // Obtengo el estado de la red
+  String alerta ; // usada para poner el texto de la alerta
+  if (digitalRead(RED) == HIGH) 
   {
-    // Tenemos tension
-
-    // Compruebo si hay tension en grupo, el caso que ha vuelto la red
-    // Si es asi espero 0.2 sg para comprobar que es estable
-    // Vuelvo a leer si es estable marco
-    if (digitalRead(GRUPO) == HIGH && red == false)
-    {
-      delay (200);
-      if (digitalRead(RED) == HIGH)
-      {
-        // Comprobamos si tenemos que enviar el sms de recuperacion
-        if ( red == false )
-        {
-          Serial.print("Ha vuelto la red");
-          red = true;
-          if (modo_mantinimiento == false)
-          {
-            EnviarSmsAlertaTension(RED, true);
-          }
-        }
-      }
-    }
-    else
-    {
-      // Este cambio nunca se debería dar pero por si las moscas
-      // Teoricamente siempre que vuelve la tensión el grupo debe
-      // estar levantado, pero nunca se sabe
-      if ( red == false)
-      {
-        red = true;
-        if ( modo_mantinimiento == false)
-        {
-          EnviarSmsAlertaTension(RED, true);
-        }
-      }
-    }
-
+    auxRed = true;
   }
   else
   {
-    // No tenemos tension
-    // Volvemos a leer el valor pasado 0.2 segundos
-    delay(200);
-    if (digitalRead(RED) == LOW)
-    {
-
-      // Comprobamos que no hemos enviado el sms
-      if (red == true )
-      {
-        Serial.print("Caida de red");
-        red = false;
-        if (modo_mantinimiento == false)
-        {
-          EnviarSmsAlertaTension(RED, false);
-        }
-      }
-    }
+    auxRed = false;
   }
-
-  // Comprobamos el estado del grupo
   if (digitalRead(GRUPO) == HIGH)
   {
-    // En grupo esta en marcha
-    if ( grupo == false )
-    {
-      Serial.print("Ha arrancado el grupo");
-      grupo = true;
-      if (modo_mantinimiento == false)
-      {
-        EnviarSmsAlertaTension(GRUPO, true);
-      }
-    }
+    auxGrupo = true;
   }
   else
   {
-    if ( grupo == true)
+    auxGrupo = false;
+  }
+  
+  
+  if ( auxRed != red )
+  {
+    red = auxRed ;
+    alerta = GenerarTextoAlertaDisplay(red, RED);
+    Serial.println(alerta);
+    
+    if ( red == false)
     {
-      Serial.print("Ha parado el grupo");
-      grupo = false;
+      millisCaidaElectrica = millis() ;
+      comprobrar_camara = false;
+    }
+    if ( modo_mantinimiento == false)
+    {
+      // Mostramos en el display que enviamos un sms
+      MostrarInfo(alerta, ENVIANDO_SMS);
+      EnviarSmsAlertaTension(red, RED);
+      MostrarInfo(alerta, ENVIADO_SMS);
+      millisAntes = millis() - 18000; 
+      
+      
+    } 
+  }
+  
+  if ( auxGrupo != grupo )
+  {
+    grupo = auxGrupo;
+    alerta = GenerarTextoAlertaDisplay(grupo, GRUPO);
+    Serial.println(alerta);
+    if (modo_mantinimiento == false)
+    {
+      // Mostramos en el display que enviamos un sms
+      MostrarInfo(alerta, ENVIANDO_SMS);
+      EnviarSmsAlertaTension(GRUPO, grupo);
+      MostrarInfo(alerta, ENVIADO_SMS);
+      millisAntes = millis() - 18000; 
+
+    }
+  }
+
+  //////////////////////////////////////////////////////////////
+  //                                                          //
+  //                Inicio parte de la camara                 //
+  //                                                          //
+  //////////////////////////////////////////////////////////////
+  unsigned long millisCamara = millis();
+  
+  // Miramos si han pasado el tiempo prudencial desde que se 
+  // ha caido la red para volver a comprobar la camara
+  if ( millisCamara - millisCaidaElectrica > TIEMPO_ESPERA_CAIDA_ELECTRICA_COMPROBAR_CAMARA*1000 && comprobrar_camara == false)
+  {
+    comprobrar_camara = true;
+  }
+  
+
+  if (digitalRead(TESTIGO_SECADO) == HIGH)
+  {
+    auxCamara = true;
+  }
+  else
+  {
+    auxCamara = false;
+  }
+  // Si esta la bandera de comprobar la camara comprobamos su estado
+  if ( comprobrar_camara == true )
+  {
+    if ( auxCamara !=  camara)
+    {
+      camara = auxCamara;
+      alerta = GenerarTextoAlertaDisplay(camara, TESTIGO_SECADO);
+      Serial.println(alerta);
       if (modo_mantinimiento == false)
       {
-        EnviarSmsAlertaTension(GRUPO, false);
+        // Mostramos en el display que enviamos un sms
+        MostrarInfo(alerta, ENVIANDO_SMS);
+        EnviarSmsAlertaCamara(camara);
+        MostrarInfo(alerta, ENVIADO_SMS);
+        millisAntes = millis() - 18000; 
       }
     }
   }
 
-
-
+  
   //////////////////////////////////////////////////////////////
   //                                                          //
   //                Inicio parte del teclado                  //
   //                                                          //
   //////////////////////////////////////////////////////////////  
-  valor = LeeTeclado();
+  valor = LeerTeclado();
   if ( valor >=0 )
   {
     millisAntes = millis();
@@ -1855,12 +2057,17 @@ void loop()
   ////////////////////////////////////////////////////////////// 
   // Parte mostrar sensores por pantalla
   unsigned long millisAhora = millis();
+  //~ Serial.print("millisAhora: ");
+  //~ Serial.print(millisAhora);
+  //~ Serial.print("\n");
+  //~ Serial.print("millisAntes: ");
+  //~ Serial.print(millisAntes);
+  //~ Serial.print("\n");
 
   // Comprobamos que han pasado mas de n segundos sin pulsar nada
   if (millisAhora - millisAntes > TIEMPO_ESPERA*1000)
   {
     MostrarSensores(limpiarPantalla);
-
   }
 
   //////////////////////////////////////////////////////////////
@@ -1870,17 +2077,17 @@ void loop()
   ////////////////////////////////////////////////////////////// 
 
   String texto;
-  if(Serial2.available() > 0)
+  if(Serial1.available() > 0)
   {
     //Serial.println("Estoy en el bucle");
     // Comprobamos si es nueva linea		
-    if((caracter = Serial2.read()) == 10) {  
+    if((caracter = Serial1.read()) == 10) {  
       //Serial.println("Estoy en el bucle 1");
       unsigned long millisSerial = millis(); 
-      while( Serial2.available() > 0) {
-        unsigned long millisSerial2 = millis();
+      while( Serial1.available() > 0) {
+        unsigned long millisSerial1 = millis();
         //Serial.println("Estoy en el bucle 2");
-        caracter = Serial2.read();
+        caracter = Serial1.read();
         // Comprobamos si es nueva linea o retorno de carro
         if((caracter == 10)||(caracter == 13)) 
         { 
