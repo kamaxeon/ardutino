@@ -105,8 +105,8 @@
 #define GRUPO				          25
 #define RED				            27
 #define INTERRUPTOR_SECADO		29
-#define LED_ROJO			        31
-#define LED_VERDE			        33
+#define LED_VERDE			        31
+#define LED_ROJO			        33
 #define PIN_RELOJ             35
 #define PIN_DATOS             37
 #define INTERRUPTOR			      39
@@ -1416,6 +1416,7 @@ void ComprobarLineaModem(String linea)
           MostrarInfo("Enviando estado", ENVIANDO_SMS);
           EnviarSms(telefono, sms);
           MostrarInfo("Evniando estado", ENVIADO_SMS);
+          limpiarPantalla = true;
           millisAntes = millis() - 18000; 
         }
       }
@@ -1478,6 +1479,7 @@ void ComprobarLineaModem(String linea)
     sms2.concat(CrearCuerpoSms());
     EnviarSms(origenSms, sms2);
     MostrarInfo("Orden ejecutada", ENVIADO_SMS);
+    limpiarPantalla = true;
     millisAntes = millis() - 18000; 
   }	
 
@@ -1962,6 +1964,7 @@ void loop()
       MostrarInfo(alerta, ENVIANDO_SMS);
       EnviarSmsAlertaTension(red, RED);
       MostrarInfo(alerta, ENVIADO_SMS);
+      limpiarPantalla = true;
       millisAntes = millis() - 18000; 
       
       
@@ -1979,6 +1982,7 @@ void loop()
       MostrarInfo(alerta, ENVIANDO_SMS);
       EnviarSmsAlertaTension(GRUPO, grupo);
       MostrarInfo(alerta, ENVIADO_SMS);
+      limpiarPantalla = true;
       millisAntes = millis() - 18000; 
 
     }
@@ -2022,6 +2026,7 @@ void loop()
         EnviarSmsAlertaCamara(camara);
         MostrarInfo(alerta, ENVIADO_SMS);
         millisAntes = millis() - 18000; 
+        MostrarSensores(true);
       }
     }
   }
