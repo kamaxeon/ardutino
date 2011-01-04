@@ -1,0 +1,18 @@
+EESchema-DOCLIB  Version 2.0  mar 04 ene 2011 15:11:21 WET
+#
+$CMP PA_18x1
+D Pin header 18 x 1 pins - Generated with paNxN
+K CONN ARRAY PIN HEADER PINHEAD  
+$ENDCMP
+#
+$CMP PA_8x1
+D Pin header 8 x 1 pins - Generated with paNxN
+K CONN ARRAY PIN HEADER PINHEAD  
+$ENDCMP
+#
+$CMP R
+D Resistance
+K R DEV
+$ENDCMP
+#
+#End Doc Library
