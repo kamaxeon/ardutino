@@ -1,4 +1,4 @@
-PCBNEW-BOARD Version 1 date vie 07 ene 2011 17:07:54 WET
+PCBNEW-BOARD Version 1 date vie 07 ene 2011 17:42:13 WET
 
 $GENERAL
 LayerCount 2
@@ -2600,7 +2600,7 @@ De 21 1 0 Normal
 $EndTEXTPCB
 $TEXTPCB
 Te "Ardutino 2.0"
-Po 32500 16000 1200 1600 300 0
+Po 32500 16000 1200 1600 240 0
 De 21 1 0 Italic
 $EndTEXTPCB
 $TEXTPCB
