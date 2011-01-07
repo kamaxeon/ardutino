@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date vie 07 ene 2011 03:15:32 WET
+EESchema Schematic File Version 2  date vie 07 ene 2011 03:18:53 WET
 LIBS:power,./PA_3x1,./relay_finder,./Pot,./arduino_shields,./borniers,./ardutino_componentes,./PA_18x1,./PA_16x1,./PA_8x1,device,transistors,conn,linear,regul,74xx,cmos4000,adc-dac,memory,xilinx,special,microcontrollers,dsp,microchip,analog_switches,motorola,texas,intel,audio,interface,digital-audio,philips,display,cypress,siliconi,opto,atmel,contrib,valves,./ardutino.cache
 EELAYER 24  0
 EELAYER END
@@ -15,7 +15,6 @@ Comment4 ""
 $EndDescr
 Wire Wire Line
 	7050 5950 7050 5800
-Connection ~ -2300 5450
 Connection ~ 5100 2500
 Wire Wire Line
 	5050 2500 5250 2500
