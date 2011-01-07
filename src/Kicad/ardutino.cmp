@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CVpcb (20090216-final) date = vie 07 ene 2011 10:32:53 WET
+Cmp-Mod V01 Created by CVpcb (20090216-final) date = vie 07 ene 2011 12:37:48 WET
 
 BeginCmp
 TimeStamp = /4D2623E2;
@@ -129,7 +129,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4D262A7E;
 Reference = R2;
-ValeurCmp = 1K;
+ValeurCmp = 10K;
 IdModule  = R3;
 EndCmp
 
