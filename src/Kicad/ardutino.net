@@ -1,264 +1,254 @@
-# EESchema Netlist Version 1.1 created  vie 07 ene 2011 02:14:44 WET
+# EESchema Netlist Version 1.1 created  vie 07 ene 2011 02:39:09 WET
 (
- ( /4D265BE3 $noname  DISPLAY1 PA_16X1 {Lib=PA_16X1}
-  (    1 GND )
-  (    2 +5V )
-  (    3 N-000026 )
-  (    4 N-000025 )
-  (    5 GND )
-  (    6 N-000027 )
-  (    7 ? )
-  (    8 ? )
-  (    9 ? )
-  (   10 ? )
-  (   11 N-000029 )
-  (   12 N-000023 )
-  (   13 N-000028 )
-  (   14 N-000024 )
-  (   15 +5V )
-  (   16 GND )
+ ( /4D2623E2 LED-5MM D1 LED_ON
+  ( 1 N-000040 )
+  ( 2 GND )
  )
- ( /4D265A25 $noname  R3 220 {Lib=R}
-  (    1 N-000002 )
-  (    2 N-000042 )
+ ( /4D265BE3 PA_16x1 DISPLAY1 PA_16X1
+  ( 1 GND )
+  ( 2 +5V )
+  ( 3 N-000019 )
+  ( 4 N-000020 )
+  ( 5 GND )
+  ( 6 N-000018 )
+  ( 7 ? )
+  ( 8 ? )
+  ( 9 ? )
+  ( 10 ? )
+  ( 11 N-000016 )
+  ( 12 N-000022 )
+  ( 13 N-000017 )
+  ( 14 N-000021 )
+  ( 15 +5V )
+  ( 16 GND )
  )
- ( /4D265A1F $noname  R4 220 {Lib=R}
-  (    1 N-000041 )
-  (    2 N-000003 )
+ ( /4D237828 PA_4x1 P1 SERIAL
+  ( 1 +5V )
+  ( 2 N-000023 )
+  ( 3 N-000015 )
+  ( 4 GND )
  )
- ( /4D2655D2 $noname  P14 P_C2 {Lib=CONN_2_V}
-  (    1 N-000038 )
-  (    2 N-000040 )
+ ( /4D237A43 PA_4x1 P2 RELOJ
+  ( 1 GND )
+  ( 2 +5V )
+  ( 3 N-000024 )
+  ( 4 N-000014 )
  )
- ( /4D2655D0 relay_finder-95.15.2  RL5 P_C1 {Lib=95.15.2}
-  (   A2 GND )
-  (   A1 N-000039 )
-  (   11 N-000038 )
-  (   12 ? )
-  (   14 N-000040 )
-  (   21 ? )
-  (   22 ? )
-  (   24 ? )
+ ( /4D25D366 PA_3x1 P3 POTEN
+  ( 1 GND )
+  ( 2 N-000019 )
+  ( 3 +5V )
  )
- ( /4D265576 $noname  P13 P_C1 {Lib=CONN_2_V}
-  (    1 N-000006 )
-  (    2 N-000037 )
+ ( /4D262895 bornier4_V P4 SENSOR1
+  ( 1 N-000025 )
+  ( 2 N-000013 )
+  ( 3 +5V )
+  ( 4 GND )
  )
- ( /4D265437 relay_finder-95.15.2  P12 RELE4 {Lib=95.15.2}
-  (   A2 GND )
-  (   A1 N-000036 )
-  (   11 N-000006 )
-  (   12 ? )
-  (   14 N-000037 )
-  (   21 ? )
-  (   22 ? )
-  (   24 ? )
+ ( /4D2628AC bornier4_V P5 SENSOR2
+  ( 1 N-000026 )
+  ( 2 N-000012 )
+  ( 3 +5V )
+  ( 4 GND )
  )
- ( /4D263C3D relay_finder-95.15.2  RL3 RED {Lib=95.15.2}
-  (   A2 N-000012 )
-  (   A1 N-000010 )
-  (   11 +5V )
-  (   12 ? )
-  (   14 N-000011 )
-  (   21 ? )
-  (   22 ? )
-  (   24 ? )
+ ( /4D262665 PA_3x1 P6 LED_AL
+  ( 1 N-000042 )
+  ( 2 GND )
+  ( 3 N-000004 )
  )
- ( /4D263C42 $noname  P11 GRUPO {Lib=CONN_2_V}
-  (    1 N-000009 )
-  (    2 N-000007 )
+ ( /4D262A3D PA_2x1 P7 INT_AL
+  ( 1 +5V )
+  ( 2 N-000028 )
  )
- ( /4D263C40 relay_finder-95.15.2  RL4 GRUPO {Lib=95.15.2}
-  (   A2 N-000009 )
-  (   A1 N-000007 )
-  (   11 +5V )
-  (   12 ? )
-  (   14 N-000008 )
-  (   21 ? )
-  (   22 ? )
-  (   24 ? )
+ ( /4D263BD5 bornier2_V P8 TEST._C1
+  ( 1 N-000010 )
+  ( 2 N-000029 )
  )
- ( /4D263C3F $noname  P10 RED {Lib=CONN_2_V}
-  (    1 N-000012 )
-  (    2 N-000010 )
+ ( /4D263C10 bornier2_V P9 TEST._C2
+  ( 1 N-000030 )
+  ( 2 N-000032 )
  )
- ( /4D263C10 $noname  P9 TEST._C2 {Lib=CONN_2_V}
-  (    1 N-000015 )
-  (    2 N-000013 )
+ ( /4D263C3F bornier2_V P10 RED
+  ( 1 N-000033 )
+  ( 2 N-000035 )
  )
- ( /4D263C0E relay_finder-95.15.2  RL2 TEST._C2 {Lib=95.15.2}
-  (   A2 N-000015 )
-  (   A1 N-000013 )
-  (   11 +5V )
-  (   12 ? )
-  (   14 N-000014 )
-  (   21 ? )
-  (   22 ? )
-  (   24 ? )
+ ( /4D263C42 bornier2_V P11 GRUPO
+  ( 1 N-000036 )
+  ( 2 N-000038 )
  )
- ( /4D263BD5 $noname  P8 TEST._C1 {Lib=CONN_2_V}
-  (    1 N-000035 )
-  (    2 N-000016 )
+ ( /4D265437 relay-FINDER-30.22 P12 RELE4
+  ( 11 N-000039 )
+  ( 12 ? )
+  ( 14 N-000008 )
+  ( 21 ? )
+  ( 22 ? )
+  ( 24 ? )
+  ( A1 N-000009 )
+  ( A2 GND )
  )
- ( /4D263AC0 relay_finder-95.15.2  RL1 TEST._C1 {Lib=95.15.2}
-  (   A2 N-000035 )
-  (   A1 N-000016 )
-  (   11 +5V )
-  (   12 ? )
-  (   14 N-000018 )
-  (   21 ? )
-  (   22 ? )
-  (   24 ? )
+ ( /4D265576 bornier2_V P13 P_C1
+  ( 1 N-000039 )
+  ( 2 N-000008 )
  )
- ( /4D262A7E $noname  R2 1K {Lib=R}
-  (    1 N-000034 )
-  (    2 N-000017 )
+ ( /4D2655D2 bornier2_V P14 P_C2
+  ( 1 N-000005 )
+  ( 2 N-000006 )
  )
- ( /4D262A3D $noname  P7 INT_AL {Lib=CONN_2}
-  (    1 +5V )
-  (    2 N-000017 )
+ ( /4D267C5E PA_3x1 P15 CONN_3
+  ( 1 N-000002 )
+  ( 2 +5V )
+  ( 3 GND )
  )
- ( /4D2628AC $noname  P5 SENSOR2 {Lib=CONN_4_V}
-  (    1 N-000019 )
-  (    2 N-000033 )
-  (    3 +5V )
-  (    4 GND )
+ ( /4D262383 R3 R1 220
+  ( 1 N-000040 )
+  ( 2 +5V )
  )
- ( /4D262895 $noname  P4 SENSOR1 {Lib=CONN_4_V}
-  (    1 N-000020 )
-  (    2 N-000032 )
-  (    3 +5V )
-  (    4 GND )
+ ( /4D262A7E R3 R2 1K
+  ( 1 N-000011 )
+  ( 2 N-000028 )
  )
- ( /4D262665 $noname  P6 LED_AL {Lib=CONN_3}
-  (    1 N-000002 )
-  (    2 GND )
-  (    3 N-000041 )
+ ( /4D265A25 R3 R3 220
+  ( 1 N-000042 )
+  ( 2 N-000003 )
  )
- ( /4D2623E2 $noname  D1 LED_ON {Lib=LED}
-  (    1 N-000005 )
-  (    2 GND )
+ ( /4D265A1F R3 R4 220
+  ( 1 N-000004 )
+  ( 2 N-000041 )
  )
- ( /4D262383 $noname  R1 220 {Lib=R}
-  (    1 N-000005 )
-  (    2 +5V )
+ ( /4D263AC0 relay_finder-95.15.2 RL1 TEST._C1
+  ( 11 +5V )
+  ( 12 ? )
+  ( 14 N-000027 )
+  ( 21 ? )
+  ( 22 ? )
+  ( 24 ? )
+  ( A1 N-000029 )
+  ( A2 N-000010 )
  )
- ( /4D25D366 $noname  P3 POTEN {Lib=CONN_3}
-  (    1 GND )
-  (    2 N-000026 )
-  (    3 +5V )
+ ( /4D263C0E relay_finder-95.15.2 RL2 TEST._C2
+  ( 11 +5V )
+  ( 12 ? )
+  ( 14 N-000031 )
+  ( 21 ? )
+  ( 22 ? )
+  ( 24 ? )
+  ( A1 N-000032 )
+  ( A2 N-000030 )
  )
- ( /4D23B807 $noname  SHIELD1 ARDUINO_MEGA_SHIELD {Lib=ARDUINO_MEGA_SHIELD}
-  (    0 ? )
-  ( GND3 ? )
-  ( AREF ? )
-  ( GND5 GND )
-  ( GND4 ? )
-  ( AD15 ? )
-  ( AD14 ? )
-  ( AD13 ? )
-  ( AD12 ? )
-  ( AD11 ? )
-  ( AD10 ? )
-  (  AD9 ? )
-  (  AD8 ? )
-  (  AD7 ? )
-  (  AD6 ? )
-  (  AD5 ? )
-  (  AD4 ? )
-  (  AD3 ? )
-  (  AD2 ? )
-  (  AD1 ? )
-  (  AD0 ? )
-  ( V_IN ? )
-  ( GND2 ? )
-  ( GND1 ? )
-  (  RST ? )
-  (    1 ? )
-  (    2 ? )
-  (    3 ? )
-  (  3V3 ? )
-  (    4 ? )
-  ( 5V_5 +5V )
+ ( /4D263C3D relay_finder-95.15.2 RL3 RED
+  ( 11 +5V )
+  ( 12 ? )
+  ( 14 N-000034 )
+  ( 21 ? )
+  ( 22 ? )
+  ( 24 ? )
+  ( A1 N-000035 )
+  ( A2 N-000033 )
+ )
+ ( /4D263C40 relay_finder-95.15.2 RL4 GRUPO
+  ( 11 +5V )
+  ( 12 ? )
+  ( 14 N-000037 )
+  ( 21 ? )
+  ( 22 ? )
+  ( 24 ? )
+  ( A1 N-000038 )
+  ( A2 N-000036 )
+ )
+ ( /4D2655D0 relay-FINDER-30.22 RL5 P_C1
+  ( 11 N-000005 )
+  ( 12 ? )
+  ( 14 N-000006 )
+  ( 21 ? )
+  ( 22 ? )
+  ( 24 ? )
+  ( A1 N-000007 )
+  ( A2 GND )
+ )
+ ( /4D23B807 ARDUINO_MEGA_SHIELD SHIELD1 ARDUINO_MEGA_SHIELD
+  ( 0 ? )
+  ( 1 ? )
+  ( 2 ? )
+  ( 3 ? )
+  ( 3V3 ? )
+  ( 4 ? )
+  ( 5 ? )
+  ( 5V ? )
   ( 5V_4 ? )
-  (    5 ? )
-  (   5V ? )
-  (    6 ? )
-  (    7 N-000025 )
-  (    8 N-000027 )
-  (    9 N-000029 )
-  (   10 N-000023 )
-  (   11 N-000028 )
-  (   12 N-000024 )
-  (   13 ? )
-  (   14 ? )
-  (   15 ? )
-  (   16 ? )
-  (   17 ? )
-  (   18 N-000022 )
-  (   19 N-000030 )
-  (   20 N-000021 )
-  (   21 N-000031 )
-  (   22 ? )
-  (   23 N-000018 )
-  (   24 ? )
-  (   25 N-000014 )
-  (   26 ? )
-  (   27 N-000011 )
-  (   28 ? )
-  (   29 N-000008 )
-  (   30 ? )
-  (   31 N-000036 )
-  (   32 ? )
-  (   33 N-000039 )
-  (   34 ? )
-  (   35 N-000042 )
-  (   36 ? )
-  (   37 N-000003 )
-  (   38 ? )
-  (   39 N-000032 )
-  (   40 ? )
-  (   41 N-000020 )
-  (   42 ? )
-  (   43 N-000033 )
-  (   44 ? )
-  (   45 N-000019 )
-  (   46 ? )
-  (   47 N-000034 )
-  (   48 ? )
-  (   50 ? )
-  (   53 ? )
- )
- ( /4D237A43 $noname  P2 RELOJ {Lib=CONN_4}
-  (    1 GND )
-  (    2 +5V )
-  (    3 N-000021 )
-  (    4 N-000031 )
- )
- ( /4D237828 $noname  P1 SERIAL {Lib=CONN_4}
-  (    1 +5V )
-  (    2 N-000022 )
-  (    3 N-000030 )
-  (    4 GND )
+  ( 5V_5 +5V )
+  ( 6 ? )
+  ( 7 N-000020 )
+  ( 8 N-000018 )
+  ( 9 N-000016 )
+  ( 10 N-000022 )
+  ( 11 N-000017 )
+  ( 12 N-000021 )
+  ( 13 ? )
+  ( 14 ? )
+  ( 15 ? )
+  ( 16 ? )
+  ( 17 ? )
+  ( 18 N-000023 )
+  ( 19 N-000015 )
+  ( 20 N-000024 )
+  ( 21 N-000014 )
+  ( 22 ? )
+  ( 23 N-000027 )
+  ( 24 ? )
+  ( 25 N-000031 )
+  ( 26 ? )
+  ( 27 N-000034 )
+  ( 28 ? )
+  ( 29 N-000037 )
+  ( 30 ? )
+  ( 31 N-000009 )
+  ( 32 ? )
+  ( 33 N-000007 )
+  ( 34 ? )
+  ( 35 N-000003 )
+  ( 36 ? )
+  ( 37 N-000041 )
+  ( 38 ? )
+  ( 39 N-000013 )
+  ( 40 ? )
+  ( 41 N-000025 )
+  ( 42 ? )
+  ( 43 N-000012 )
+  ( 44 ? )
+  ( 45 N-000026 )
+  ( 46 ? )
+  ( 47 N-000011 )
+  ( 48 ? )
+  ( 50 ? )
+  ( 53 ? )
+  ( AD0 N-000002 )
+  ( AD1 ? )
+  ( AD2 ? )
+  ( AD3 ? )
+  ( AD4 ? )
+  ( AD5 ? )
+  ( AD6 ? )
+  ( AD7 ? )
+  ( AD8 ? )
+  ( AD9 ? )
+  ( AD10 ? )
+  ( AD11 ? )
+  ( AD12 ? )
+  ( AD13 ? )
+  ( AD14 ? )
+  ( AD15 ? )
+  ( AREF ? )
+  ( GND1 ? )
+  ( GND2 ? )
+  ( GND3 ? )
+  ( GND4 ? )
+  ( GND5 GND )
+  ( RST ? )
+  ( V_IN ? )
  )
 )
 *
 { Allowed footprints by component:
-$component R3
- R?
- SM0603
- SM0805
-$endlist
-$component R4
- R?
- SM0603
- SM0805
-$endlist
-$component R2
- R?
- SM0603
- SM0805
-$endlist
 $component D1
  LED-3MM
  LED-5MM
@@ -273,157 +263,20 @@ $component R1
  SM0603
  SM0805
 $endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+$endlist
 $endfootprintlist
 }
-{ Pin List by Nets
-Net 1 "GND" "GND"
- DISPLAY1 1
- DISPLAY1 5
- DISPLAY1 16
- RL5 A2
- P12 A2
- P5 4
- P4 4
- P6 2
- D1 2
- P3 1
- SHIELD1 GND5
- P2 1
- P1 4
-Net 2 "" ""
- R3 1
- P6 1
-Net 3 "" ""
- R4 2
- SHIELD1 37
-Net 4 "+5V" "+5V"
- DISPLAY1 2
- DISPLAY1 15
- RL3 11
- RL4 11
- RL2 11
- RL1 11
- P7 1
- P5 3
- P4 3
- R1 2
- P3 3
- SHIELD1 5V_5
- P2 2
- P1 1
-Net 5 "" ""
- D1 1
- R1 1
-Net 6 "" ""
- P13 1
- P12 11
-Net 7 "" ""
- P11 2
- RL4 A1
-Net 8 "" ""
- RL4 14
- SHIELD1 29
-Net 9 "" ""
- P11 1
- RL4 A2
-Net 10 "" ""
- RL3 A1
- P10 2
-Net 11 "" ""
- RL3 14
- SHIELD1 27
-Net 12 "" ""
- RL3 A2
- P10 1
-Net 13 "" ""
- P9 2
- RL2 A1
-Net 14 "" ""
- RL2 14
- SHIELD1 25
-Net 15 "" ""
- P9 1
- RL2 A2
-Net 16 "" ""
- P8 2
- RL1 A1
-Net 17 "" ""
- R2 2
- P7 2
-Net 18 "" ""
- RL1 14
- SHIELD1 23
-Net 19 "" ""
- P5 1
- SHIELD1 45
-Net 20 "" ""
- P4 1
- SHIELD1 41
-Net 21 "" ""
- SHIELD1 20
- P2 3
-Net 22 "" ""
- SHIELD1 18
- P1 2
-Net 23 "" ""
- DISPLAY1 12
- SHIELD1 10
-Net 24 "" ""
- DISPLAY1 14
- SHIELD1 12
-Net 25 "" ""
- DISPLAY1 4
- SHIELD1 7
-Net 26 "" ""
- DISPLAY1 3
- P3 2
-Net 27 "" ""
- DISPLAY1 6
- SHIELD1 8
-Net 28 "" ""
- DISPLAY1 13
- SHIELD1 11
-Net 29 "" ""
- DISPLAY1 11
- SHIELD1 9
-Net 30 "" ""
- SHIELD1 19
- P1 3
-Net 31 "" ""
- SHIELD1 21
- P2 4
-Net 32 "" ""
- P4 2
- SHIELD1 39
-Net 33 "" ""
- P5 2
- SHIELD1 43
-Net 34 "" ""
- R2 1
- SHIELD1 47
-Net 35 "" ""
- P8 1
- RL1 A2
-Net 36 "" ""
- P12 A1
- SHIELD1 31
-Net 37 "" ""
- P13 2
- P12 14
-Net 38 "" ""
- P14 1
- RL5 11
-Net 39 "" ""
- RL5 A1
- SHIELD1 33
-Net 40 "" ""
- P14 2
- RL5 14
-Net 41 "" ""
- R4 1
- P6 3
-Net 42 "" ""
- R3 2
- SHIELD1 35
-}
-#End

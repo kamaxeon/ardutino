@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CVpcb (20090216-final) date = vie 07 ene 2011 01:53:47 WET
+Cmp-Mod V01 Created by CVpcb (20090216-final) date = vie 07 ene 2011 02:39:09 WET
 
 BeginCmp
 TimeStamp = /4D2623E2;
@@ -110,6 +110,13 @@ TimeStamp = /4D2655D2;
 Reference = P14;
 ValeurCmp = P_C2;
 IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D267C5E;
+Reference = P15;
+ValeurCmp = CONN_3;
+IdModule  = PA_3x1;
 EndCmp
 
 BeginCmp
