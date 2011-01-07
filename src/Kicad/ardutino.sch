@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date vie 07 ene 2011 02:39:30 WET
+EESchema Schematic File Version 2  date vie 07 ene 2011 03:15:32 WET
 LIBS:power,./PA_3x1,./relay_finder,./Pot,./arduino_shields,./borniers,./ardutino_componentes,./PA_18x1,./PA_16x1,./PA_8x1,device,transistors,conn,linear,regul,74xx,cmos4000,adc-dac,memory,xilinx,special,microcontrollers,dsp,microchip,analog_switches,motorola,texas,intel,audio,interface,digital-audio,philips,display,cypress,siliconi,opto,atmel,contrib,valves,./ardutino.cache
 EELAYER 24  0
 EELAYER END
@@ -349,7 +349,6 @@ F 1 "220" V 10700 3150 50  0000 C CNN
 	1    10700 3150
 	1    0    0    -1  
 $EndComp
-NoConn ~ 2000 1300
 NoConn ~ 750  3350
 $Comp
 L +5V #PWR06
@@ -388,7 +387,7 @@ $Comp
 L 95.15.2 RL?
 U 1 1 4D2655D0
 P 5250 4050
-AR Path="/4D265437" Ref="RL?"  Part="C1" 
+AR Path="/4D265437" Ref="RL?"  Part="0" 
 AR Path="/4D2655D0" Ref="RL5"  Part="1" 
 F 0 "RL5" H 5250 4050 50  0000 L BNN
 F 1 "P C1" H 5035 3300 50  0000 L BNN
