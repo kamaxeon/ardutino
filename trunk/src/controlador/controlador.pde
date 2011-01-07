@@ -6,17 +6,19 @@
 // 10 -> Activar envio sms
 // 12 -> Permitir llamar al invento
 
+// (int)round(valor)
+
 //# Librerias
 //# ==================================
 #include <LiquidCrystal.h>
 #include <Menu.h>
 #include <LCDMenu2.h>
 #include <EEPROM.h>
+//#include <DallasTemperature.h>
 #include <WProgram.h>
 #include <Wire.h>
 #include <DS1307.h>
 #include <SHT1x.h>
-
 
 
 
@@ -120,6 +122,8 @@
 #define TIEMPO_ESPERA_CAIDA_ELECTRICA_COMPROBAR_CAMARA 300 //Eso
 #define TIEMPO_ESPERA_MODEM		500
 
+#define dataPin  20
+#define clockPin 21
 
 ///////////////////////////////////////////////////////////////
 ///                                                         ///
@@ -178,7 +182,10 @@ int key=-1;
 int oldkey=-1;
 int valor;
 
-
+SHT1x sensor(dataPin, clockPin); // Este es el sensor 
+//DallasTemperature sensorTemperatura; // Este es el sensor de temperatura
+int temperatura ; // Despreciamos los decimales para mostrar en pantalla
+int humedad ; // Despreciamos los decimales para mostrar en pantalla
 //# Clases
 //# ==================================
 LiquidCrystal lcd(8, 11, 9, 4, 5, 6, 7);
@@ -1086,8 +1093,18 @@ int ObtenerTecla(unsigned int input)
 
 int  LeerTemperatura()
 {
-  return (int)round(sensor.readTemperatureC());
-}
+  //~ switch(sensorTemperatura.isValid())
+  //~ {
+  //~ case 1:
+    //~ Serial.println("Invalid CRC");
+    //~ sensorTemperatura.reset(); // reset sensor 
+    //~ return -1;
+  //~ case 2:
+    //~ Serial.println("Not a valid device");
+    //~ sensorTemperatura.reset(); // reset sensor 
+    //~ return -1;
+  //~ }
+  return 10;
 
 int LeerHumedad()
 {
@@ -1123,6 +1140,9 @@ void MostrarSensores(boolean pantalla)
   lcd.print(GenerarDigito(LeerHumedad()));
   
 
+  humedad = (int)round(sensor.readHumidity());
+  lcd.setCursor(13,0);
+  lcd.print(humedad);
   // Ahora miramos en que modo estamos
   String aux2 = ObtenerModo();
 
