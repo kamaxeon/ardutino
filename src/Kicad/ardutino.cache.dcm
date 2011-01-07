@@ -1,12 +1,36 @@
-EESchema-DOCLIB  Version 2.0  mar 04 ene 2011 15:11:21 WET
+EESchema-DOCLIB  Version 2.0  vie 07 ene 2011 02:19:35 WET
 #
-$CMP PA_18x1
-D Pin header 18 x 1 pins - Generated with paNxN
-K CONN ARRAY PIN HEADER PINHEAD  
+$CMP CONN_2
+D Symbole general de connecteur
+K CONN
 $ENDCMP
 #
-$CMP PA_8x1
-D Pin header 8 x 1 pins - Generated with paNxN
+$CMP CONN_2_V
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_3
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_4
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_4_V
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP LED
+K LED
+$ENDCMP
+#
+$CMP PA_16x1
+D Pin header 16 x 1 pins - Generated with paNxN
 K CONN ARRAY PIN HEADER PINHEAD  
 $ENDCMP
 #

@@ -1,0 +1,185 @@
+Cmp-Mod V01 Created by CVpcb (20090216-final) date = vie 07 ene 2011 01:53:47 WET
+
+BeginCmp
+TimeStamp = /4D2623E2;
+Reference = D1;
+ValeurCmp = LED_ON;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D265BE3;
+Reference = DISPLAY1;
+ValeurCmp = PA_16X1;
+IdModule  = PA_16x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D237828;
+Reference = P1;
+ValeurCmp = SERIAL;
+IdModule  = PA_4x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D237A43;
+Reference = P2;
+ValeurCmp = RELOJ;
+IdModule  = PA_4x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D25D366;
+Reference = P3;
+ValeurCmp = POTEN;
+IdModule  = PA_3x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D262895;
+Reference = P4;
+ValeurCmp = SENSOR1;
+IdModule  = bornier4_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D2628AC;
+Reference = P5;
+ValeurCmp = SENSOR2;
+IdModule  = bornier4_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D262665;
+Reference = P6;
+ValeurCmp = LED_AL;
+IdModule  = PA_3x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D262A3D;
+Reference = P7;
+ValeurCmp = INT_AL;
+IdModule  = PA_2x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D263BD5;
+Reference = P8;
+ValeurCmp = TEST._C1;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D263C10;
+Reference = P9;
+ValeurCmp = TEST._C2;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D263C3F;
+Reference = P10;
+ValeurCmp = RED;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D263C42;
+Reference = P11;
+ValeurCmp = GRUPO;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D265437;
+Reference = P12;
+ValeurCmp = RELE4;
+IdModule  = relay-FINDER-30.22;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D265576;
+Reference = P13;
+ValeurCmp = P_C1;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D2655D2;
+Reference = P14;
+ValeurCmp = P_C2;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D262383;
+Reference = R1;
+ValeurCmp = 220;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D262A7E;
+Reference = R2;
+ValeurCmp = 1K;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D265A25;
+Reference = R3;
+ValeurCmp = 220;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D265A1F;
+Reference = R4;
+ValeurCmp = 220;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D263AC0;
+Reference = RL1;
+ValeurCmp = TEST._C1;
+IdModule  = relay_finder-95.15.2;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D263C0E;
+Reference = RL2;
+ValeurCmp = TEST._C2;
+IdModule  = relay_finder-95.15.2;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D263C3D;
+Reference = RL3;
+ValeurCmp = RED;
+IdModule  = relay_finder-95.15.2;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D263C40;
+Reference = RL4;
+ValeurCmp = GRUPO;
+IdModule  = relay_finder-95.15.2;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D2655D0;
+Reference = RL5;
+ValeurCmp = P_C1;
+IdModule  = relay-FINDER-30.22;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D23B807;
+Reference = SHIELD1;
+ValeurCmp = ARDUINO_MEGA_SHIELD;
+IdModule  = ARDUINO_MEGA_SHIELD;
+EndCmp
+
+EndListe
