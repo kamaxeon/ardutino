@@ -1,4 +1,4 @@
-(pcb /home/isantana/Prog/ardutino/trunk/src/Kicad/ardutino.dsn
+(pcb /home/kamaxeon/Prog/Arduino/ardutino/src/Kicad/ardutino.dsn
   (parser
     (string_quote ")
     (space_in_quoted_tokens on)
@@ -45,8 +45,8 @@
       (place P8 7500 -3700 front 270 (PN TEST._C1))
     )
     (component bornier4_V
-      (place P5 5350 -1600 front 0 (PN SENSOR2))
-      (place P4 4400 -1600 front 0 (PN SENSOR1))
+      (place P5 5750 -1600 front 0 (PN SENSOR2))
+      (place P4 4800 -1600 front 0 (PN SENSOR1))
     )
     (component "LED-5MM"
       (place D1 1950 -1600 front 0 (PN LED_ON))
@@ -66,8 +66,8 @@
     (component R3
       (place R4 5300 -4300 front 90 (PN 220))
       (place R3 5100 -4300 front 90 (PN 220))
-      (place R1 2300 -1700 front 0 (PN 220))
-      (place R2 5900 -1650 front 270 (PN 10K))
+      (place R1 2050 -1900 front 0 (PN 220))
+      (place R2 5900 -4450 front 270 (PN 10K))
     )
     (component "relay-FINDER-30.22"
       (place RL5 6850 -1950 front 0 (PN P_C1))
