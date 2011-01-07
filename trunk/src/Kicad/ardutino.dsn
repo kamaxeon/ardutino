@@ -38,10 +38,10 @@
     )
     (component bornier2_V
       (place P14 7500 -1950 front 270 (PN P_C2))
-      (place P13 7500 -1500 front 270 (PN P_C1))
+      (place P13 7500 -1450 front 270 (PN P_C1))
       (place P11 7500 -2500 front 270 (PN GRUPO))
       (place P10 7500 -3100 front 270 (PN RED))
-      (place P9 7450 -4300 front 270 (PN TEST._C2))
+      (place P9 7500 -4300 front 270 (PN TEST._C2))
       (place P8 7500 -3700 front 270 (PN TEST._C1))
     )
     (component bornier4_V
@@ -71,7 +71,7 @@
     )
     (component "relay-FINDER-30.22"
       (place RL5 6850 -1950 front 0 (PN P_C1))
-      (place P12 6850 -1500 front 0 (PN RELE4))
+      (place P12 6850 -1450 front 0 (PN RELE4))
     )
     (component PA_2x1
       (place P7 5550 -4750 front 0 (PN INT_AL))
