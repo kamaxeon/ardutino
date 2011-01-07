@@ -1,4 +1,4 @@
-(pcb /home/kamaxeon/Prog/Arduino/ardutino/src/Kicad/ardutino.dsn
+(pcb /home/isantana/Prog/ardutino/trunk/src/Kicad/ardutino.dsn
   (parser
     (string_quote ")
     (space_in_quoted_tokens on)
@@ -54,13 +54,10 @@
     (component PA_16x1
       (place DISPLAY1 3550 -2550 front 180 (PN PA_16X1))
     )
-    (component PA_2x1
-      (place P7 5600 -2350 front 0 (PN INT_AL))
-    )
     (component PA_3x1
       (place P6 5050 -2350 front 0 (PN LED_AL))
       (place P3 2450 -1900 front 0 (PN POTEN))
-      (place P15 3700 -2100 front 180 (PN CONN_3))
+      (place P15 3700 -2100 front 180 (PN KEYPAD))
     )
     (component PA_4x1
       (place P2 4400 -2350 front 0 (PN RELOJ))
@@ -69,8 +66,8 @@
     (component R3
       (place R4 5400 -2750 front 180 (PN 220))
       (place R3 5000 -2750 front 180 (PN 220))
-      (place R2 5900 -3050 front 90 (PN 1K))
       (place R1 2050 -2150 front 0 (PN 220))
+      (place R2 5900 -1600 front 270 (PN 1K))
     )
     (component "relay_finder-95.15.2"
       (place RL4 6650 -3500 front 90 (PN GRUPO))
@@ -81,6 +78,9 @@
     (component "relay-FINDER-30.22"
       (place RL5 6800 -4150 front 0 (PN P_C1))
       (place P12 6800 -4700 front 0 (PN RELE4))
+    )
+    (component PA_2x1
+      (place P7 5600 -2350 front 0 (PN INT_AL))
     )
   )
   (library
@@ -256,17 +256,6 @@
       (pin Round[A]Pad_60_mil 15 1500 -100)
       (pin Round[A]Pad_60_mil 16 1600 -100)
     )
-    (image PA_2x1
-      (outline (path signal 12  0 0  300 0))
-      (outline (path signal 12  300 0  300 -200))
-      (outline (path signal 12  300 -200  0 -200))
-      (outline (path signal 12  0 -200  0 0))
-      (outline (path signal 12  -50 -50  0 -100))
-      (outline (path signal 12  0 -100  -50 -150))
-      (outline (path signal 12  -50 -150  -50 -50))
-      (pin Rect[A]Pad_60x60_mil 1 100 -100)
-      (pin Round[A]Pad_60_mil 2 200 -100)
-    )
     (image PA_3x1
       (outline (path signal 12  0 0  400 0))
       (outline (path signal 12  400 0  400 -200))
@@ -333,6 +322,17 @@
       (pin Round[TB]Pad_62.9_mil 24 350 150)
       (pin Round[TB]Pad_62.9_mil A1 -350 -150)
       (pin Round[TB]Pad_62.9_mil A2 -350 150)
+    )
+    (image PA_2x1
+      (outline (path signal 12  0 0  300 0))
+      (outline (path signal 12  300 0  300 -200))
+      (outline (path signal 12  300 -200  0 -200))
+      (outline (path signal 12  0 -200  0 0))
+      (outline (path signal 12  -50 -50  0 -100))
+      (outline (path signal 12  0 -100  -50 -150))
+      (outline (path signal 12  -50 -150  -50 -50))
+      (pin Rect[A]Pad_60x60_mil 1 100 -100)
+      (pin Round[A]Pad_60_mil 2 200 -100)
     )
     (padstack Round[A]Pad_100_mil
       (shape (circle Comp. 100))
@@ -401,40 +401,40 @@
     )
   )
   (network
-    (net "N-000023"
+    (net "N-000024"
       (pins SHIELD1-18 P1-2)
     )
-    (net "N-000015"
+    (net "N-000016"
       (pins SHIELD1-19 P1-3)
     )
-    (net "N-000024"
+    (net "N-000025"
       (pins SHIELD1-20 P2-3)
     )
-    (net "N-000014"
+    (net "N-000015"
       (pins SHIELD1-21 P2-4)
     )
-    (net "N-000002"
+    (net "N-000004"
       (pins SHIELD1-AD0 P15-1)
     )
-    (net "N-000020"
+    (net "N-000021"
       (pins SHIELD1-7 DISPLAY1-4)
     )
-    (net "N-000018"
+    (net "N-000019"
       (pins SHIELD1-8 DISPLAY1-6)
     )
-    (net "N-000016"
+    (net "N-000017"
       (pins SHIELD1-9 DISPLAY1-11)
     )
-    (net "N-000022"
+    (net "N-000023"
       (pins SHIELD1-10 DISPLAY1-12)
     )
-    (net "N-000017"
+    (net "N-000018"
       (pins SHIELD1-11 DISPLAY1-13)
     )
-    (net "N-000021"
+    (net "N-000022"
       (pins SHIELD1-12 DISPLAY1-14)
     )
-    (net "N-000027"
+    (net "N-000028"
       (pins SHIELD1-23 RL1-14)
     )
     (net "N-000031"
@@ -447,50 +447,50 @@
       (pins SHIELD1-29 RL4-14)
     )
     (net +5V
-      (pins SHIELD1-5V_5 P5-3 P4-3 DISPLAY1-2 DISPLAY1-15 P7-1 P3-3 P2-2 P1-1 R1-2
-        RL4-11 RL3-11 RL2-11 RL1-11 P15-2)
+      (pins SHIELD1-5V_5 P5-3 P4-3 DISPLAY1-2 DISPLAY1-15 P3-3 P2-2 P1-1 R1-2 RL4-11
+        RL3-11 RL2-11 RL1-11 P15-2 P7-1)
     )
-    (net "N-000009"
+    (net "N-000011"
       (pins SHIELD1-31 P12-A1)
     )
-    (net "N-000007"
+    (net "N-000009"
       (pins SHIELD1-33 RL5-A1)
     )
-    (net "N-000003"
+    (net "N-000005"
       (pins SHIELD1-35 R3-2)
     )
     (net "N-000041"
       (pins SHIELD1-37 R4-2)
     )
-    (net "N-000013"
+    (net "N-000014"
       (pins SHIELD1-39 P4-2)
     )
-    (net "N-000025"
+    (net "N-000026"
       (pins SHIELD1-41 P4-1)
     )
-    (net "N-000012"
+    (net "N-000013"
       (pins SHIELD1-43 P5-2)
     )
-    (net "N-000026"
+    (net "N-000027"
       (pins SHIELD1-45 P5-1)
     )
-    (net "N-000011"
-      (pins SHIELD1-47 R2-1)
+    (net "N-000043"
+      (pins SHIELD1-47 P7-2 R2-2)
     )
     (net GND
       (pins SHIELD1-GND5 P5-4 P4-4 D1-2 DISPLAY1-1 DISPLAY1-5 DISPLAY1-16 P6-2 P3-1
-        P2-1 P1-4 RL5-A2 P12-A2 P15-3)
+        P2-1 P1-4 RL5-A2 P12-A2 P15-3 R2-1)
     )
-    (net "N-000005"
+    (net "N-000007"
       (pins P14-1 RL5-11)
     )
-    (net "N-000006"
+    (net "N-000008"
       (pins P14-2 RL5-14)
     )
     (net "N-000039"
       (pins P13-1 P12-11)
     )
-    (net "N-000008"
+    (net "N-000010"
       (pins P13-2 P12-14)
     )
     (net "N-000036"
@@ -511,7 +511,7 @@
     (net "N-000032"
       (pins P9-2 RL2-A1)
     )
-    (net "N-000010"
+    (net "N-000012"
       (pins P8-1 RL1-A2)
     )
     (net "N-000029"
@@ -520,25 +520,22 @@
     (net "N-000040"
       (pins D1-1 R1-1)
     )
-    (net "N-000019"
+    (net "N-000020"
       (pins DISPLAY1-3 P3-2)
-    )
-    (net "N-000028"
-      (pins P7-2 R2-2)
     )
     (net "N-000042"
       (pins P6-1 R3-1)
     )
-    (net "N-000004"
+    (net "N-000006"
       (pins P6-3 R4-1)
     )
-    (class kicad_default +5V GND "N-000002" "N-000003" "N-000004" "N-000005"
-      "N-000006" "N-000007" "N-000008" "N-000009" "N-000010" "N-000011" "N-000012"
-      "N-000013" "N-000014" "N-000015" "N-000016" "N-000017" "N-000018" "N-000019"
-      "N-000020" "N-000021" "N-000022" "N-000023" "N-000024" "N-000025" "N-000026"
-      "N-000027" "N-000028" "N-000029" "N-000030" "N-000031" "N-000032" "N-000033"
-      "N-000034" "N-000035" "N-000036" "N-000037" "N-000038" "N-000039" "N-000040"
-      "N-000041" "N-000042"
+    (class kicad_default +5V GND "N-000004" "N-000005" "N-000006" "N-000007"
+      "N-000008" "N-000009" "N-000010" "N-000011" "N-000012" "N-000013" "N-000014"
+      "N-000015" "N-000016" "N-000017" "N-000018" "N-000019" "N-000020" "N-000021"
+      "N-000022" "N-000023" "N-000024" "N-000025" "N-000026" "N-000027" "N-000028"
+      "N-000029" "N-000030" "N-000031" "N-000032" "N-000033" "N-000034" "N-000035"
+      "N-000036" "N-000037" "N-000038" "N-000039" "N-000040" "N-000041" "N-000042"
+      "N-000043"
       (circuit
         (use_via Via[0-1]_45:25_mil)
       )
@@ -546,163 +543,6 @@
     )
   )
   (wiring
-    (wire (path Cobre 17  5000 -2878.9  5000 -2950)(net "N-000023")(type protect))
-    (wire (path Cobre 17  3950 -2878.9  5000 -2878.9)(net "N-000023")(type protect))
-    (wire (path Cobre 17  3950 -2450  3950 -2878.9)(net "N-000023")(type protect))
-    (wire (path Comp. 17  4050 -2885.1  4050 -2450)(net "N-000015")(type protect))
-    (wire (path Comp. 17  5100 -2885.1  4050 -2885.1)(net "N-000015")(type protect))
-    (wire (path Comp. 17  5100 -2950  5100 -2885.1)(net "N-000015")(type protect))
-    (wire (path Comp. 17  4700 -2847.9  4700 -2450)(net "N-000024")(type protect))
-    (wire (path Comp. 17  5200 -2847.9  4700 -2847.9)(net "N-000024")(type protect))
-    (wire (path Comp. 17  5200 -2950  5200 -2847.9)(net "N-000024")(type protect))
-    (wire (path Cobre 17  5093.3 -2450  4800 -2450)(net "N-000014")(type protect))
-    (wire (path Cobre 17  5093.3 -2814.4  5093.3 -2450)(net "N-000014")(type protect))
-    (wire (path Cobre 17  5300 -2814.4  5093.3 -2814.4)(net "N-000014")(type protect))
-    (wire (path Cobre 17  5300 -2950  5300 -2814.4)(net "N-000014")(type protect))
-    (wire (path Comp. 17  3700 -2719  3700 -2950)(net "N-000020")(type protect))
-    (wire (path Comp. 17  3363.4 -2719  3700 -2719)(net "N-000020")(type protect))
-    (wire (path Comp. 17  3363.4 -2494.9  3363.4 -2719)(net "N-000020")(type protect))
-    (wire (path Comp. 17  3150 -2494.9  3363.4 -2494.9)(net "N-000020")(type protect))
-    (wire (path Comp. 17  3150 -2450  3150 -2494.9)(net "N-000020")(type protect))
-    (wire (path Cobre 17  3540 -2518.2  3540 -2950)(net "N-000018")(type protect))
-    (wire (path Cobre 17  2950 -2518.2  3540 -2518.2)(net "N-000018")(type protect))
-    (wire (path Cobre 17  2950 -2450  2950 -2518.2)(net "N-000018")(type protect))
-    (wire (path Cobre 17  3440 -2564.8  3440 -2950)(net "N-000016")(type protect))
-    (wire (path Cobre 17  2450 -2564.8  3440 -2564.8)(net "N-000016")(type protect))
-    (wire (path Cobre 17  2450 -2450  2450 -2564.8)(net "N-000016")(type protect))
-    (wire (path Comp. 17  3340 -2556.8  3340 -2950)(net "N-000022")(type protect))
-    (wire (path Comp. 17  2350 -2556.8  3340 -2556.8)(net "N-000022")(type protect))
-    (wire (path Comp. 17  2350 -2450  2350 -2556.8)(net "N-000022")(type protect))
-    (wire (path Cobre 17  3240 -2725.3  3240 -2950)(net "N-000017")(type protect))
-    (wire (path Cobre 17  2250 -2725.3  3240 -2725.3)(net "N-000017")(type protect))
-    (wire (path Cobre 17  2250 -2450  2250 -2725.3)(net "N-000017")(type protect))
-    (wire (path Comp. 17  3140 -2725.3  3140 -2950)(net "N-000021")(type protect))
-    (wire (path Comp. 17  2150 -2725.3  3140 -2725.3)(net "N-000021")(type protect))
-    (wire (path Comp. 17  2150 -2450  2150 -2725.3)(net "N-000021")(type protect))
-    (wire (path Cobre 17  5985.3 -2447.6  6157.9 -2447.6)(net "N-000027")(type protect))
-    (wire (path Cobre 17  5985.3 -3050  5985.3 -2447.6)(net "N-000027")(type protect))
-    (wire (path Cobre 17  5700 -3050  5985.3 -3050)(net "N-000027")(type protect))
-    (wire (path Cobre 17  5650 -1847.6  6157.9 -1847.6)(net "N-000031")(type protect))
-    (wire (path Cobre 17  5650 -3150  5650 -1847.6)(net "N-000031")(type protect))
-    (wire (path Cobre 17  5700 -3150  5650 -3150)(net "N-000031")(type protect))
-    (wire (path Cobre 17  6157.9 -3250  5700 -3250)(net "N-000034")(type protect))
-    (wire (path Cobre 17  6157.9 -3047.6  6157.9 -3250)(net "N-000034")(type protect))
-    (wire (path Cobre 17  6054.4 -3350  5700 -3350)(net "N-000037")(type protect))
-    (wire (path Cobre 17  6054.4 -3647.6  6054.4 -3350)(net "N-000037")(type protect))
-    (wire (path Cobre 17  6157.9 -3647.6  6054.4 -3647.6)(net "N-000037")(type protect))
-    (wire (path Cobre 17  2050 -2150  2050 -2450)(net +5V)(type protect))
-    (wire (path Cobre 17  2200 -2150  2050 -2150)(net +5V)(type protect))
-    (wire (path Cobre 17  5700 -2450  5700 -2950)(net +5V)(type protect))
-    (wire (path Comp. 17  3850 -2405.1  3850 -2450)(net +5V)(type protect))
-    (wire (path Comp. 17  3350 -2450  3350 -2405.1  3850 -2405.1)(net +5V)(type protect))
-    (wire (path Comp. 17  3850 -2381.8  4500 -2381.8)(net +5V)(type protect))
-    (wire (path Comp. 17  3850 -2405.1  3850 -2381.8)(net +5V)(type protect))
-    (wire (path Comp. 17  4600 -2381.8  4600 -2450)(net +5V)(type protect))
-    (wire (path Comp. 17  4500 -2381.8  4600 -2381.8)(net +5V)(type protect))
-    (wire (path Comp. 17  6029.8 -2950  5700 -2950)(net +5V)(type protect))
-    (wire (path Comp. 17  6354.8 -2950  6029.8 -2950)(net +5V)(type protect))
-    (wire (path Comp. 17  6354.8 -3047.6  6354.8 -2950)(net +5V)(type protect))
-    (wire (path Comp. 17  6354.8 -3500  6354.8 -3647.6)(net +5V)(type protect))
-    (wire (path Comp. 17  6029.8 -3500  6354.8 -3500)(net +5V)(type protect))
-    (wire (path Comp. 17  6029.8 -2950  6029.8 -3500)(net +5V)(type protect))
-    (wire (path Comp. 17  5700 -2388.5  5982.5 -2388.5)(net +5V)(type protect))
-    (wire (path Comp. 17  5700 -2450  5700 -2388.5)(net +5V)(type protect))
-    (wire (path Comp. 17  6354.8 -2388.5  6354.8 -2447.6)(net +5V)(type protect))
-    (wire (path Comp. 17  5982.5 -2388.5  6354.8 -2388.5)(net +5V)(type protect))
-    (wire (path Comp. 17  5982.5 -2388.5  5982.5 -2110.3)(net +5V)(type protect))
-    (wire (path Comp. 17  6354.8 -2000  6354.8 -1847.6)(net +5V)(type protect))
-    (wire (path Comp. 17  5982.5 -2000  6354.8 -2000)(net +5V)(type protect))
-    (wire (path Comp. 17  5982.5 -2110.3  5982.5 -2000)(net +5V)(type protect))
-    (wire (path Comp. 17  4500 -2029.9  5450 -2029.9)(net +5V)(type protect))
-    (wire (path Comp. 17  5450 -2110.3  5450 -2029.9)(net +5V)(type protect))
-    (wire (path Comp. 17  5982.5 -2110.3  5450 -2110.3)(net +5V)(type protect))
-    (wire (path Comp. 17  5450 -2029.9  5450 -1600)(net +5V)(type protect))
-    (wire (path Comp. 17  4500 -2381.8  4500 -2029.9  4500 -1600)(net +5V)(type protect))
-    (wire (path Comp. 17  4850 -2824.6  4850 -2750)(net "N-000003")(type protect))
-    (wire (path Comp. 17  5244.8 -2824.6  4850 -2824.6)(net "N-000003")(type protect))
-    (wire (path Comp. 17  5244.8 -3594.9  5244.8 -2824.6)(net "N-000003")(type protect))
-    (wire (path Comp. 17  5700 -3594.9  5244.8 -3594.9)(net "N-000003")(type protect))
-    (wire (path Comp. 17  5700 -3650  5700 -3594.9)(net "N-000003")(type protect))
-    (wire (path Cobre 17  5700 -3694.9  5700 -3750)(net "N-000041")(type protect))
-    (wire (path Cobre 17  5351.4 -3694.9  5700 -3694.9)(net "N-000041")(type protect))
-    (wire (path Cobre 17  5351.4 -2750  5351.4 -3694.9)(net "N-000041")(type protect))
-    (wire (path Cobre 17  5250 -2750  5351.4 -2750)(net "N-000041")(type protect))
-    (wire (path Cobre 17  4300 -2686.5  4300 -1600)(net "N-000013")(type protect))
-    (wire (path Cobre 17  5070 -2686.5  4300 -2686.5)(net "N-000013")(type protect))
-    (wire (path Cobre 17  5070 -2837.7  5070 -2686.5)(net "N-000013")(type protect))
-    (wire (path Cobre 17  5250 -2837.7  5070 -2837.7)(net "N-000013")(type protect))
-    (wire (path Cobre 17  5250 -3800  5250 -2837.7)(net "N-000013")(type protect))
-    (wire (path Cobre 17  5700 -3800  5250 -3800)(net "N-000013")(type protect))
-    (wire (path Cobre 17  5700 -3850  5700 -3800)(net "N-000013")(type protect))
-    (wire (path Cobre 17  5700 -4000  5700 -3950)(net "N-000025")(type protect))
-    (wire (path Cobre 17  5044.9 -4000  5700 -4000)(net "N-000025")(type protect))
-    (wire (path Cobre 17  5044.9 -2884.3  5044.9 -4000)(net "N-000025")(type protect))
-    (wire (path Cobre 17  5023.4 -2884.3  5044.9 -2884.3)(net "N-000025")(type protect))
-    (wire (path Cobre 17  5023.4 -2855.6  5023.4 -2884.3)(net "N-000025")(type protect))
-    (wire (path Cobre 17  4100 -2855.6  5023.4 -2855.6)(net "N-000025")(type protect))
-    (wire (path Cobre 17  4100 -1600  4100 -2855.6)(net "N-000025")(type protect))
-    (wire (path Cobre 17  5744.8 -4050  5700 -4050)(net "N-000012")(type protect))
-    (wire (path Cobre 17  5744.8 -3900  5744.8 -4050)(net "N-000012")(type protect))
-    (wire (path Cobre 17  5150 -3900  5744.8 -3900)(net "N-000012")(type protect))
-    (wire (path Cobre 17  5150 -2861  5150 -3900)(net "N-000012")(type protect))
-    (wire (path Cobre 17  5046.7 -2861  5150 -2861)(net "N-000012")(type protect))
-    (wire (path Cobre 17  5046.7 -2812  5046.7 -2861)(net "N-000012")(type protect))
-    (wire (path Cobre 17  4200 -2812  5046.7 -2812)(net "N-000012")(type protect))
-    (wire (path Cobre 17  4200 -1460.6  4200 -2812)(net "N-000012")(type protect))
-    (wire (path Cobre 17  5250 -1460.6  4200 -1460.6)(net "N-000012")(type protect))
-    (wire (path Cobre 17  5250 -1600  5250 -1460.6)(net "N-000012")(type protect))
-    (wire (path Cobre 17  5768.5 -4150  5700 -4150)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5768.5 -3876.6  5768.5 -4150)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5764.9 -3876.6  5768.5 -3876.6)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5764.9 -3600.1  5764.9 -3876.6)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5555.2 -3600.1  5764.9 -3600.1)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5555.2 -2847.7  5555.2 -3600.1)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5381.2 -2847.7  5555.2 -2847.7)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5381.2 -2654.2  5381.2 -2847.7)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5194.9 -2654.2  5381.2 -2654.2)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5194.9 -2293.6  5194.9 -2654.2)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5050 -2293.6  5194.9 -2293.6)(net "N-000026")(type protect))
-    (wire (path Cobre 17  5050 -1600  5050 -2293.6)(net "N-000026")(type protect))
-    (wire (path Comp. 17  5900 -4250  5700 -4250)(net "N-000011")(type protect))
-    (wire (path Comp. 17  5900 -3200  5900 -4250)(net "N-000011")(type protect))
-    (wire (path Cobre 17  1997.9 -1850  2050 -1850)(net GND)(type protect))
-    (wire (path Cobre 17  1997.9 -2450  1997.9 -1850)(net GND)(type protect))
-    (wire (path Cobre 17  1950 -2450  1997.9 -2450)(net GND)(type protect))
-    (wire (path Cobre 17  5250 -2450  5250 -1824.2)(net GND)(type protect))
-    (wire (path Cobre 17  5650 -1824.2  5650 -1600)(net GND)(type protect))
-    (wire (path Cobre 17  5250 -1824.2  5650 -1824.2)(net GND)(type protect))
-    (wire (path Cobre 17  3050 -2494.8  3050 -2450)(net GND)(type protect))
-    (wire (path Cobre 17  3450 -2494.8  3050 -2494.8)(net GND)(type protect))
-    (wire (path Cobre 17  3450 -2450  3450 -2494.8)(net GND)(type protect))
-    (wire (path Comp. 17  4500 -2450  4150 -2450)(net GND)(type protect))
-    (wire (path Comp. 17  3450 -2511.6  3450 -2450)(net GND)(type protect))
-    (wire (path Comp. 17  4005.1 -2511.6  3450 -2511.6)(net GND)(type protect))
-    (wire (path Comp. 17  4005.1 -2405.1  4005.1 -2511.6)(net GND)(type protect))
-    (wire (path Comp. 17  4150 -2405.1  4005.1 -2405.1)(net GND)(type protect))
-    (wire (path Comp. 17  4150 -2450  4150 -2405.1)(net GND)(type protect))
-    (wire (path Cobre 17  4700 -1510.1  4700 -1600)(net GND)(type protect))
-    (wire (path Cobre 17  5141.7 -1510.1  4700 -1510.1)(net GND)(type protect))
-    (wire (path Cobre 17  5141.7 -1824.2  5141.7 -1510.1)(net GND)(type protect))
-    (wire (path Cobre 17  5250 -1824.2  5141.7 -1824.2)(net GND)(type protect))
-    (wire (path Comp. 17  4500 -2525.2  4500 -2450)(net GND)(type protect))
-    (wire (path Comp. 17  4650 -2525.2  4500 -2525.2)(net GND)(type protect))
-    (wire (path Comp. 17  4650 -2405.1  4650 -2525.2)(net GND)(type protect))
-    (wire (path Comp. 17  5250 -2405.1  4650 -2405.1)(net GND)(type protect))
-    (wire (path Comp. 17  5250 -2450  5250 -2405.1)(net GND)(type protect))
-    (wire (path Comp. 17  7500 -1552.4  7500 -1600)(net "N-000030")(type protect))
-    (wire (path Comp. 17  7142.1 -1552.4  7500 -1552.4)(net "N-000030")(type protect))
-    (wire (path Comp. 17  7500 -1847.6  7500 -1800)(net "N-000032")(type protect))
-    (wire (path Comp. 17  7142.1 -1847.6  7500 -1847.6)(net "N-000032")(type protect))
-    (wire (path Comp. 17  7500 -2152.4  7500 -2200)(net "N-000010")(type protect))
-    (wire (path Comp. 17  7142.1 -2152.4  7500 -2152.4)(net "N-000010")(type protect))
-    (wire (path Comp. 17  7500 -2447.6  7500 -2400)(net "N-000029")(type protect))
-    (wire (path Comp. 17  7142.1 -2447.6  7500 -2447.6)(net "N-000029")(type protect))
-    (wire (path Cobre 17  1950 -2150  1950 -1850)(net "N-000040")(type protect))
-    (wire (path Cobre 17  1900 -2150  1950 -2150)(net "N-000040")(type protect))
-    (wire (path Cobre 17  5800 -2900  5800 -2450)(net "N-000028")(type protect))
-    (wire (path Cobre 17  5900 -2900  5800 -2900)(net "N-000028")(type protect))
-    (wire (path Cobre 17  5150 -2750  5150 -2450)(net "N-000042")(type protect))
-    (wire (path Cobre 17  5550 -2450  5350 -2450)(net "N-000004")(type protect))
-    (wire (path Cobre 17  5550 -2750  5550 -2450)(net "N-000004")(type protect))
+    (wire (path Cobre 17  5900 -1450  5800 -1450  5650 -1600)(net GND)(type protect))
   )
 )
