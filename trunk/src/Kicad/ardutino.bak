@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date vie 07 ene 2011 03:18:33 WET
+EESchema Schematic File Version 2  date vie 07 ene 2011 09:35:37 WET
 LIBS:power,./PA_3x1,./relay_finder,./Pot,./arduino_shields,./borniers,./ardutino_componentes,./PA_18x1,./PA_16x1,./PA_8x1,device,transistors,conn,linear,regul,74xx,cmos4000,adc-dac,memory,xilinx,special,microcontrollers,dsp,microchip,analog_switches,motorola,texas,intel,audio,interface,digital-audio,philips,display,cypress,siliconi,opto,atmel,contrib,valves,./ardutino.cache
 EELAYER 24  0
 EELAYER END
@@ -13,6 +13,8 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
+Wire Wire Line
+	10750 5650 10850 5650
 Wire Wire Line
 	7050 5950 7050 5800
 Connection ~ 5100 2500
@@ -216,7 +218,7 @@ Wire Wire Line
 Wire Wire Line
 	10950 6050 10950 6200
 Wire Wire Line
-	10400 5650 10300 5650
+	10300 5650 10400 5650
 Wire Wire Line
 	10300 5650 10300 5550
 Wire Wire Line
@@ -257,6 +259,17 @@ Wire Wire Line
 	7250 5550 7250 5950
 Wire Wire Line
 	7150 5950 7150 5850
+Wire Wire Line
+	10400 5650 10400 6150
+$Comp
+L GND #PWR?
+U 1 1 4D26DE5F
+P 10850 5650
+F 0 "#PWR?" H 10850 5650 30  0001 C CNN
+F 1 "GND" H 10850 5580 30  0001 C CNN
+	1    10850 5650
+	0    -1   -1   0   
+$EndComp
 $Comp
 L +5V #PWR01
 U 1 1 4D267C81
@@ -575,10 +588,10 @@ $EndComp
 $Comp
 L R R2
 U 1 1 4D262A7E
-P 10400 5900
-F 0 "R2" V 10480 5900 50  0000 C CNN
-F 1 "1K" V 10400 5900 50  0000 C CNN
-	1    10400 5900
+P 10750 5900
+F 0 "R2" V 10830 5900 50  0000 C CNN
+F 1 "1K" V 10750 5900 50  0000 C CNN
+	1    10750 5900
 	1    0    0    -1  
 $EndComp
 $Comp
