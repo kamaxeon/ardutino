@@ -1,4 +1,4 @@
-PCBNEW-BOARD Version 1 date vie 07 ene 2011 17:42:13 WET
+PCBNEW-BOARD Version 1 date dom 09 ene 2011 14:07:46 WET
 
 $GENERAL
 LayerCount 2
@@ -6,7 +6,7 @@ Ly 1FFF8001
 Links 73
 NoConn 73
 Di 16924 11424 85576 52576
-Ndraw 62
+Ndraw 63
 Ntrack 250
 Nzone 0
 Nmodule 27
@@ -16,7 +16,7 @@ $EndGENERAL
 $SHEETDESCR
 Sheet A4 11700 8267
 Title "Ardutino 2.0"
-Date "7 jan 2011"
+Date "9 jan 2011"
 Rev "1"
 Comp "Israel Santana"
 Comment1 ""
@@ -2422,6 +2422,11 @@ Po 1476 4921
 $EndPAD
 $EndMODULE  relay_finder-95.15.2
 $TEXTPCB
+Te "ENVIO ALERTAS"
+Po 54500 51500 600 800 120 0
+De 21 1 0 Normal
+$EndTEXTPCB
+$TEXTPCB
 Te "MEGA"
 Po 37000 31000 1200 1600 240 0
 De 21 1 0 Normal
@@ -2614,13 +2619,13 @@ Po 48000 18500 600 800 120 0
 De 21 1 0 Normal
 $EndTEXTPCB
 $TEXTPCB
-Te "INT A."
-Po 57500 50500 600 800 120 0
+Te "INT"
+Po 57000 50000 450 600 112 0
 De 21 1 0 Normal
 $EndTEXTPCB
 $TEXTPCB
-Te "LED A."
-Po 52500 50500 600 800 120 0
+Te "LED"
+Po 52000 50000 450 600 112 0
 De 21 1 0 Normal
 $EndTEXTPCB
 $TEXTPCB
