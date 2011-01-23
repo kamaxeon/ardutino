@@ -1,9 +1,5 @@
-update=vie 07 ene 2011 02:36:20 WET
-last_client=eeschema
-[general]
-version=1
-RootSch=
-BoardNm=
+update=mar 11 ene 2011 23:39:59 WET
+last_client=kicad
 [common]
 NetDir=
 [pcbnew]
@@ -139,3 +135,7 @@ LibName36=opto
 LibName37=atmel
 LibName38=contrib
 LibName39=valves
+[general]
+version=1
+RootSch=
+BoardNm=
