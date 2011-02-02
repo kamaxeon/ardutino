@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date mié 02 feb 2011 02:41:05 WET
+EESchema Schematic File Version 2  date mié 02 feb 2011 03:49:45 WET
 LIBS:power,./SparkFun-04-13-10,./locallib,./PA_3x1,./relay_finder,./Pot,./arduino_shields,./borniers,./ardutino_componentes,./PA_18x1,./PA_16x1,./PA_8x1,device,transistors,conn,linear,regul,74xx,cmos4000,adc-dac,memory,xilinx,special,microcontrollers,dsp,microchip,analog_switches,motorola,texas,intel,audio,interface,digital-audio,philips,display,cypress,siliconi,opto,atmel,contrib,valves,./ardutino.cache
 EELAYER 24  0
 EELAYER END
