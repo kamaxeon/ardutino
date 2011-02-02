@@ -1,10 +1,10 @@
-# EESchema Netlist Version 1.1 created  mié 02 feb 2011 03:15:34 WET
+# EESchema Netlist Version 1.1 created  mié 02 feb 2011 11:32:51 WET
 (
  ( /4D48BD11 CR1220 BT1 BATTERY
   ( 1 N-000003 )
   ( 2 GND )
  )
- ( /4D48B91E 8DIPCMS CL1 DS1307SO8
+ ( /4D48B91E DIP-8__300 CL1 DS1307SO8
   ( 1 N-000043 )
   ( 2 N-000002 )
   ( 3 N-000003 )

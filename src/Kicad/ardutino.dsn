@@ -1,4 +1,4 @@
-(pcb /home/kamaxeon/Prog/Arduino/ardutino/src/Kicad/ardutino.dsn
+(pcb /home/isantana/Prog/ardutino/trunk/src/Kicad/ardutino.dsn
   (parser
     (string_quote ")
     (space_in_quoted_tokens on)
@@ -27,9 +27,9 @@
     (via "Via[0-1]_45:25_mil")
     (rule
       (width 17)
-      (clearance 6.1)
-      (clearance 8.1 (type default_smd))
-      (clearance 1.5 (type smd_smd))
+      (clearance 10.1)
+      (clearance 12.1 (type default_smd))
+      (clearance 2.5 (type smd_smd))
     )
   )
   (placement

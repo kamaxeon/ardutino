@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CVpcb (20090216-final) date = mié 02 feb 2011 03:15:34 WET
+Cmp-Mod V01 Created by CVpcb (20090216-final) date = mié 02 feb 2011 11:32:51 WET
 
 BeginCmp
 TimeStamp = /4D48BD11;
@@ -11,7 +11,7 @@ BeginCmp
 TimeStamp = /4D48B91E;
 Reference = CL1;
 ValeurCmp = DS1307SO8;
-IdModule  = 8DIPCMS;
+IdModule  = DIP-8__300;
 EndCmp
 
 BeginCmp
