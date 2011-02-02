@@ -1,4 +1,18 @@
-Cmp-Mod V01 Created by CVpcb (20090216-final) date = dom 23 ene 2011 11:10:52 WET
+Cmp-Mod V01 Created by CVpcb (20090216-final) date = mié 02 feb 2011 03:15:34 WET
+
+BeginCmp
+TimeStamp = /4D48BD11;
+Reference = BT1;
+ValeurCmp = BATTERY;
+IdModule  = CR1220;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D48B91E;
+Reference = CL1;
+ValeurCmp = DS1307SO8;
+IdModule  = 8DIPCMS;
+EndCmp
 
 BeginCmp
 TimeStamp = /4D2623E2;
@@ -18,13 +32,6 @@ BeginCmp
 TimeStamp = /4D237828;
 Reference = P1;
 ValeurCmp = SERIAL;
-IdModule  = PA_4x1;
-EndCmp
-
-BeginCmp
-TimeStamp = /4D237A43;
-Reference = P2;
-ValeurCmp = RELOJ;
 IdModule  = PA_4x1;
 EndCmp
 
@@ -148,6 +155,20 @@ IdModule  = R3;
 EndCmp
 
 BeginCmp
+TimeStamp = /4D48BBDE;
+Reference = R5;
+ValeurCmp = 2.2K;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D48BC08;
+Reference = R6;
+ValeurCmp = 2.2K;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
 TimeStamp = /4D263AC0;
 Reference = RL1;
 ValeurCmp = TEST._C1;
@@ -183,10 +204,17 @@ IdModule  = relay-FINDER-30.22;
 EndCmp
 
 BeginCmp
-TimeStamp = /4D23B807;
+TimeStamp = /4D3C0C7C;
 Reference = SHIELD1;
 ValeurCmp = ARDUINO_MEGA_SHIELD;
 IdModule  = ARDUINO_MEGA_SHIELD;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D48BB07;
+Reference = X1;
+ValeurCmp = CRYSTAL;
+IdModule  = crystal-TC26H;
 EndCmp
 
 EndListe
