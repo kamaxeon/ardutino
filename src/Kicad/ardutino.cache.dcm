@@ -1,4 +1,8 @@
-EESchema-DOCLIB  Version 2.0  mié 02 feb 2011 12:30:17 WET
+EESchema-DOCLIB  Version 2.0  mar 15 feb 2011 14:57:16 WET
+#
+$CMP C
+D Condensateur non polarise
+$ENDCMP
 #
 $CMP CONN_2
 D Symbole general de connecteur
