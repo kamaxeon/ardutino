@@ -1,4 +1,4 @@
-PCBNEW-BOARD Version 1 date vie 18 feb 2011 15:13:27 WET
+PCBNEW-BOARD Version 1 date mié 23 nov 2011 12:01:03 WET
 
 $GENERAL
 LayerCount 2
@@ -6,7 +6,7 @@ Ly 1FFF8001
 Links 83
 NoConn 0
 Di 16924 11424 85576 52576
-Ndraw 53
+Ndraw 54
 Ntrack 257
 Nzone 4318
 Nmodule 35
@@ -16,7 +16,7 @@ $EndGENERAL
 $SHEETDESCR
 Sheet A4 11700 8267
 Title "Ardutino 2.0"
-Date "18 feb 2011"
+Date "23 nov 2011"
 Rev "4"
 Comp "Israel Santana"
 Comment1 ""
@@ -2707,6 +2707,11 @@ Po 0 0
 $EndPAD
 $EndMODULE  SparkFun-PAD.03X.03
 $TEXTPCB
+Te "2.0"
+Po 30500 17000 1200 1600 240 0
+De 21 1 0 Italic
+$EndTEXTPCB
+$TEXTPCB
 Te "CR1220"
 Po 83000 48000 600 800 120 900
 De 21 1 0 Normal
@@ -2852,8 +2857,8 @@ Po 45000 13500 300 400 60 900
 De 21 1 0 Normal
 $EndTEXTPCB
 $TEXTPCB
-Te "Ardutino 2.0"
-Po 30000 14000 1200 1600 240 0
+Te "Ardutino"
+Po 27500 14000 1200 1600 240 0
 De 21 1 0 Italic
 $EndTEXTPCB
 $TEXTPCB
