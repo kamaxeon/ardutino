@@ -1,11 +1,11 @@
-PCBNEW-BOARD Version 1 date mié 23 nov 2011 12:01:03 WET
+PCBNEW-BOARD Version 1 date lun 16 abr 2012 14:07:48 WEST
 
 $GENERAL
 LayerCount 2
 Ly 1FFF8001
 Links 83
 NoConn 0
-Di 16924 11424 85576 52576
+Di 16924 11424 84576 52576
 Ndraw 54
 Ntrack 257
 Nzone 4318
@@ -16,7 +16,7 @@ $EndGENERAL
 $SHEETDESCR
 Sheet A4 11700 8267
 Title "Ardutino 2.0"
-Date "23 nov 2011"
+Date "16 apr 2012"
 Rev "4"
 Comp "Israel Santana"
 Comment1 ""
@@ -2713,7 +2713,7 @@ De 21 1 0 Italic
 $EndTEXTPCB
 $TEXTPCB
 Te "CR1220"
-Po 83000 48000 600 800 120 900
+Po 71500 47000 600 800 120 0
 De 21 1 0 Normal
 $EndTEXTPCB
 $TEXTPCB
