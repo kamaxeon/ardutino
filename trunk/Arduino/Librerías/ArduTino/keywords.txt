@@ -1,0 +1,23 @@
+#######################################
+# Syntax Coloring Map Camara
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Camara   				KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+leerTemperatura  		KEYWORD2
+leerHumedad 		 	KEYWORD2
+apagar					KEYWORD2
+leerEstado		   		KEYWORD2
+comprobarCambioEstado	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
