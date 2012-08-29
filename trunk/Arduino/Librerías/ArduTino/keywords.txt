@@ -11,10 +11,11 @@ Camara   				KEYWORD1
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-leerTemperatura  		KEYWORD2
-leerHumedad 		 	KEYWORD2
+obtenerTemperatura  	KEYWORD2
+obtenerHumedad 		 	KEYWORD2
 apagar					KEYWORD2
-leerEstado		   		KEYWORD2
+obtenerEstado	   		KEYWORD2
+obtenerUltimoEstado		KEYWORD2
 comprobarCambioEstado	KEYWORD2
 
 

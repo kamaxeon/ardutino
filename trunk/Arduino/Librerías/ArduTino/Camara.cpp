@@ -17,14 +17,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 // MA 02110-1301, USA.
 //
-/*
- Basado la parte de los sensores en la libería SHT1X de Jonathan Oxer
- y Maurice Ribble (también GPL)
 
- La idea de esta librería es tener centralizado lo que puede hacer una 
- cámara.
-
-*/
 
 #if (ARDUINO >= 100)
 #include <Arduino.h>
@@ -52,29 +45,14 @@ Camara::Camara(int pinEstado, int pinApagado, int pinDatosSensor, int pinRelojSe
 /* ================  Métodos Públicos ================ */
 
 
-int Camara::leerTemperatura()
+int Camara::obtenerTemperatura()
 {
-  int _val; // Raw value returned from sensor
-  float _temperature; // Temperature derived from raw value
 
-  // Conversion coefficients from SHT15 datasheet
-  const float D1 = -40.0; // for 14 Bit @ 5V
-  const float D2 = 0.01; // for 14 Bit DEGC
-
-  // Fetch raw value
-  _val = readTemperatureRaw();
-
-  // Convert raw value to degrees Celsius
-  _temperature = (_val * D2) + D1;
-
-  return (int)(_temperature);
+  return (int)(readTemperatureC());
 }
 
-/**
-* Lee la humedad y la devuelve un entero
-*/
 
-int Camara::leerHumedad()
+int Camara::obtenerHumedad()
 {
   int _val; // Raw humidity value returned from sensor
   float _linearHumidity; // Humidity with linear correction applied
@@ -101,7 +79,7 @@ int Camara::leerHumedad()
   _linearHumidity = C1 + C2 * _val + C3 * _val * _val;
 
   // Get current temperature for humidity correction
-  _temperature = leerTemperatura();
+  _temperature = readTemperatureC();
 
   // Correct humidity value for current temperature
   _correctedHumidity = (_temperature - 25.0 ) * (T1 + T2 * _val) + _linearHumidity;
@@ -109,9 +87,7 @@ int Camara::leerHumedad()
   return (int)(_correctedHumidity);
 }
 
-/**
-* Apaga la cámara, se hace poniendo un pin activo durante 3 segundos
-*/
+
 void Camara::apagar()
 {
 	pinMode(_pinApagado, OUTPUT); // Ponemos el pin de salida
@@ -120,10 +96,8 @@ void Camara::apagar()
 	delay(3000);
 	digitalWrite(_pinApagado, LOW);
 }
-/**
-* Comprueba el estado de la cámara, devuelve true si está encendia
-* y false si está apagada
-*/
+
+
 bool Camara::leerEstado()
 {
 	pinMode(_pinEstado, INPUT); // Ponemos el pin de entrada
@@ -143,10 +117,7 @@ bool Camara::leerEstado()
 	
 }
 
-/**
-* Comprueba los cambios estado de la cámara, devuelve true si ha
-* cambiado, y false si el estado es igual al anterior
-*/
+
 bool comprobarCambioEstado()
 {
 	bool estadoNuevo; // Variable para comparar
@@ -165,12 +136,34 @@ bool comprobarCambioEstado()
 	_estadoAntiguo = estadoNuevo; // Guardamos el nuevo estado
 }
 
+bool comprobarUltimoEstado();
+{
+	return _estadoAntiguo;
+}
+
 /* ================ Private methods ================ */
-
-
 /* 
  * Copiado directamente del original SHT1X
  */
+ 
+float Camara::readTemperatureC()
+{
+  int _val; // Raw value returned from sensor
+  float _temperature; // Temperature derived from raw value
+
+  // Conversion coefficients from SHT15 datasheet
+  const float D1 = -40.0; // for 14 Bit @ 5V
+  const float D2 = 0.01; // for 14 Bit DEGC
+
+  // Fetch raw value
+  _val = readTemperatureRaw();
+
+  // Convert raw value to degrees Celsius
+  _temperature = (_val * D2) + D1;
+
+  return (_temperature);
+}
+
 /**
 * Reads the current raw temperature value
 */
