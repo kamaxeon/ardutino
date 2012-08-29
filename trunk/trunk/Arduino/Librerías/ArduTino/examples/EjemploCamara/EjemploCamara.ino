@@ -34,6 +34,8 @@ String textoEstado;
 boolean estado;
 boolean cambioEstado;
 String textoCambioEstado;
+boolen ultimoEstado;
+String textoUltimoEstado;
 
 void setup()
 {
@@ -45,9 +47,10 @@ void setup()
 void loop()
 {
 	// Recogemos los valores
-	temperatura 	= camara.leerTemperatura();
-	humedad 		= camara.leerHumedad();
-	estado			= camara.leerEstado();
+	temperatura 	= camara.obtenerTemperatura();
+	humedad 		= camara.obtenerHumedad();
+	estado			= camara.obtenerEstado();
+	ultimoEstado	= camara.obenerUltimoEstado();
 	cambioEstado	= camara.comprobarCambioEstado();
 	if ( estado == true )
 	{
@@ -64,13 +67,23 @@ void loop()
 	}
 	else
 	{
-		textoCambioEstado = "El estado de la camara no ha cambiado"
+		textoCambioEstado = "El estado de la camara no ha cambiado";
 	}
-	
+
+	if (ultimoEstado == true)
+	{
+		textoUltimoEstado = "encendida";
+	}
+	else
+	{
+		textoUltimoEstado = "apagada";
+	}
 	Serial.print("Temperatura: ");
 	Serial.println(temperatura);
 	Serial.print("Humedad: ");
 	Serial.println(humedad);
+	Serial.print("El ultimo estado conocido de la camara era ");
+	Serial.println(textoUltimoEstado);
 	Serial.print("Estado: camara ");
 	Serial.println(textoEstado);
 	Serial.println(textoCambioEstado);
