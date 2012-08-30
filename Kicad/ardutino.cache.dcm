@@ -1,0 +1,46 @@
+EESchema-DOCLIB  Version 2.0  mar 15 feb 2011 14:57:16 WET
+#
+$CMP C
+D Condensateur non polarise
+$ENDCMP
+#
+$CMP CONN_2
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_2_V
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_3
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_4
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_4_V
+D Symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP LED
+K LED
+$ENDCMP
+#
+$CMP PA_16x1
+D Pin header 16 x 1 pins - Generated with paNxN
+K CONN ARRAY PIN HEADER PINHEAD  
+$ENDCMP
+#
+$CMP R
+D Resistance
+K R DEV
+$ENDCMP
+#
+#End Doc Library

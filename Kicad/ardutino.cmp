@@ -1,0 +1,283 @@
+Cmp-Mod V01 Genere par PcbNew le lun 12 mar 2012 00:39:36 WET
+
+BeginCmp
+TimeStamp = 4D2655D2
+Path = /4D2655D2
+Reference = P14;
+ValeurCmp = P_C2;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D265576
+Path = /4D265576
+Reference = P13;
+ValeurCmp = P_C1;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D263C42
+Path = /4D263C42
+Reference = P11;
+ValeurCmp = GRUPO;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D263C3F
+Path = /4D263C3F
+Reference = P10;
+ValeurCmp = RED;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D263C10
+Path = /4D263C10
+Reference = P9;
+ValeurCmp = TEST._C2;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D263BD5
+Path = /4D263BD5
+Reference = P8;
+ValeurCmp = TEST._C1;
+IdModule  = bornier2_V;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D2628AC
+Path = /4D2628AC
+Reference = P5;
+ValeurCmp = SENSOR2;
+IdModule  = bornier4_V;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D262895
+Path = /4D262895
+Reference = P4;
+ValeurCmp = SENSOR1;
+IdModule  = bornier4_V;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D2623E2
+Path = /4D2623E2
+Reference = D1;
+ValeurCmp = LED_ON;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D265BE3
+Path = /4D265BE3
+Reference = DISPLAY1;
+ValeurCmp = PA_16X1;
+IdModule  = PA_16x1;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D262665
+Path = /4D262665
+Reference = P6;
+ValeurCmp = LED_AL;
+IdModule  = PA_3x1;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D25D366
+Path = /4D25D366
+Reference = P3;
+ValeurCmp = POTEN;
+IdModule  = PA_3x1;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D237828
+Path = /4D237828
+Reference = P1;
+ValeurCmp = SERIAL;
+IdModule  = PA_4x1;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D265A1F
+Path = /4D265A1F
+Reference = R4;
+ValeurCmp = 220;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D265A25
+Path = /4D265A25
+Reference = R3;
+ValeurCmp = 220;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D262383
+Path = /4D262383
+Reference = R1;
+ValeurCmp = 220;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D2655D0
+Path = /4D2655D0
+Reference = RL5;
+ValeurCmp = P_C1;
+IdModule  = relay-FINDER-30.22;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D265437
+Path = /4D265437
+Reference = P12;
+ValeurCmp = RELE4;
+IdModule  = relay-FINDER-30.22;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D267C5E
+Path = /4D267C5E
+Reference = P15;
+ValeurCmp = KEYPAD;
+IdModule  = PA_3x1;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D262A3D
+Path = /4D262A3D
+Reference = P7;
+ValeurCmp = INT_AL;
+IdModule  = PA_2x1;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D262A7E
+Path = /4D262A7E
+Reference = R2;
+ValeurCmp = 10K;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D263C40
+Path = /4D263C40
+Reference = RL4;
+ValeurCmp = GRUPO;
+IdModule  = relay_finder-95.15.2;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D263C3D
+Path = /4D263C3D
+Reference = RL3;
+ValeurCmp = RED;
+IdModule  = relay_finder-95.15.2;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D263C0E
+Path = /4D263C0E
+Reference = RL2;
+ValeurCmp = TEST._C2;
+IdModule  = relay_finder-95.15.2;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D263AC0
+Path = /4D263AC0
+Reference = RL1;
+ValeurCmp = TEST._C1;
+IdModule  = relay_finder-95.15.2;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D3C0C7C
+Path = /4D3C0C7C
+Reference = SHIELD1;
+ValeurCmp = ARDUINO_MEGA_SHIELD;
+IdModule  = ARDUINO_MEGA_SHIELD;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D48BD11
+Path = /4D48BD11
+Reference = BT1;
+ValeurCmp = BATTERY;
+IdModule  = CR1220;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D48BB07
+Path = /4D48BB07
+Reference = X1;
+ValeurCmp = CRYSTAL 32 MHz;
+IdModule  = crystal-TC26H;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D48BC08
+Path = /4D48BC08
+Reference = R6;
+ValeurCmp = 2.2K;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D48BBDE
+Path = /4D48BBDE
+Reference = R5;
+ValeurCmp = 2.2K;
+IdModule  = R3;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D493A9A
+Path = /4D493A9A
+Reference = CL1;
+ValeurCmp = DS1307;
+IdModule  = DIP-8__300;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D5A91E0
+Path = /4D5A91E0
+Reference = C1;
+ValeurCmp = 0.1 uF;
+IdModule  = C1;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D5A9C83
+Path = SparkFun-PAD-1.5X4.5
+Reference = [NoRef];
+ValeurCmp = [NoVal];
+IdModule  = SparkFun-PAD-1.5X4.5;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D5A9E60
+Path = SparkFun-PAD.03X.03
+Reference = [NoRef];
+ValeurCmp = [NoVal];
+IdModule  = SparkFun-PAD.03X.03;
+EndCmp
+
+BeginCmp
+TimeStamp = 4D5A9EEE
+Path = SparkFun-PAD.03X.03
+Reference = [NoRef];
+ValeurCmp = [NoVal];
+IdModule  = SparkFun-PAD.03X.03;
+EndCmp
+
+EndListe
