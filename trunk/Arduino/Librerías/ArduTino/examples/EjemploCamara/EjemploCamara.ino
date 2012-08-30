@@ -20,10 +20,10 @@
 
 // Definimos los pin que vamos a usar, lo definiremos como constantes
 
-const int pinEstado  			= 29;
-const int pinApagado 			= 51;
-const int pinDatosSensor		= 40;
-const int pinRelojSensor		= 44;
+const int pinEstado         = 29;
+const int pinApagado        = 51;
+const int pinDatosSensor    = 40;
+const int pinRelojSensor    = 44;
 
 
 Camara camara(pinEstado, pinApagado, pinDatosSensor, pinRelojSensor);
@@ -47,11 +47,11 @@ void setup()
 void loop()
 {
 	// Recogemos los valores
-	temperatura 	= camara.obtenerTemperatura();
-	humedad 		= camara.obtenerHumedad();
-	estado			= camara.obtenerEstado();
-	ultimoEstado	= camara.obenerUltimoEstado();
-	cambioEstado	= camara.comprobarCambioEstado();
+	temperatura   = camara.obtenerTemperatura();
+	humedad       = camara.obtenerHumedad();
+	estado        = camara.obtenerEstado();
+	ultimoEstado  = camara.obenerUltimoEstado();
+	cambioEstado  = camara.comprobarCambioEstado();
 	if ( estado == true )
 	{
 		textoEstado = "encendida";
