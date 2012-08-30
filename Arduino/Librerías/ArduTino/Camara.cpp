@@ -48,7 +48,7 @@ Camara::Camara(int pinEstado, int pinApagado, int pinDatosSensor, int pinRelojSe
 int Camara::obtenerTemperatura()
 {
 
-  return (int)(readTemperatureC());
+  return (int)round(readTemperatureC());
 }
 
 
@@ -84,7 +84,7 @@ int Camara::obtenerHumedad()
   // Correct humidity value for current temperature
   _correctedHumidity = (_temperature - 25.0 ) * (T1 + T2 * _val) + _linearHumidity;
 
-  return (int)(_correctedHumidity);
+  return (int)round((_correctedHumidity));
 }
 
 
@@ -109,22 +109,31 @@ bool Camara::leerEstado()
 	if ( lectura == HIGH )
 	{
 		return true; // la cámara está encendida
+    _estadoAntiguo = true; // cambiamos el estado
 	}
 	else
 	{
 		return false; // la cámara está apagada
+    _estadoAntiguo = false; // cambiamos el estado
 	}
-	
+
 }
 
+
+bool obtenerUltimoEstado();
+{
+	return _estadoAntiguo;
+}
 
 bool comprobarCambioEstado()
 {
 	bool estadoNuevo; // Variable para comparar
+  bool estadoAux;
+  estadoAux = obtenerUltimoEstado();
 
 	estadoNuevo = leerEstado();
 
-	if (estadoNuevo != _estadoAntiguo)
+	if (estadoNuevo != estadoAux)
 	{
 		return true;
 	}
@@ -132,14 +141,9 @@ bool comprobarCambioEstado()
 	{
 		return false;
 	}
-
-	_estadoAntiguo = estadoNuevo; // Guardamos el nuevo estado
 }
 
-bool comprobarUltimoEstado();
-{
-	return _estadoAntiguo;
-}
+
 
 /* ================ Private methods ================ */
 /* 

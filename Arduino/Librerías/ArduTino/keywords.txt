@@ -6,18 +6,28 @@
 # Datatypes (KEYWORD1)
 #######################################
 
+# Cámara
 Camara   				KEYWORD1
+
+# Teclado
+Teclado         KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-obtenerTemperatura  	KEYWORD2
-obtenerHumedad 		 	KEYWORD2
-apagar					KEYWORD2
-obtenerEstado	   		KEYWORD2
-obtenerUltimoEstado		KEYWORD2
-comprobarCambioEstado	KEYWORD2
 
+# Cámara
+obtenerTemperatura  	  KEYWORD2
+obtenerHumedad 		 	    KEYWORD2
+apagar					        KEYWORD2
+obtenerEstado	   		    KEYWORD2
+obtenerUltimoEstado	  	KEYWORD2
+comprobarCambioEstado 	KEYWORD2
+
+#Teclado
+obtenerTeclaActual      KEYWORD2
+obtenerUltimaTecla      KEYWORD2
+comprobarPulsacionNueva KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
