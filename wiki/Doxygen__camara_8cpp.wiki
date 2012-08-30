@@ -1,0 +1,42 @@
+#summary Documentation for the Camara.cpp file
+
+= Camara.cpp =
+
+
+
+== Functions ==
+
+bool comprobarCambioEstado()
+  **
+bool comprobarUltimoEstado()
+  **
+
+== Detailed Description ==
+
+
+
+
+== Function Documentation ==
+
+{{{
+#bool comprobarCambioEstado   (
+  )
+}}}
+  
+  
+
+*Returns*:
+  And a return value!
+
+{{{
+#bool comprobarUltimoEstado   (
+  )
+}}}
+  
+  
+
+*Returns*:
+  And a return value!
+
+---
+|| [Doxygen Main Page] || [Doxygen_files Files] ||
