@@ -25,7 +25,6 @@ obtenerUltimoEstado	  	KEYWORD2
 comprobarCambioEstado 	KEYWORD2
 
 #Teclado
-obtenerTeclaActual      KEYWORD2
 obtenerUltimaTecla      KEYWORD2
 comprobarPulsacionNueva KEYWORD2
 

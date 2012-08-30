@@ -46,10 +46,7 @@ class Teclado
 		 */
 		Teclado(int pinKeypad, int valoresKyepad[]);
 
-		/** Obtiene la tecla pulsada actulamente
-		 * @return un entero con el valor
-		 */
-		int obtenerTeclaActual();
+
 
 		/** Obtiene la última tecla pulsada sin obtener la actual
 		 * @return un entero con el valor
@@ -63,6 +60,7 @@ class Teclado
 		bool comprobarPulsacionNueva();
 
 	private:
+		int obtenerTeclaActual();
     int convertirADC(unsigned int valorAnalogico);
 		int _pinKeypad;
 		int _ultimaTecla;
