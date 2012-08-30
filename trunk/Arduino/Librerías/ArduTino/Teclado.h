@@ -37,26 +37,14 @@ class Teclado
 {
 
 	public:
-		/** Valores que tomará para el teclado
-		 * 0 -> Izquierda
-		 * 1 -> Derecha
-		 * 2 -> Arriba
-		 * 3 -> Abajo
-		 * 4 -> Intro
-		 */
-		enum Tecla
-		{
-			Izquierda,
-			Derecha,
-			Arriba,
-			Abajo,
-			Intro
-		};
-
-		/** Inicializa el keypad del secadero
+		/** Inicializa el keypad del ArduTino que controla los secadero
 		 * @param pinKeypad
+     * @param valoresKeypad, es un vector con los valores que devuelve
+     * el ping dependiendo de la tecla pulsada
+     * @warning Ningún valor del Keypad analógico puede ser superior a
+     * 1024
 		 */
-		Teclado(int pinKeypad);
+		Teclado(int pinKeypad, int valoresKyepad[]);
 
 		/** Obtiene la tecla pulsada actulamente
 		 * @return un entero con el valor
@@ -75,8 +63,11 @@ class Teclado
 		bool comprobarPulsacionNueva();
 
 	private:
+    int convertirADC(unsigned int valorAnalogico);
 		int _pinKeypad;
 		int _ultimaTecla;
+    int _valoresKeypad[];
+    int _numeroTeclas;
 		
 	
 }
