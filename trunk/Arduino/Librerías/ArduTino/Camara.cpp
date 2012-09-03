@@ -33,12 +33,12 @@
 Camara::Camara(int pinEstado, int pinApagado, int pinDatosSensor, int pinRelojSensor)
 {
 	// El estado de la camara al iniciarse siempre es true
-	bool _estadoAntiguo = true;
+	this->_estadoAntiguo = true;
 	
-	_pinEstado	= pinEstado;
-	_pinApagado	=	pinApagado;
-	_dataPin 		= pinDatosSensor;
-	_clockPin 	= pinRelojSensor;
+	this->_pinEstado	= pinEstado;
+	this->_pinApagado	=	pinApagado;
+	this->_dataPin 		= pinDatosSensor;
+	this->_clockPin 	= pinRelojSensor;
 	
 }
 
@@ -70,10 +70,10 @@ int Camara::obtenerHumedad()
   int _gHumidCmd = 0b00000101;
 
   // Fetch the value from the sensor
-  sendCommandSHT(_gHumidCmd, _dataPin, _clockPin);
-  waitForResultSHT(_dataPin);
-  _val = getData16SHT(_dataPin, _clockPin);
-  skipCrcSHT(_dataPin, _clockPin);
+  sendCommandSHT(_gHumidCmd, this->_dataPin, this->_clockPin);
+  waitForResultSHT(this->_dataPin);
+  _val = getData16SHT(this->_dataPin, this->_clockPin);
+  skipCrcSHT(this->_dataPin, this->_clockPin);
 
   // Apply linear conversion to raw value
   _linearHumidity = C1 + C2 * _val + C3 * _val * _val;
@@ -90,48 +90,48 @@ int Camara::obtenerHumedad()
 
 void Camara::apagar()
 {
-	pinMode(_pinApagado, OUTPUT); // Ponemos el pin de salida
+	pinMode(this->_pinApagado, OUTPUT); // Ponemos el pin de salida
 	
-	digitalWrite(_pinApagado, HIGH);
+	digitalWrite(this->_pinApagado, HIGH);
 	delay(3000);
-	digitalWrite(_pinApagado, LOW);
+	digitalWrite(this->_pinApagado, LOW);
 }
 
 
-bool Camara::leerEstado()
+bool Camara::obtenerEstado()
 {
-	pinMode(_pinEstado, INPUT); // Ponemos el pin de entrada
+	pinMode(this->_pinEstado, INPUT); // Ponemos el pin de entrada
 	
 	int lectura; // Defino el valor para leer el estado del pin
 	
-	lectura = digitalRead(_pinEstado); // leo el estado del pin
+	lectura = digitalRead(this->_pinEstado); // leo el estado del pin
 	
 	if ( lectura == HIGH )
 	{
 		return true; // la cámara está encendida
-    _estadoAntiguo = true; // cambiamos el estado
+    this->_estadoAntiguo = true; // cambiamos el estado
 	}
 	else
 	{
 		return false; // la cámara está apagada
-    _estadoAntiguo = false; // cambiamos el estado
+    this->_estadoAntiguo = false; // cambiamos el estado
 	}
 
 }
 
 
-bool obtenerUltimoEstado();
+bool Camara::obtenerUltimoEstado()
 {
-	return _estadoAntiguo;
+	return this->_estadoAntiguo;
 }
 
-bool comprobarCambioEstado()
+bool Camara::comprobarCambioEstado()
 {
 	bool estadoNuevo; // Variable para comparar
   bool estadoAux;
   estadoAux = obtenerUltimoEstado();
 
-	estadoNuevo = leerEstado();
+	estadoNuevo = obtenerEstado();
 
 	if (estadoNuevo != estadoAux)
 	{
@@ -178,10 +178,10 @@ float Camara::readTemperatureRaw()
   // Command to send to the SHT1x to request Temperature
   int _gTempCmd = 0b00000011;
 
-  sendCommandSHT(_gTempCmd, _dataPin, _clockPin);
-  waitForResultSHT(_dataPin);
-  _val = getData16SHT(_dataPin, _clockPin);
-  skipCrcSHT(_dataPin, _clockPin);
+  sendCommandSHT(_gTempCmd, this->_dataPin, this->_clockPin);
+  waitForResultSHT(this->_dataPin);
+  _val = getData16SHT(this->_dataPin, this->_clockPin);
+  skipCrcSHT(this->_dataPin, this->_clockPin);
 
   return (_val);
 }

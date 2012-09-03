@@ -35,7 +35,6 @@
 
 class Teclado
 {
-
 	public:
 		/** Inicializa el keypad del ArduTino que controla los secadero
 		 * @param pinKeypad
@@ -44,9 +43,7 @@ class Teclado
      * @warning Ningún valor del Keypad analógico puede ser superior a
      * 1024
 		 */
-		Teclado(int pinKeypad, int valoresKyepad[]);
-
-
+		Teclado(int pinKeypad, int valoresKyepad[], int numeroTeclas);
 
 		/** Obtiene la última tecla pulsada sin obtener la actual
 		 * @return un entero con el valor
@@ -58,17 +55,19 @@ class Teclado
 		 * @return verdadero si hay diferencias, o falso en caso contrario
 		 */
 		bool comprobarPulsacionNueva();
-
+		
+		int obtenerTest();
+		
+		int devolverADC();
+	
 	private:
-		int obtenerTeclaActual();
-    int convertirADC(unsigned int valorAnalogico);
 		int _pinKeypad;
 		int _ultimaTecla;
-    int _valoresKeypad[];
     int _numeroTeclas;
-		
-	
-}
+    int _valoresKeypad[];
+    int obtenerTeclaActual();
+    int convertirADC(unsigned int valorAnalogico);
+};
 
 
 

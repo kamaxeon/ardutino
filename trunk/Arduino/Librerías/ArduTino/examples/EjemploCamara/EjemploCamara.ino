@@ -34,7 +34,7 @@ String textoEstado;
 boolean estado;
 boolean cambioEstado;
 String textoCambioEstado;
-boolen ultimoEstado;
+boolean ultimoEstado;
 String textoUltimoEstado;
 
 void setup()

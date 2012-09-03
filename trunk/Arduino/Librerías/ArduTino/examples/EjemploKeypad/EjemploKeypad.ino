@@ -18,14 +18,23 @@
 #include <Teclado.h>
 
 // Pin de lectura
-const int pinKeypad = 3;
+const int pinKeypad = 0;
 // Valores del teclado, siempre se debería poner un número algo mayor del
 // que nos devuelva el keypad
-int valoresAnalogicos = {50, 200, 400, 600, 800};
+int valoresAnalogicos[] = {200, 450, 800, 970, 1100};
 // Relación teclas nombre
-char* Teclas[] = {"Derecha", "Izquierda", "Arriba", "Abajo", "Intro"};
+String Teclas[] = {"Intro", "Derecha", "Arriba", "Abajo", "Izquierda"};
+// Definimos el número de teclas, también podemos poner el número
+// directamente
+int numeroTeclas = sizeof(valoresAnalogicos)/sizeof(int);
+
 // Definimos el teclado en sí
-Teclado teclado(pinKeypad, valoresAnalogicos);
+Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas);
+
+// Valor índice del vector de resultados
+int i;
+// Nombre de la tecla
+String teclaNombre;
 
 void setup()
 {
@@ -35,5 +44,17 @@ void setup()
 
 void loop()
 {
-  if (teclado.comprobarPulsacionNueva);
+  if (teclado.comprobarPulsacionNueva())
+  {
+		i = teclado.obtenerUltimaTecla();
+		teclaNombre = Teclas[i];
+		Serial.print("La tecla pulsada es ");
+		Serial.println(teclaNombre);
+	}
+	else
+	{
+		Serial.println("No se ha pulsado ninguna tecla");
+	}	
+	
+	delay(1000);
 }

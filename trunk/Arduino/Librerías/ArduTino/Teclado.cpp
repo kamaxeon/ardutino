@@ -22,21 +22,30 @@
  * Macro para saber la longitud del vector de valores analogicos 
  */
 
-#define length(_valoresKeypad) (sizeof(_valoresKeypad)/sizeof( *_valoresKeypad))
+
+#if (ARDUINO >= 100)
+#include <Arduino.h>
+#else
+#include <WProgram.h>
+#endif
 
 #include "Teclado.h"
 
 
 /* ================  Constructor ================ */
 
-Teclado::Teclado(int pinKeypad)
+Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas)
 {
 	
-	_pinKeypad	      = pinKeypad;
-  _valoresKeypad[]  = valoresKeypad[];
-  _numeroTeclas     = sizeof _valoresKeypad/sizeof valoresKeypad[0];
+	this->_pinKeypad	      = pinKeypad;
+  this->_numeroTeclas     = numeroTeclas;
+  for (int i = 0; i < this->_numeroTeclas ; i++)
+	{
+		this->_valoresKeypad[i] = valoresKeypad[i];
+	}
+	
   // Pongo un valor alto para que pueda recoger la primera pulsación
-  _ultimaTecla      = 99 ;
+  this->_ultimaTecla      = 99 ;
   
 	
 }
@@ -44,17 +53,17 @@ Teclado::Teclado(int pinKeypad)
 /* ================  Métodos Públicos ================ */
 
 
-int obtenerUltimaTecla()
+int Teclado::obtenerUltimaTecla()
 {
-  return _ultimaTecla;
+  return this->_ultimaTecla;
 }
 
-bool comprobarPulsacionNueva()
+bool Teclado::comprobarPulsacionNueva()
 {
   int nuevaTecla;
   int auxTecla;
 
-  auxTecla = _obtenerUltimaTecla();
+  auxTecla = obtenerUltimaTecla();
   nuevaTecla = obtenerTeclaActual();
 
   // Compruebo si ha cambiado la tecla
@@ -87,30 +96,41 @@ bool comprobarPulsacionNueva()
 }
 
 
+int Teclado::obtenerTest()
+{
+	return obtenerTeclaActual();
+}
+
+int devolverADC()
+{
+  unsigned int valorAnalogico; // Defino una variable para la lectura
+  valorAnalogico = analogRead(_pinKeypad); // Recojo la lectura del pin
+  return valoresAnalogico;
+}
 /* ================  Métodos Privados ================ */
 
-int obtenerTeclaActual()
+int Teclado::obtenerTeclaActual()
 {
   unsigned int valorAnalogico; // Defino una variable para la lectura
   valorAnalogico = analogRead(_pinKeypad); // Recojo la lectura del pin
 
   // Devuelvo el valor convirtiendo de analógico a la posición del vector
-  _ultimaTecla = convertirADC(unsigned int valorAnalogico);
-  return _ultimaTecla;
+  this->_ultimaTecla = convertirADC(valorAnalogico);
+  return this->_ultimaTecla;
 }
 
-int convertirADC(unsigned int valorAnalogico)
+int Teclado::convertirADC(unsigned int valorAnalogico)
 {
   int i;
-  for (i = 0 ; i < _numeroTeclas; i++)
+  for (i = 0 ; i < this->_numeroTeclas; i++)
   {
-    if (valorAnalogico < valoresKeypad[i])
+    if (valorAnalogico < this->_valoresKeypad[i])
     {
       return i;
     }
   }
 
-  if (i >= _numeroTeclas)
+  if (i >= this->_numeroTeclas)
   {
     return -1; // No pulsación no ha sido correcta
   }
