@@ -51,10 +51,5 @@ void loop()
 		Serial.print("La tecla pulsada es ");
 		Serial.println(teclaNombre);
 	}
-	else
-	{
-		Serial.println("No se ha pulsado ninguna tecla");
-	}	
-	
-	delay(1000);
+	delay(200);
 }

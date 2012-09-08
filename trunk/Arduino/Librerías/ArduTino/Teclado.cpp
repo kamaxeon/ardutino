@@ -36,21 +36,22 @@
 
 Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas)
 {
-	
+	int i;
 	this->_pinKeypad	      = pinKeypad;
   this->_numeroTeclas     = numeroTeclas;
-  for (int i = 0; i < this->_numeroTeclas ; i++)
+  for (i = 0; i < numeroTeclas ; i++)
 	{
-		this->_valoresKeypad[i] = valoresKeypad[i];
+		this->_valoresKeypad[i] = *(valoresKeypad + i);
 	}
 	
   // Pongo un valor alto para que pueda recoger la primera pulsación
-  this->_ultimaTecla      = 99 ;
+  this->_ultimaTecla      = 101 ;
   
 	
 }
 
 /* ================  Métodos Públicos ================ */
+
 
 
 int Teclado::obtenerUltimaTecla()
@@ -60,54 +61,65 @@ int Teclado::obtenerUltimaTecla()
 
 bool Teclado::comprobarPulsacionNueva()
 {
-  int nuevaTecla;
-  int auxTecla;
+	// Compruebo si hay una tecla pulsada primero
+	if (comprobarPulsacion())
+	{
+		int nuevaTecla;
+		int auxTecla;
 
-  auxTecla = obtenerUltimaTecla();
-  nuevaTecla = obtenerTeclaActual();
+		auxTecla = obtenerUltimaTecla();
+		nuevaTecla = obtenerTeclaActual();
 
-  // Compruebo si ha cambiado la tecla
-  if (nuevaTecla != auxTecla)
-  {
-    // Espero un tiempo prudencial y vuelvo a probar
-    delay(50);
-    nuevaTecla = obtenerTeclaActual();
-    delay(50);
-    if ( nuevaTecla != auxTecla)
-    {
-      if ( nuevaTecla >=0)
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
-    }
-    else
-    {
-      return false;
-    }
-  }
-  else
-  {
-    return false;  
-  }
+		// Compruebo si ha cambiado la tecla
+		if (nuevaTecla != auxTecla)
+		{
+			// Espero un tiempo prudencial y vuelvo a probar
+			delay(10);
+			nuevaTecla = obtenerTeclaActual();
+			if ( nuevaTecla != auxTecla)
+			{
+				if ( nuevaTecla >=0)
+				{
+					return true;
+				}
+			}
+		}
+		else
+		{
+			return false;  
+		}
+	}
+	else
+	{
+		// Para liberar la posición de última tecla cuando se libera
+		this->_ultimaTecla = 101;
+		return false;
+	}
 }
 
 
-int Teclado::obtenerTest()
+
+
+/* ================  Métodos Privados ================ */
+
+bool Teclado::comprobarPulsacion()
 {
-	return obtenerTeclaActual();
+	if (obtenerADC() < 50)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
-int devolverADC()
+int Teclado::obtenerADC()
 {
   unsigned int valorAnalogico; // Defino una variable para la lectura
   valorAnalogico = analogRead(_pinKeypad); // Recojo la lectura del pin
-  return valoresAnalogico;
+  return valorAnalogico;
 }
-/* ================  Métodos Privados ================ */
 
 int Teclado::obtenerTeclaActual()
 {
@@ -119,12 +131,14 @@ int Teclado::obtenerTeclaActual()
   return this->_ultimaTecla;
 }
 
-int Teclado::convertirADC(unsigned int valorAnalogico)
+
+
+int Teclado::convertirADC(int valorAnalogico)
 {
   int i;
   for (i = 0 ; i < this->_numeroTeclas; i++)
   {
-    if (valorAnalogico < this->_valoresKeypad[i])
+    if (valorAnalogico < _valoresKeypad[i])
     {
       return i;
     }
