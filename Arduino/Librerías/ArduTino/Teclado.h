@@ -57,9 +57,10 @@ class Teclado
 		bool comprobarPulsacionNueva();
 
 		
-		int convertirADC(int valorAnalogico);
+
 	
 	private:
+		int convertirADC(int valorAnalogico);
 		int obtenerADC();
 		bool comprobarPulsacion();
 		int _pinKeypad;
