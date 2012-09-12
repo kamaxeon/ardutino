@@ -66,7 +66,8 @@ class Teclado
 		int _pinKeypad;
 		int _ultimaTecla;
     int _numeroTeclas;
-    int _valoresKeypad[300]; //Máximo numero de teclas admitidas
+    int * _valoresKeypad;
+    //~ int _valoresKeypad[300]; //Máximo numero de teclas admitidas
     int obtenerTeclaActual();
     //~ int convertirADC(unsigned int valorAnalogico);
 };
