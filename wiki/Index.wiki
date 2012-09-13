@@ -25,4 +25,8 @@ Para la realización del proyecto se ha contado con componentes estándar de baj
 
  * *Relés*: Relés varios para convertir de 12/24 V a 5 V (comunicación del !ArduTino con las cámaras, red eléctrica, y grupo electrógeno).
 
- * *Reloj*: Con el fin de guardar la hora, se añade un DS1307 para almacenar la hora, aún cuando apaguemos el ArduTino,  
+ * *Reloj*: Con el fin de guardar la hora, se añade un DS1307 para almacenar la hora, aún cuando apaguemos el ArduTino.
+
+===Hardware diseñado===
+
+Con el fin de que la implementación final, puesta en marcha y futuro mantenimiento sea lo más fácil posible se ha diseñado un placa para unir todos los componentes que son parte de la solución. Esta ha sido diseñada también usando Software Libre con Kicad. 
