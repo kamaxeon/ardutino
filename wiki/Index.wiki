@@ -1,5 +1,5 @@
 =Índice=
----_
+----
 El proyecto se divide en varios aspectos.
 
 ==Hardware==
