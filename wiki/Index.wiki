@@ -21,8 +21,8 @@ Para la realización del proyecto se ha contado con componentes estándar de baj
 
  * *Modem*: Un modem siemens tc 35 (debe funcionar con otros AT con ligeras variaciones)
 
- * *Serial*: Un puerto serie basado en Maxim MAX232 para comunicar el ArduTino con el Modem para el envío de alertas.
+ * *Serial*: Un puerto serie basado en Maxim MAX232 para comunicar el !ArduTino con el Modem para el envío de alertas.
 
- * *Relés*: Relés varios para convertir de 12/24 V a 5 V (comunicación del ArduTino con las cámaras, red eléctrica, y grupo electrógeno).
+ * *Relés*: Relés varios para convertir de 12/24 V a 5 V (comunicación del !ArduTino con las cámaras, red eléctrica, y grupo electrógeno).
 
  * *Reloj*: Con el fin de guardar la hora, se añade un DS1307 para almacenar la hora, aún cuando apaguemos el ArduTino,  
