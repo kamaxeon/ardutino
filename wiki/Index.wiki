@@ -2,6 +2,12 @@
 ----
 El proyecto se divide en varios aspectos.
 
+
+ * [HardwareComprado Hardware estándar]: El hardware estándar usado
+ * [HardwareDesarrollado Hardware desarrollado]: El hardware desarrollado para el proyecto
+ * [Software Software]: El software desarrollado para el mismo
+ * [ManualIndex Manual de uso]: El manual de uso del mismo
+
 ==Hardware==
 Para la realización del proyecto se ha contado con componentes estándar de bajo coste que puedan ser adquiridos en cualquier sitio. La mayoría de los componentes han sido comprados en ebay, aliexpress, ... Para el montaje se ha optado por diseñar un PCB para que sea más cómodo la puesta en marcha y el futuro mantenimiento del mismo.
 
