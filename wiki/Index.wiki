@@ -35,13 +35,13 @@ A continuación se puede ver el esquema eléctrico y el PCB en sí:
 
  * Esquema eléctrico
 
-http://code.google.com/p/ardutino/source/browse/wiki/imagenes/ArduTino_esquema_electrico.png
+http://ardutino.googlecode.com/svn/wiki/imagenes/ArduTino_esquema_electrico.png
 
  * Prototipo
 
-http://code.google.com/p/ardutino/source/browse/wiki/imagenes/Ardutino_prototipo1.jpg
+http://ardutino.googlecode.com/svn/wiki/imagenes/Ardutino_prototipo1.jpg
 
-http://code.google.com/p/ardutino/source/browse/wiki/imagenes/Ardutino_prototipo2.jpg
+http://ardutino.googlecode.com/svn/wiki/imagenes//Ardutino_prototipo2.jpg
 
 
  
