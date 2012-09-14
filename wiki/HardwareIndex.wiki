@@ -11,19 +11,33 @@ Para la realización del proyecto se ha contado con componentes estándar de baj
    * _Rango temperatura_: -40 - 128 ºC
    * _Precisión temperatura_: 0.5 ºC (a 25 ºC)
 
+http://ardutino.googlecode.com/svn/wiki/imagenes/sensor_sht1x.jpg
+
  * *Display*: Un display 20x4 basado en el chipset Hitachi HD47780
+
+http://ardutino.googlecode.com/svn/wiki/imagenes/lcd.jpg
 
  * *Teclado*: Un teclado de lectura analógica de 5 teclas (basado en resistencias)
 
+http://ardutino.googlecode.com/svn/wiki/imagenes/keypad.jpg
+
  * *Modem*: Un modem siemens tc 35 (debe funcionar con otros AT con ligeras variaciones)
+
+http://ardutino.googlecode.com/svn/wiki/imagenes/siemens.jpg
 
  * *Serial*: Un puerto serie basado en Maxim MAX232 para comunicar el !ArduTino con el Modem para el envío de alertas.
 
+http://ardutino.googlecode.com/svn/wiki/imagenes/rs232.jpg
+
  * *Relés*: Relés varios para convertir de 12/24 V a 5 V (comunicación del !ArduTino con las cámaras, red eléctrica, y grupo electrógeno).
+
+http://ardutino.googlecode.com/svn/wiki/imagenes/reles.jpg
 
  * *Reloj*: Con el fin de guardar la hora, se añade un DS1307 para almacenar la hora, aún cuando apaguemos el ArduTino.
 
-===Hardware diseñado===
+http://ardutino.googlecode.com/svn/wiki/imagenes/ds1307.jpg
+
+===Hardware desarrollado===
 
 Con el fin de que la implementación final, puesta en marcha y futuro mantenimiento sea lo más fácil posible se ha diseñado un placa para unir todos los componentes que son parte de la solución. Esta ha sido diseñada también usando Software Libre con Kicad.
 
