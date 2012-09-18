@@ -39,6 +39,8 @@ Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas)
 	int i;
 	this->_pinKeypad	      = pinKeypad;
   this->_numeroTeclas     = numeroTeclas;
+  // Pongo un valor alto para que pueda recoger la primera pulsación
+  this->_ultimaTecla      = 101 ;
   this->_valoresKeypad    = new int[numeroTeclas];
   int *_cursor = this->_valoresKeypad;
   for (i = 0; i < numeroTeclas ; i++)
@@ -46,9 +48,12 @@ Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas)
 		*_cursor = *(valoresKeypad + i);
     _cursor++;
 	}
-	
-  // Pongo un valor alto para que pueda recoger la primera pulsación
-  this->_ultimaTecla      = 101 ;
+  //~ for (i = 0; i < numeroTeclas ; i++)
+	//~ {
+		//~ this->_valoresKeypad[i] = *(valoresKeypad + i);
+	//~ }
+  
+
   
 	
 }
