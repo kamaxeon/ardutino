@@ -32,22 +32,23 @@
 #include <WProgram.h>
 #endif
 #include "Menu.h"
+#include <WString.h>
 
 /* ================  Constructor ================ */
 
-Menu:Menu(String nombre, int id, Menu &menuAnterior=NULL);
+Menu::Menu(String nombre, int id)
 {
-  this->_nombre     = nombre;
-  this->_id         = id;
-  puedeEntrar = NULL;
+	this->_nombre			= nombre;
+	this->_id					= id;
+	puedeEntrar				= NULL;
+}
 
-  // Si existe pasamos algo lo tomará como anterior, en caso contrario
-  // pensará que es el primer elemento, no hay que hacer nada para ponerlo
-  // a NULL el puntero ya lo está.
-  if (menuAnterior)
-  {
-    ponerSiguiente(Menu &menuAnterior, Menu *this);
-  }
+Menu::Menu(String nombre, int id, Menu &menuAnterior)
+{
+	this->_nombre			= nombre;
+	this->_id					= id;
+	puedeEntrar				= NULL;
+	menuAnterior.ponerSiguiente(menuAnterior, *this);
 }
 
 Menu::Menu(String nombre,boolean (*c)(Menu&))
@@ -76,7 +77,7 @@ void Menu::ponerHijo(Menu &menuHijo)
 {
   if (hijo)
   {
-    hijo->ponerHermano(menuHijo, *this):
+		hijo->ponerHermano(menuHijo, *this);
   }
   else
   {
@@ -117,7 +118,7 @@ Menu * Menu::obtenerPadre()
 {
   if (padre)
   {
-    return parent;
+    return padre;
   }
   else
   {
@@ -146,12 +147,7 @@ void Menu::ponerPadre(Menu &menuPadre)
 
 void Menu::ponerSiguiente(Menu &menuAnterior, Menu &menuSiguiente)
 {
-  // Si por casualidad ya apunta a otro lado que no sea null no hacemos
-  // nada
-  if ! (menuAnterior->siguiente)
-  {
-    menuAnterior->siguiente = &menuSiguiente;
-  }
+    *(menuAnterior->siguiente) = &menuSiguiente;
 }
 
 void Menu::ponerHermano(Menu &menuHermano, Menu &menuPadre)
@@ -163,6 +159,6 @@ void Menu::ponerHermano(Menu &menuHermano, Menu &menuPadre)
   else
  {
   hermano=&menuHermano;
-  hermano->ponerPadre(&menuPadre);
+  hermano->ponerPadre(menuPadre);
  }
 }

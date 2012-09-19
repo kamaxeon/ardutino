@@ -1,4 +1,5 @@
-// Librería Teclado
+
+// // Librería Teclado
 // 
 // Copyright 2012 Israel Santana <isra@miscorreos.org>
 // 
@@ -17,11 +18,12 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 // MA 02110-1301, USA.
 //
-
-/*
- * Macro para saber la longitud del vector de valores analogicos 
- */
-
+/** @brief Clase para usar el keypad del panel de control del secadero
+ *
+ *
+ * @author Israel Santana <isra@miscorreos.org>
+ * @date Agosto 2012
+*/
 
 #if (ARDUINO >= 100)
 #include <Arduino.h>

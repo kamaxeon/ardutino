@@ -43,18 +43,18 @@ class Menu
     * @param id, es el identificador que se usa para localizar el menu
     * por un id
     */
-    //~ Menu(String nombre, int id);
-//~ 
-//~ 
-    //~ /** Constructor del menu, usado cuando se quiere crear una lista
-     //~ * entre todos los elementos del menú
-     //~ * @param nombre, es el texto que se muestra en el display
-     //~ * @param id, es el identificador que se usa para localizar el menu
-     //~ * por un id
-     //~ * @param menuAnterior, es el menu anterior para enlazarlo con este
-     //~ * @warning menuAnterior siente debe ser el último elemento de la lista
-     //~ */
-    Menu(String nombre, int id, Menu &menuAnterior=NULL);
+    Menu (String nombre, int id);
+
+
+    /** Constructor del menu, usado cuando se quiere crear una lista
+     * entre todos los elementos del menú
+     * @param nombre, es el texto que se muestra en el display
+     * @param id, es el identificador que se usa para localizar el menu
+     * por un id
+     * @param menuAnterior, es el menu anterior para enlazarlo con este
+     * @warning menuAnterior siente debe ser el último elemento de la lista
+     */
+    //Menu (String nombre,int id, Menu &menuAnterior);
 
     /** Contrucye el menú con una función determinada
      * @param nombre, es el texto que se muestra en el display
@@ -114,7 +114,14 @@ class Menu
      * @return puntero al siguiente menú
      */
     Menu * obtenerSiguiente();
-    
+
+    /** Función que asigna el siguiente al menú anterior
+     * @param menuAnterior, menú anterior que debe ser siguiente=NULL
+     * @param menuSiguiente, menú que pasará a ser el último
+     */
+    //void ponerSiguiente(Menu &menuAnterior, Menu &menuSiguiente);
+		void ponerSiguiente(Menu &menuSiguiente);
+  
   private:
     String _nombre; // El texto a mostrar en el LCD
     int _id; // El identificador del menú
@@ -128,18 +135,13 @@ class Menu
      */
     void ponerPadre(Menu &menuPadre);
 
-    /** Función que asigna el siguiente al menú anterior
-     * @param menuAnterior, menú anterior que debe ser siguiente=NULL
-     * @param menuSiguiente, menú que pasará a ser el último
-     */
-    void ponerSiguiente(Menu &menuAnterior, Menu &menuSiguiente);
 
     /** Función que asigna un menú hermano con un padre en común. En
      * caso de tener ya un hermano, le pregunta para añadirlo.
      */
     void ponerHermano(Menu &menuHermano, Menu &menuPadre);
     
-}
+};
 
 
 #endif //Menu_h
