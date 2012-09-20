@@ -12,6 +12,12 @@ Camara   				KEYWORD1
 # Teclado
 Teclado         KEYWORD1
 
+# Menú
+Menu            KEYWORD1
+
+# Menú LCD
+MenuLCD         KEYBOARD1
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
@@ -27,6 +33,17 @@ comprobarCambioEstado 	KEYWORD2
 #Teclado
 obtenerUltimaTecla      KEYWORD2
 comprobarPulsacionNueva KEYWORD2
+
+#Menú
+ponerNombre             KEYWORD2
+obtenerNombre           KEYWORD2
+obtenerId               KEYWORD2
+obtenerHijo             KEYWORD2
+obtenerHermano          KEYWORD2
+obtenerPadre            KEYWORD2
+obtenerSiguiente        KEYWORD2
+obtenerNombrePorId      KEYWORD2
+ponerNombrePorId        KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
