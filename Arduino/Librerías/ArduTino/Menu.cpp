@@ -48,7 +48,7 @@ Menu::Menu(String nombre, int id, Menu &menuAnterior)
 	this->_nombre			= nombre;
 	this->_id					= id;
 	puedeEntrar				= NULL;
-	menuAnterior.ponerSiguiente(menuAnterior, *this);
+	//menuAnterior->ponerSiguiente(menuAnterior);
 }
 
 Menu::Menu(String nombre,boolean (*c)(Menu&))
@@ -75,22 +75,22 @@ int Menu::obtenerId()
 
 void Menu::ponerHijo(Menu &menuHijo)
 {
-  if (hijo)
+  if (this->_hijo)
   {
-		hijo->ponerHermano(menuHijo, *this);
+		this->_hijo->ponerHermano(menuHijo, *this);
   }
   else
   {
-    hijo=&menuHijo;
-    hijo->ponerPadre(*this);
+    this->_hijo=&menuHijo;
+    this->_hijo->ponerPadre(*this);
   }
 }
 
 Menu * Menu::obtenerHijo(int numeroHijo)
 {
-  if (hijo)
+  if (this->_hijo)
   {
-    return hijo->obtenerHermano(numeroHijo);
+    return this->_hijo->obtenerHermano(numeroHijo);
   }
   else
   {
@@ -104,9 +104,9 @@ Menu * Menu::obtenerHermano(int numeroHermano)
   {
     return this;
   }
-  else if (hermano)
+  else if (this->_hermano)
   {
-    return hermano->obtenerHermano(numeroHermano-1);
+    return this->_hermano->obtenerHermano(numeroHermano-1);
   }
   else
   {
@@ -116,9 +116,9 @@ Menu * Menu::obtenerHermano(int numeroHermano)
 
 Menu * Menu::obtenerPadre()
 {
-  if (padre)
+  if (this->_padre)
   {
-    return padre;
+    return this->_padre;
   }
   else
   {
@@ -128,9 +128,9 @@ Menu * Menu::obtenerPadre()
 
 Menu * Menu::obtenerSiguiente()
 {
-  if (siguiente)
+  if (this->_siguiente)
   {
-    return this->siguiente;
+    return this->_siguiente;
   }
   else
   {
@@ -138,27 +138,60 @@ Menu * Menu::obtenerSiguiente()
   }
 }
 
+String Menu::obtenerNombrePorId(int id)
+{
+	Menu * menuAux;
+	menuAux = this;
+	while (menuAux != NULL)
+	{
+		if (menuAux->_id == id)
+		{
+			return menuAux->_nombre;
+			break;
+		}
+		menuAux=menuAux->_siguiente;
+	}
+	
+	return ""; // En el caso que no encuentre nada
+}
+
+void Menu::ponerNombrePorId(int id, String nuevoNombre)
+{
+	Menu * menuAux;
+	menuAux = this;
+	while (menuAux != NULL)
+	{
+		if (menuAux->_id == id)
+		{
+			Serial.println("hola");
+			menuAux->_nombre = nuevoNombre;
+			break;
+		}
+		menuAux=menuAux->_siguiente;
+	}
+}
 /* ================  Métodos Privados ================ */
 
 void Menu::ponerPadre(Menu &menuPadre)
 {
-  padre = &menuPadre;
+  this->_padre = &menuPadre;
 }
 
-void Menu::ponerSiguiente(Menu &menuAnterior, Menu &menuSiguiente)
+void Menu::ponerSiguiente(Menu &menuAnterior)
 {
-    *(menuAnterior->siguiente) = &menuSiguiente;
+    menuAnterior._siguiente = this;
 }
 
+// void Menu::ponerSiguiente(Menu &)
 void Menu::ponerHermano(Menu &menuHermano, Menu &menuPadre)
 {
-  if (hermano)
+  if (this->_hermano)
   {
-  hermano->ponerHermano(menuHermano,menuPadre);
+		ponerHermano(menuHermano,menuPadre);
   }
   else
  {
-  hermano=&menuHermano;
-  hermano->ponerPadre(menuPadre);
+  	this->_hermano=&menuHermano;
+  	ponerPadre(menuPadre);
  }
 }
