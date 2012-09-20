@@ -96,12 +96,7 @@ class Menu
       */    
     boolean (*puedeEntrar)(Menu&);
 
-     /** Función para añadir como hijo al menú, en caso que el menú
-       * actual ya tenga un hijo, se le preguntará al hijo de ponerlo
-       * como hermano
-       * @param menuHijo, el menú que se usará como menú hijo
-       */
-    void ponerHijo(Menu &menuHijo);
+
 
     /** Función que devuelve un puntero a un menú
      * @param numeroHijo, es el menú hijo, n siendo n
@@ -127,9 +122,17 @@ class Menu
      */
     Menu * obtenerSiguiente();
 
-	String obtenerNombrePorId(int id);
-	
-	void ponerNombrePorId(int id, String nuevoNombre);
+    /** Función de devuelve el texto a mostrar en el display pasando el id
+     * @param id, identificador del menú
+     * @return cadena de texto con el texto a mostrar en el display
+     */
+    String obtenerNombrePorId(int id);
+
+    /** Función para cambiar el texto a mostrar pasando el id
+     * @param id, identificador del menu
+     * @param nuevoNombre, el nuevo texto a mostrar en el display
+     */
+    void ponerNombrePorId(int id, String nuevoNombre);
 
   
   private:
@@ -152,10 +155,16 @@ class Menu
     void ponerHermano(Menu &menuHermano, Menu &menuPadre);
     
     /** Función que asigna el siguiente al menú anterior
-     * @param menuAnterior, menú anterior que debe ser siguiente=NULL
-     * @param menuSiguiente, menú que pasará a ser el último
+     * @param menuAnterior, busca a partir de este menú hasta el último
      */
     void ponerAnterior(Menu &menuAnterior);
+
+    /** Función para añadir como hijo al menú, en caso que el menú
+     * actual ya tenga un hijo, se le preguntará al hijo de ponerlo
+     * como hermano
+     * @param menuHijo, el menú que se usará como menú hijo
+     */
+    void ponerHijo(Menu &menuHijo);
 };
 
 
