@@ -54,7 +54,8 @@ class Menu
      * @param menuAnterior, es el menu anterior para enlazarlo con este
      * @warning menuAnterior siente debe ser el último elemento de la lista
      */
-    //Menu (String nombre,int id, Menu &menuAnterior);
+    Menu (String nombre,int id, Menu &menuAnterior);
+
 
     /** Contrucye el menú con una función determinada
      * @param nombre, es el texto que se muestra en el display
@@ -115,20 +116,25 @@ class Menu
      */
     Menu * obtenerSiguiente();
 
+	String obtenerNombrePorId(int id);
+	
+	void ponerNombrePorId(int id, String nuevoNombre);
+
     /** Función que asigna el siguiente al menú anterior
      * @param menuAnterior, menú anterior que debe ser siguiente=NULL
      * @param menuSiguiente, menú que pasará a ser el último
      */
     //void ponerSiguiente(Menu &menuAnterior, Menu &menuSiguiente);
-		void ponerSiguiente(Menu &menuSiguiente);
+		// void ponerSiguiente(Menu &menuSiguiente);
+	void ponerSiguiente(Menu &menuAnterior);
   
   private:
     String _nombre; // El texto a mostrar en el LCD
     int _id; // El identificador del menú
-    Menu * padre; // Menú padre, NULL si estamos en el primero (top)
-    Menu * hijo; // Primer menú hijo, NULL si no existen hijo
-    Menu * hermano; // Siguiente hermano, MULL si es el último hermano
-    Menu * siguiente; // Menú siguiente en una lista simple enlazada
+    Menu * _padre; // Menú padre, NULL si estamos en el primero (top)
+    Menu * _hijo; // Primer menú hijo, NULL si no existen hijo
+    Menu * _hermano; // Siguiente hermano, MULL si es el último hermano
+    Menu * _siguiente; // Menú siguiente en una lista simple enlazada
 
     /** Función que asigna un padre al menú
      * @param &menuPadre, es el menú que se pondrá como padre
@@ -141,6 +147,11 @@ class Menu
      */
     void ponerHermano(Menu &menuHermano, Menu &menuPadre);
     
+    /** Función que asigna el siguiente al menú anterior
+     * @param menuAnterior, menú anterior que debe ser siguiente=NULL
+     * @param menuSiguiente, menú que pasará a ser el último
+     */
+    // void ponerSiguiente(Menu &menuAnterior);
 };
 
 
