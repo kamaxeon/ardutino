@@ -43,14 +43,22 @@ Menu::Menu(String nombre, int id)
 	puedeEntrar				= NULL;
 }
 
-Menu::Menu(String nombre, int id, Menu &menuAnterior)
+Menu::Menu(String nombre, int id, Menu &menuInicial)
 {
 	this->_nombre			= nombre;
 	this->_id					= id;
 	puedeEntrar				= NULL;
-	//menuAnterior->ponerSiguiente(menuAnterior);
+	ponerAnterior(menuInicial);
 }
 
+Menu::Menu(String nombre, int id, Menu &menuInicial, Menu &menuPadre)
+{
+	this->_nombre			= nombre;
+	this->_id					= id;
+	puedeEntrar				= NULL;
+	ponerAnterior(menuInicial);
+	menuPadre.ponerHijo(*this);
+}
 Menu::Menu(String nombre,boolean (*c)(Menu&))
 {
   this->_nombre=nombre;
@@ -165,6 +173,7 @@ void Menu::ponerNombrePorId(int id, String nuevoNombre)
 		{
 			Serial.println("hola");
 			menuAux->_nombre = nuevoNombre;
+			Serial.println(menuAux->_nombre);
 			break;
 		}
 		menuAux=menuAux->_siguiente;
@@ -177,9 +186,15 @@ void Menu::ponerPadre(Menu &menuPadre)
   this->_padre = &menuPadre;
 }
 
-void Menu::ponerSiguiente(Menu &menuAnterior)
+void Menu::ponerAnterior(Menu &menuAnterior)
 {
-    menuAnterior._siguiente = this;
+	Menu * menuAux;
+	menuAux = &menuAnterior;
+	while (menuAux->_siguiente != NULL)
+	{
+		menuAux=menuAux->_siguiente;
+	}
+    menuAux->_siguiente = this;
 }
 
 // void Menu::ponerSiguiente(Menu &)
