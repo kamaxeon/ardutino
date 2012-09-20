@@ -51,10 +51,21 @@ class Menu
      * @param nombre, es el texto que se muestra en el display
      * @param id, es el identificador que se usa para localizar el menu
      * por un id
-     * @param menuAnterior, es el menu anterior para enlazarlo con este
-     * @warning menuAnterior siente debe ser el último elemento de la lista
+     * @param menuInicial, es el menu primero, a partir de ahí se llega al
+	 * último y se enlaza con este en una lista enlazada
      */
-    Menu (String nombre,int id, Menu &menuAnterior);
+    Menu (String nombre,int id, Menu &menuIncial);
+
+    /** Constructor del menu, usado cuando se quiere crear una lista
+     * entre todos los elementos del menú
+     * @param nombre, es el texto que se muestra en el display
+     * @param id, es el identificador que se usa para localizar el menu
+     * por un id
+     * @param menuInicial, es el menu primero, a partir de ahí se llega al
+	 * último y se enlaza con este en una lista enlazada
+     * @param menuPadre es el menu padre del menu que estamos creando
+     */
+    Menu (String nombre,int id, Menu &menuIncial, Menu &menuPadre);
 
 
     /** Contrucye el menú con una función determinada
@@ -120,13 +131,6 @@ class Menu
 	
 	void ponerNombrePorId(int id, String nuevoNombre);
 
-    /** Función que asigna el siguiente al menú anterior
-     * @param menuAnterior, menú anterior que debe ser siguiente=NULL
-     * @param menuSiguiente, menú que pasará a ser el último
-     */
-    //void ponerSiguiente(Menu &menuAnterior, Menu &menuSiguiente);
-		// void ponerSiguiente(Menu &menuSiguiente);
-	void ponerSiguiente(Menu &menuAnterior);
   
   private:
     String _nombre; // El texto a mostrar en el LCD
@@ -151,7 +155,7 @@ class Menu
      * @param menuAnterior, menú anterior que debe ser siguiente=NULL
      * @param menuSiguiente, menú que pasará a ser el último
      */
-    // void ponerSiguiente(Menu &menuAnterior);
+    void ponerAnterior(Menu &menuAnterior);
 };
 
 

@@ -18,8 +18,9 @@
 
 int aux;
 Menu menu("panchito", 0);
-Menu menu1("panchote", 1, menu);
-Menu menu2("lala", 2, menu1);
+Menu menu1("panchote", 1, menu, menu);
+Menu menu2("lala", 2, menu, menu);
+Menu menu12("lolo", 3, menu, menu1);
 Menu * tmpMenu;
 String texto;
 String texto2;
@@ -28,8 +29,8 @@ String t2;
 
 void setup()
 {
-	menu1.ponerSiguiente(menu);
-	menu2.ponerSiguiente(menu1);
+	//menu1.ponerSiguiente(menu);
+	//menu2.ponerSiguiente(menu1);
 	Serial.begin(9600); // Definimos el puerto serial
 	Serial.println("Arrancando el ejemplo"); // Empezamos ;-)
 	aux = menu.obtenerId();
@@ -39,6 +40,8 @@ void setup()
 	texto2 = menu1.obtenerNombre();
 	t = menu.obtenerNombrePorId(2);
 	menu.ponerNombrePorId(2, "Kalimero");
+	t2 = menu.obtenerNombrePorId(2);
+	menu.ponerHijo(menu1);
 
 }
 
