@@ -4,7 +4,9 @@
  * Copyright 2012 Israel Santana <isra@miscorreos.org>
  * 
  * Este ejemplo se ha hecho con un Arduino Mega, pero debería funcionar
- * sin problemas en otros Arduino
+ * sin problemas en otros Arduino. La versión usada es del software de
+ * Arduino es la 1.0.1, debería funcionar con cualquier versión 1.x,
+ * en versiones anteriores puede haber alguna modificación.
  * 
  * En este ejemplo se prueban todas las funcionalidades que presenta
  * la librería:
@@ -27,18 +29,26 @@ const int teclaAbajo			=	2;
 const int teclaIzquierda	=	3;
 const int teclaEnter			= 4;
 // Pin de lectura
+
 const int pinKeypad = 0;
+
 // Valores del teclado, siempre se debería poner un número algo mayor del
 // que nos devuelva el keypad
 int valoresAnalogicos[] = {50, 195, 380, 550, 790};
+
 // Relación teclas nombre
 String Teclas[] = {"Derecha", "Arriba", "Abajo", "Izquierda", "Enter"};
+
 // Definimos el número de teclas, también podemos poner el número
 // directamente
 int numeroTeclas = sizeof(valoresAnalogicos)/sizeof(int);
 
+// Aquí definimos si cuando no pulsamos ninguna tecla da 1024 ó 0
+// Verdadero cuando es 1024, falso cuando es 0
+boolean sinPulsarAbierto = true;
+
 // Definimos el teclado en sí
-Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas);
+Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas, sinPulsarAbierto);
 
 // Valor índice del vector de resultados
 int i;
@@ -144,8 +154,8 @@ void setup()
 	// Inicializamos el display
   lcd.begin(_LCD_rows,_LCD_cols);
   // Creamos los caracteres especiales
-  lcd.createChar(0,       arrow_up);    
-  lcd.createChar(1,       arrow_down); 
+  lcd.createChar(0, arrow_up);    
+  lcd.createChar(1, arrow_down); 
 	Root.display();
   // Inicalizamos el puerto de consola
   Serial.begin(9600);
@@ -156,8 +166,7 @@ void setup()
 
 void loop()
 {
-	while (analogRead(0) < 99)
-	{
+
   if (teclado.comprobarPulsacionNueva())
   {
 		i = teclado.obtenerUltimaTecla();
@@ -166,6 +175,5 @@ void loop()
 		tecla(i);
 		comprobarFuncion();
 	}
-  }	
-	delay(200);
+
 }
