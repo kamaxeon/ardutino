@@ -43,17 +43,17 @@ Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas)
   this->_numeroTeclas     = numeroTeclas;
   // Pongo un valor alto para que pueda recoger la primera pulsación
   this->_ultimaTecla      = 101 ;
-  this->_valoresKeypad    = new int[numeroTeclas];
-  int *_cursor = this->_valoresKeypad;
+  // this->_valoresKeypad    = new int[numeroTeclas];
+  // int *_cursor = this->_valoresKeypad;
+	//   for (i = 0; i < numeroTeclas ; i++)
+	// {
+	// 	*_cursor = *(valoresKeypad + i);
+	//     _cursor++;
+	// }
   for (i = 0; i < numeroTeclas ; i++)
-	{
-		*_cursor = *(valoresKeypad + i);
-    _cursor++;
-	}
-  //~ for (i = 0; i < numeroTeclas ; i++)
-	//~ {
-		//~ this->_valoresKeypad[i] = *(valoresKeypad + i);
-	//~ }
+ {
+	 this->_valoresKeypad[i] = *(valoresKeypad + i);
+ }
   
 
   
@@ -114,7 +114,7 @@ bool Teclado::comprobarPulsacionNueva()
 
 bool Teclado::comprobarPulsacion()
 {
-	if (obtenerADC() < 50)
+	if (obtenerADC() < 10)
 	{
 		return false;
 	}

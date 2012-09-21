@@ -119,8 +119,8 @@ void MenuLCD::goEnter()
         }
         else {//canEnter function not set, assume entry allowed
             goMenu(*tmp);
-            curfuncname = tmp->_nombre;
-            id = tmp->_id;
+            curfuncname = tmp->obtenerNombre();
+            id = tmp->obtenerId();
         }
     }
     else {//Child did not exist  The only time this should happen is one the back Menu item, so go back
@@ -162,7 +162,7 @@ void MenuLCD::goMenu(Menu &m)
 
 
     if(layer >= 0 && layer <5) {
-      funcname[layer-1] = curMenu->_nombre;
+      funcname[layer-1] = curMenu->obtenerNombre();
     }
 
 
@@ -190,7 +190,7 @@ void MenuLCD::display()
         do {
             lcd->setCursor(0,i-scroll);
             lcd->write(0x20);
-            lcd->print(tmp->_nombre);
+            lcd->print(tmp->obtenerNombre());
             i++;
 
         } while ((tmp=tmp->obtenerHermano(1))&&i<maxi);
@@ -202,18 +202,18 @@ void MenuLCD::display()
 
             if(curloc == 0) {
                 lcd->setCursor((cols-1),(rows-1));
-                lcd->print(arrow_down, BYTE);
+                lcd->write(arrow_down);
             }
             else if(curloc == j) {
                 lcd->setCursor((cols-1),0);
-                lcd->print(arrow_up, BYTE);
+                lcd->write(arrow_up);
             }
             else {
                 lcd->setCursor((cols-1),0);
-                lcd->print(arrow_up, BYTE);
+                lcd->write(arrow_up);
 
                 lcd->setCursor((cols-1),(rows-1));
-                lcd->print(arrow_down, BYTE);
+                lcd->write(arrow_down);
             }
         }
     }

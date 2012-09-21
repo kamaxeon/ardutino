@@ -40,7 +40,7 @@
 #endif
 
 #include "WString.h"
-#include <../Menu/Menu.h>
+#include <Menu.h>
 #include <../LiquidCrystal/LiquidCrystal.h>
 
 //# Lcd Menu 2

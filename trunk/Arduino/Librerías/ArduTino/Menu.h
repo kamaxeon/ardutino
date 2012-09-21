@@ -134,6 +134,13 @@ class Menu
      */
     void ponerNombrePorId(int id, String nuevoNombre);
 
+    /** Función para añadir como hijo al menú, en caso que el menú
+     * actual ya tenga un hijo, se le preguntará al hijo de ponerlo
+     * como hermano
+     * @param menuHijo, el menú que se usará como menú hijo
+     */
+    void ponerHijo(Menu &menuHijo);
+
   
   private:
     String _nombre; // El texto a mostrar en el LCD
@@ -159,12 +166,7 @@ class Menu
      */
     void ponerAnterior(Menu &menuAnterior);
 
-    /** Función para añadir como hijo al menú, en caso que el menú
-     * actual ya tenga un hijo, se le preguntará al hijo de ponerlo
-     * como hermano
-     * @param menuHijo, el menú que se usará como menú hijo
-     */
-    void ponerHijo(Menu &menuHijo);
+
 };
 
 
