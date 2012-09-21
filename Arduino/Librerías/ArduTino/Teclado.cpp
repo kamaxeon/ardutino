@@ -53,13 +53,29 @@ Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas)
   for (i = 0; i < numeroTeclas ; i++)
  {
 	 this->_valoresKeypad[i] = *(valoresKeypad + i);
- }
-  
-
-  
-	
+ }	
 }
 
+Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas, bool noTeclaAbierto)
+{
+	int i;
+	this->_pinKeypad	      = pinKeypad;
+  this->_numeroTeclas     = numeroTeclas;
+  // Pongo un valor alto para que pueda recoger la primera pulsación
+  this->_ultimaTecla      = 101 ;
+  this->_noTeclaAbierto   = noTeclaAbierto;
+  // this->_valoresKeypad    = new int[numeroTeclas];
+  // int *_cursor = this->_valoresKeypad;
+	//   for (i = 0; i < numeroTeclas ; i++)
+	// {
+	// 	*_cursor = *(valoresKeypad + i);
+	//     _cursor++;
+	// }
+  for (i = 0; i < numeroTeclas ; i++)
+ {
+	 this->_valoresKeypad[i] = *(valoresKeypad + i);
+ }	
+}
 /* ================  Métodos Públicos ================ */
 
 
@@ -114,14 +130,18 @@ bool Teclado::comprobarPulsacionNueva()
 
 bool Teclado::comprobarPulsacion()
 {
-	if (obtenerADC() < 10)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+  /* Dependiendo del teclado puede que cuando no pulse nada,
+   * 1.- Que se usen todas las resistencia y el valor sea 0 (aprox)
+   * 2.- Que no se use ninguna resistencia y el valor sea 1024 (aprox)
+   */
+   
+  // Segundo caso
+  int lectura = obtenerADC();
+  if ( (this->_noTeclaAbierto && lectura > 1000) || (this->_noTeclaAbierto = false && lectura < 50 ))
+  {
+    return false;
+  }
+  return true;
 }
 
 int Teclado::obtenerADC()

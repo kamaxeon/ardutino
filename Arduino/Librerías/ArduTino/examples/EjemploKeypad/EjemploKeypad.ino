@@ -4,7 +4,9 @@
  * Copyright 2012 Israel Santana <isra@miscorreos.org>
  * 
  * Este ejemplo se ha hecho con un Arduino Mega, pero debería funcionar
- * sin problemas en otros Arduino
+ * sin problemas en otros Arduino. La versión usada es del software de
+ * Arduino es la 1.0.1, debería funcionar con cualquier versión 1.x,
+ * en versiones anteriores puede haber alguna modificación.
  * 
  * En este ejemplo se prueban todas las funcionalidades que presenta
  * la librería:
@@ -19,17 +21,24 @@
 
 // Pin de lectura
 const int pinKeypad = 0;
+
 // Valores del teclado, siempre se debería poner un número algo mayor del
 // que nos devuelva el keypad
 int valoresAnalogicos[] = {200, 450, 800, 970, 1100};
+
 // Relación teclas nombre
 String Teclas[] = {"Intro", "Derecha", "Arriba", "Abajo", "Izquierda"};
+
 // Definimos el número de teclas, también podemos poner el número
 // directamente
 int numeroTeclas = sizeof(valoresAnalogicos)/sizeof(int);
 
+// Aquí definimos si cuando no pulsamos ninguna tecla da 1024 ó 0
+// Verdadero cuando es 1024, falso cuando es 0
+boolean sinPulsarAbierto = false;
+
 // Definimos el teclado en sí
-Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas);
+Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas, sinPulsarAbierto);
 
 // Valor índice del vector de resultados
 int i;

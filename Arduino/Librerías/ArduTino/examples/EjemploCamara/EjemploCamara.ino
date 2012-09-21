@@ -4,7 +4,9 @@
  * Copyright 2012 Israel Santana <isra@miscorreos.org>
  * 
  * Este ejemplo se ha hecho con un Arduino Mega, pero debería funcionar
- * sin problemas en otros Arduino
+ * sin problemas en otros Arduino. La versión usada es del software de
+ * Arduino es la 1.0.1, debería funcionar con cualquier versión 1.x,
+ * en versiones anteriores puede haber alguna modificación.
  * 
  * En este ejemplo se prueban todas las funcionalidades que presenta
  * la librería:

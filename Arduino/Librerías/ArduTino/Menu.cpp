@@ -155,7 +155,6 @@ String Menu::obtenerNombrePorId(int id)
 		if (menuAux->_id == id)
 		{
 			return menuAux->_nombre;
-			break;
 		}
 		menuAux=menuAux->_siguiente;
 	}
