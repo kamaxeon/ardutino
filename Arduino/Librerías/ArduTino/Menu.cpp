@@ -202,7 +202,7 @@ void Menu::ponerHermano(Menu &menuHermano, Menu &menuPadre)
 {
   if (this->_hermano)
   {
-		ponerHermano(menuHermano,menuPadre);
+		this->_hermano->ponerHermano(menuHermano,menuPadre);
   }
   else
  {
