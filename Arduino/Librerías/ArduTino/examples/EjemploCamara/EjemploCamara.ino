@@ -52,7 +52,7 @@ void loop()
 	temperatura   = camara.obtenerTemperatura();
 	humedad       = camara.obtenerHumedad();
 	estado        = camara.obtenerEstado();
-	ultimoEstado  = camara.obenerUltimoEstado();
+	ultimoEstado  = camara.obtenerUltimoEstado();
 	cambioEstado  = camara.comprobarCambioEstado();
 	if ( estado == true )
 	{

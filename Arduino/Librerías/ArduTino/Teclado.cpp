@@ -100,7 +100,7 @@ bool Teclado::comprobarPulsacionNueva()
 		if (nuevaTecla != auxTecla)
 		{
 			// Espero un tiempo prudencial y vuelvo a probar
-			delay(10);
+			delay(70);
 			nuevaTecla = obtenerTeclaActual();
 			if ( nuevaTecla != auxTecla)
 			{
@@ -137,11 +137,14 @@ bool Teclado::comprobarPulsacion()
    
   // Segundo caso
   int lectura = obtenerADC();
-  if ( (this->_noTeclaAbierto && lectura > 1000) || (this->_noTeclaAbierto = false && lectura < 50 ))
+  if ( lectura < 50)
   {
     return false;
   }
-  return true;
+  else
+  {
+		return true;
+	}
 }
 
 int Teclado::obtenerADC()
