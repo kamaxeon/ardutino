@@ -11,8 +11,10 @@
  * En este ejemplo se prueban todas las funcionalidades que presenta
  * la librería:
  * 
- * Se ha usado un shield LCDKeypad de DFROBOT
- * http://www.robotshop.com/dfrobot-lcd-keypad-shield-arduino-1.html
+ * Ejemplo usando un ADKeyboard de Seeed Studio
+ * http://www.seeedstudio.com/depot/electronic-brick-adkey-module-p-500.html
+ * 
+ * Y un display 20x4
  */
 
 // Librerías a usar
@@ -23,21 +25,24 @@
 
 
 // Definiciones propias del Keypad
-const int teclaDerecha		= 0;
-const int teclaArriba			=	1;
-const int teclaAbajo			=	2;
-const int teclaIzquierda	=	3;
-const int teclaEnter			= 4;
+const int teclaEnter			= 0;
+const int teclaDerecha		= 1;
+const int teclaArriba			=	2;
+const int teclaAbajo			=	3;
+const int teclaIzquierda	=	4;
+
 // Pin de lectura
 
 const int pinKeypad = 0;
 
 // Valores del teclado, siempre se debería poner un número algo mayor del
 // que nos devuelva el keypad
-int valoresAnalogicos[] = {50, 195, 380, 550, 790};
+int valoresAnalogicos[] = {200, 450, 800, 970, 1100};
+
 
 // Relación teclas nombre
-String Teclas[] = {"Derecha", "Arriba", "Abajo", "Izquierda", "Enter"};
+// Relación teclas nombre
+String Teclas[] = {"Intro", "Derecha", "Arriba", "Abajo", "Izquierda"};
 
 // Definimos el número de teclas, también podemos poner el número
 // directamente
@@ -45,7 +50,7 @@ int numeroTeclas = sizeof(valoresAnalogicos)/sizeof(int);
 
 // Aquí definimos si cuando no pulsamos ninguna tecla da 1024 ó 0
 // Verdadero cuando es 1024, falso cuando es 0
-boolean sinPulsarAbierto = true;
+boolean sinPulsarAbierto = false;
 
 // Definimos el teclado en sí
 Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas, sinPulsarAbierto);
@@ -56,8 +61,8 @@ int i;
 String teclaNombre;
 
 // Valores del LCD
-const int _LCD_rows	=	2;
-const int _LCD_cols	=	16;
+const int _LCD_rows	=	4;
+const int _LCD_cols	=	20;
 
 
 
@@ -69,7 +74,7 @@ uint8_t arrow_up[8]    = {0x4,0xE,0x15,0x4,0x4,0x4,0x0};
 uint8_t arrow_down[8]  = {0x0,0x4,0x4,0x4,0x15,0xE,0x4};
 
 // Creamos el objeto del display
-LiquidCrystal lcd(8,9,4,5,6,7); 
+LiquidCrystal lcd(7,8,9,10,11,12); 
 
 // LLamamos al menú principal
 // Para definirlo sólo debemos pasarle como parámetros el nombre y un id
@@ -116,7 +121,7 @@ void tecla(int tecla)
 		      Root.goUp();
 		      Serial.println("'Boton Arriba'");
 		    }
-		    else if(tecla = teclaAbajo) {
+		    else if(tecla == teclaAbajo) {
 		      Root.goDown();
 		      Serial.println("'Boton Abajo'");
 		    }
@@ -170,7 +175,6 @@ void loop()
   if (teclado.comprobarPulsacionNueva())
   {
 		i = teclado.obtenerUltimaTecla();
-		Serial.println(analogRead(0));
 		Serial.println(i);
 		tecla(i);
 		comprobarFuncion();
