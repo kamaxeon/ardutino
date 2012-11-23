@@ -41,7 +41,7 @@
 
 #include "WString.h"
 #include <Menu.h>
-#include <../LiquidCrystal/LiquidCrystal.h>
+#include "../LiquidCrystal/LiquidCrystal.h"
 
 //# Lcd Menu 2
 //# =======================
