@@ -55,7 +55,7 @@ class Teclado
      * @warning Ningún valor del Keypad analógico puede ser superior a
      * 1024
 		 */
-		Teclado(int pinKeypad, int valoresKyepad[], int numeroTeclas, noTeclaAbierto);
+		Teclado(int pinKeypad, int valoresKyepad[], int numeroTeclas, bool noTeclaAbierto);
 
 		/** Obtiene la última tecla pulsada sin obtener la actual
 		 * @return un entero con el valor
@@ -75,7 +75,7 @@ class Teclado
 		int convertirADC(int valorAnalogico);
 		int obtenerADC();
 		bool comprobarPulsacion();
-    bool noTeclaAbierto;
+    bool _noTeclaAbierto;
 		int _pinKeypad;
 		int _ultimaTecla;
     int _numeroTeclas;
