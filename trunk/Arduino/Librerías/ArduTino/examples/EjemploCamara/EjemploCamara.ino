@@ -54,7 +54,7 @@ void loop()
 	estado        = camara.obtenerEstado();
 	ultimoEstado  = camara.obtenerUltimoEstado();
 	cambioEstado  = camara.comprobarCambioEstado();
-	if ( estado == true )
+	if (sestado)
 	{
 		textoEstado = "encendida";
 	}
@@ -63,7 +63,7 @@ void loop()
 		textoEstado = "apagada";
 	}
 
-	if (cambioEstado == true)
+	if (cambioEstado)
 	{
 		textoCambioEstado = "El estado de la camara ha cambiado";
 	}
@@ -72,7 +72,7 @@ void loop()
 		textoCambioEstado = "El estado de la camara no ha cambiado";
 	}
 
-	if (ultimoEstado == true)
+	if (ultimoEstado)
 	{
 		textoUltimoEstado = "encendida";
 	}
@@ -89,9 +89,11 @@ void loop()
 	Serial.print("Estado: camara ");
 	Serial.println(textoEstado);
 	Serial.println(textoCambioEstado);
-	Serial.println("Apagando la camara");
-	camara.apagar();
-	Serial.println("Camara apagada");
-	
+	if (UltimoEstado)
+	{
+		Serial.println("Apagando la camara");
+		camara.apagar();
+		Serial.println("Camara apagada");
+	}
 	delay(3000);
 }
