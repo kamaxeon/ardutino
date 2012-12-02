@@ -35,18 +35,18 @@
 
 class Teclado
 {
-	public:
-		/** Inicializa el keypad del ArduTino que controla los secadero
-		 * @param pinKeypad
+  public:
+    /** Inicializa el keypad del ArduTino que controla los secadero
+     * @param pinKeypad
      * @param valoresKeypad, es un vector con los valores que devuelve
      * el ping dependiendo de la tecla pulsada
      * @param numeroTeclas el número de teclas que tiene el keypad
      * @warning Ningún valor del Keypad analógico puede ser superior a
      * 1024
-		 */
-		Teclado(int pinKeypad, int valoresKyepad[], int numeroTeclas);
-		/** Inicializa el keypad del ArduTino que controla los secadero
-		 * @param pinKeypad
+     */
+    Teclado(int pinKeypad, int valoresKyepad[], int numeroTeclas);
+    /** Inicializa el keypad del ArduTino que controla los secadero
+     * @param pinKeypad
      * @param valoresKeypad, es un vector con los valores que devuelve
      * el ping dependiendo de la tecla pulsada
      * @param numeroTeclas el número de teclas que tiene el keypad
@@ -54,33 +54,32 @@ class Teclado
      * ser 0, cuando actuan todas las resistencias o 1024 cuando no actua ninguna
      * @warning Ningún valor del Keypad analógico puede ser superior a
      * 1024
-		 */
-		Teclado(int pinKeypad, int valoresKyepad[], int numeroTeclas, bool noTeclaAbierto);
+     */
+    Teclado(int pinKeypad, int valoresKyepad[], int numeroTeclas, bool noTeclaAbierto);
 
-		/** Obtiene la última tecla pulsada sin obtener la actual
-		 * @return un entero con el valor
-		 */
-		int obtenerUltimaTecla();
+    /** Obtiene la última tecla pulsada sin obtener la actual
+     * @return un entero con el valor
+     */
+    int obtenerUltimaTecla();
 
-		/** Obtiene si hay diferencias entre la última tecla pulsada
-		 * y la actual
-		 * @return verdadero si hay diferencias, o falso en caso contrario
-		 */
-		bool comprobarPulsacionNueva();
+    /** Obtiene si hay diferencias entre la última tecla pulsada
+     * y la actual
+     * @return verdadero si hay diferencias, o falso en caso contrario
+     */
+    bool comprobarPulsacionNueva();
 
-		
+    
 
-	
-	private:
-		int convertirADC(int valorAnalogico);
-		int obtenerADC();
-		bool comprobarPulsacion();
+  
+  private:
+    int convertirADC(int valorAnalogico);
+    int obtenerADC();
+    bool comprobarPulsacion();
     bool _noTeclaAbierto;
-		int _pinKeypad;
-		int _ultimaTecla;
+    int _pinKeypad;
+    int _ultimaTecla;
     int _numeroTeclas;
-    //int * _valoresKeypad;
-    int _valoresKeypad[20]; //Máximo numero de teclas admitidas
+    int * _valoresKeypad;
     int obtenerTeclaActual();
     //~ int convertirADC(unsigned int valorAnalogico);
 };

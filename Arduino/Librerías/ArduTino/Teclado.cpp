@@ -38,43 +38,39 @@
 
 Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas)
 {
-	int i;
-	this->_pinKeypad	      = pinKeypad;
+  int i;
+  this->_pinKeypad        = pinKeypad;
   this->_numeroTeclas     = numeroTeclas;
   // Pongo un valor alto para que pueda recoger la primera pulsación
   this->_ultimaTecla      = 101 ;
-  // this->_valoresKeypad    = new int[numeroTeclas];
-  // int *_cursor = this->_valoresKeypad;
-	//   for (i = 0; i < numeroTeclas ; i++)
-	// {
-	// 	*_cursor = *(valoresKeypad + i);
-	//     _cursor++;
-	// }
-  for (i = 0; i < numeroTeclas ; i++)
- {
-	 this->_valoresKeypad[i] = *(valoresKeypad + i);
- }	
+  this->_valoresKeypad    = (int *)malloc(sizeof(int) * numeroTeclas);
+  int *_cursor = this->_valoresKeypad;
+    for (i = 0; i < numeroTeclas ; i++)
+  	{
+      *_cursor = *(valoresKeypad + i);
+      _cursor++;
+    }
 }
 
 Teclado::Teclado(int pinKeypad, int valoresKeypad[], int numeroTeclas, bool noTeclaAbierto)
 {
-	int i;
-	this->_pinKeypad	      = pinKeypad;
+  int i;
+  this->_pinKeypad        = pinKeypad;
   this->_numeroTeclas     = numeroTeclas;
   // Pongo un valor alto para que pueda recoger la primera pulsación
   this->_ultimaTecla      = 101 ;
   this->_noTeclaAbierto   = noTeclaAbierto;
-  // this->_valoresKeypad    = new int[numeroTeclas];
+  // this->_valoresKeypad    = (int *)malloc(sizeof(int) * numeroTeclas);
   // int *_cursor = this->_valoresKeypad;
-	//   for (i = 0; i < numeroTeclas ; i++)
-	// {
-	// 	*_cursor = *(valoresKeypad + i);
-	//     _cursor++;
-	// }
+  //   for (i = 0; i < numeroTeclas ; i++)
+  // {
+  //  *_cursor = *(valoresKeypad + i);
+  //     _cursor++;
+  // }
   for (i = 0; i < numeroTeclas ; i++)
  {
-	 this->_valoresKeypad[i] = *(valoresKeypad + i);
- }	
+   this->_valoresKeypad[i] = *(valoresKeypad + i);
+ }  
 }
 /* ================  Métodos Públicos ================ */
 
@@ -87,40 +83,40 @@ int Teclado::obtenerUltimaTecla()
 
 bool Teclado::comprobarPulsacionNueva()
 {
-	// Compruebo si hay una tecla pulsada primero
-	if (comprobarPulsacion())
-	{
-		int nuevaTecla;
-		int auxTecla;
+  // Compruebo si hay una tecla pulsada primero
+  if (comprobarPulsacion())
+  {
+    int nuevaTecla;
+    int auxTecla;
 
-		auxTecla = obtenerUltimaTecla();
-		nuevaTecla = obtenerTeclaActual();
+    auxTecla = obtenerUltimaTecla();
+    nuevaTecla = obtenerTeclaActual();
 
-		// Compruebo si ha cambiado la tecla
-		if (nuevaTecla != auxTecla)
-		{
-			// Espero un tiempo prudencial y vuelvo a probar
-			delay(70);
-			nuevaTecla = obtenerTeclaActual();
-			if ( nuevaTecla != auxTecla)
-			{
-				if ( nuevaTecla >=0)
-				{
-					return true;
-				}
-			}
-		}
-		else
-		{
-			return false;  
-		}
-	}
-	else
-	{
-		// Para liberar la posición de última tecla cuando se libera
-		this->_ultimaTecla = 101;
-		return false;
-	}
+    // Compruebo si ha cambiado la tecla
+    if (nuevaTecla != auxTecla)
+    {
+      // Espero un tiempo prudencial y vuelvo a probar
+      delay(70);
+      nuevaTecla = obtenerTeclaActual();
+      if ( nuevaTecla != auxTecla)
+      {
+        if ( nuevaTecla >=0)
+        {
+          return true;
+        }
+      }
+    }
+    else
+    {
+      return false;  
+    }
+  }
+  else
+  {
+    // Para liberar la posición de última tecla cuando se libera
+    this->_ultimaTecla = 101;
+    return false;
+  }
 }
 
 
@@ -143,8 +139,8 @@ bool Teclado::comprobarPulsacion()
   }
   else
   {
-		return true;
-	}
+    return true;
+  }
 }
 
 int Teclado::obtenerADC()

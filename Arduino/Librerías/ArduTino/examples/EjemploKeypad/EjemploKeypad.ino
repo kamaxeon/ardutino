@@ -33,12 +33,8 @@ String Teclas[] = {"Intro", "Derecha", "Arriba", "Abajo", "Izquierda"};
 // directamente
 int numeroTeclas = sizeof(valoresAnalogicos)/sizeof(int);
 
-// Aquí definimos si cuando no pulsamos ninguna tecla da 1024 ó 0
-// Verdadero cuando es 1024, falso cuando es 0
-boolean sinPulsarAbierto = false;
-
 // Definimos el teclado en sí
-Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas, sinPulsarAbierto);
+Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas);
 
 // Valor índice del vector de resultados
 int i;
