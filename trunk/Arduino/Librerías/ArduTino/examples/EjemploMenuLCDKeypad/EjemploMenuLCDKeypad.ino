@@ -48,12 +48,8 @@ String Teclas[] = {"Intro", "Derecha", "Arriba", "Abajo", "Izquierda"};
 // directamente
 int numeroTeclas = sizeof(valoresAnalogicos)/sizeof(int);
 
-// Aquí definimos si cuando no pulsamos ninguna tecla da 1024 ó 0
-// Verdadero cuando es 1024, falso cuando es 0
-boolean sinPulsarAbierto = false;
-
 // Definimos el teclado en sí
-Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas, sinPulsarAbierto);
+Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas);
 
 // Valor índice del vector de resultados
 int i;
@@ -116,29 +112,29 @@ Menu Item32("Menu1.3->Item2", 32, top, Item3);
 
 void tecla(int tecla)
 {
-		    if (tecla == teclaArriba) 
-		{
-		      Root.goUp();
-		      Serial.println("'Boton Arriba'");
-		    }
-		    else if(tecla == teclaAbajo) {
-		      Root.goDown();
-		      Serial.println("'Boton Abajo'");
-		    }
-		    else if(tecla == teclaEnter) {
-		      Root.goEnter();
-			pulsacion_enter = true;
-		      Serial.println("'Boton Enter'");
-		    }
-		    else if(tecla == teclaIzquierda) {
-		      Root.goBack();
-		      Serial.println("'Tecla Izquierda'");
-		    }
-		    else if(tecla == teclaDerecha) {
-		      Root.goEnter();
-			pulsacion_enter = true;
-		      Serial.println("'Tecla Derecha'");
-		    }
+	if (tecla == teclaArriba) 
+	{
+		Root.goUp();
+		Serial.println("'Boton Arriba'");
+	}
+	else if(tecla == teclaAbajo) {
+		Root.goDown();
+		Serial.println("'Boton Abajo'");
+	}
+	else if(tecla == teclaEnter) {
+		Root.goEnter();
+		pulsacion_enter = true;
+		Serial.println("'Boton Enter'");
+	}
+	else if(tecla == teclaIzquierda) {
+		Root.goBack();
+		Serial.println("'Tecla Izquierda'");
+	}
+	else if(tecla == teclaDerecha) {
+		Root.goEnter();
+		pulsacion_enter = true;
+		Serial.println("'Tecla Derecha'");
+	}
 }
 
 
@@ -172,12 +168,12 @@ void setup()
 void loop()
 {
 
-  if (teclado.comprobarPulsacionNueva())
-  {
+	if (teclado.comprobarPulsacionNueva())     
+	{    
 		i = teclado.obtenerUltimaTecla();
 		Serial.println(i);
-		tecla(i);
-		comprobarFuncion();
-	}
-
+		tecla(i);         
+		comprobarFuncion();        
+	}        
+	delay(200);
 }

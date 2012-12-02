@@ -33,7 +33,7 @@ http://ardutino.googlecode.com/svn/wiki/imagenes/rs232.jpg
 
 http://ardutino.googlecode.com/svn/wiki/imagenes/reles.jpg
 
- * *Reloj*: Con el fin de guardar la hora, se añade un DS1307 para almacenar la hora, aún cuando apaguemos el ArduTino.
+ * *Reloj*: Con el fin de guardar la hora, se añade un DS1307 para almacenar la hora, aún cuando apaguemos el !ArduTino.
 
 http://ardutino.googlecode.com/svn/wiki/imagenes/ds1307.jpg
 

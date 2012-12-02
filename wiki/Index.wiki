@@ -3,7 +3,7 @@
 El proyecto se divide en varios aspectos.
 
 
- * [HardwareIndex#Hardware_comprado Hardware estándar]: El hardware estándar usado
+ * [HardwareIndex#Hardware_comprado Hardware estándar]: El hardware comprado para el proyecto
  * [HardwareIndex#Hardware_desarrollado Hardware desarrollado]: El hardware desarrollado para el proyecto
  * [SoftwareIndex Software]: El software desarrollado para el mismo
  * [ManualIndex Manual de uso]: El manual de uso del mismo

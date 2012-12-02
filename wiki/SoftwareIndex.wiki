@@ -1,6 +1,6 @@
 ==Software==
 
-Para la correcta realización del proyecto se ha desarrollado varias librerías para el uso del ArduTino, con la idea siempre en mente que el código de control sea lo más pequeño, limpio y claro de entender. Para esto nos basamos en estas librerías:
+Para la correcta realización del proyecto se ha desarrollado varias librerías para el uso del !ArduTino, con la idea siempre en mente que el código de control sea lo más pequeño, limpio y claro de entender. Para esto nos basamos en estas librerías:
 
  * *Cámara*: es la encargada de comprobar el estado de la cámara y darnos valores de temperatura y humedad del sensor que lleva asociado (basada en parte en la librería SHT1X)
  * *Teclado*: es la encargada de una forma minimalista de comprobar si hemos pulsado alguna tecla y decirnos cual
