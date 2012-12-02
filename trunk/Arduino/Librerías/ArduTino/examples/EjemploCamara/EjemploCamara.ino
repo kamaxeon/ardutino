@@ -54,7 +54,7 @@ void loop()
 	estado        = camara.obtenerEstado();
 	ultimoEstado  = camara.obtenerUltimoEstado();
 	cambioEstado  = camara.comprobarCambioEstado();
-	if (sestado)
+	if (estado)
 	{
 		textoEstado = "encendida";
 	}
@@ -89,7 +89,7 @@ void loop()
 	Serial.print("Estado: camara ");
 	Serial.println(textoEstado);
 	Serial.println(textoCambioEstado);
-	if (UltimoEstado)
+	if (ultimoEstado)
 	{
 		Serial.println("Apagando la camara");
 		camara.apagar();
