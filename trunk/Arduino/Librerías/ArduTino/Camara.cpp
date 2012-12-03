@@ -72,11 +72,16 @@ const float T2l =  0.00128;       // for V3 and V4 sensors, 8-bit precision
 
 Camara::Camara(int pinEstado, int pinApagado, int pinDatosSensor, int pinRelojSensor)
 {
-	// El estado de la camara al iniciarse siempre es true
-	this->_estadoAntiguo = true;
+	// El estado de la camara al iniciarse siempre pensamos que es true
+	this->estado = true;
 	
 	this->_pinEstado	= pinEstado;
 	this->_pinApagado	=	pinApagado;
+	
+	// Pongo los valores a 0 de los sensores
+	
+  this->temperatura = 0;
+  this->humedad     = 0;
 	
 	// Parte propia de los sensores
 	this->_pinData 		= pinDatosSensor;
@@ -92,13 +97,42 @@ Camara::Camara(int pinEstado, int pinApagado, int pinDatosSensor, int pinRelojSe
 	
 }
 
+Camara::Camara(int pinEstado, int pinApagado, int pinDatosSensor, int pinRelojSensor, int id)
+{
+  // El id de la camara
+  this->id    = id;
+	// El estado de la camara al iniciarse siempre pensamos que es true
+	this->estado = true;
+	
+	this->_pinEstado	= pinEstado;
+	this->_pinApagado	=	pinApagado;
+	
+	// Pongo los valores a 0 de los sensores
+	
+  this->temperatura = 0;
+  this->humedad     = 0;
+	
+	// Parte propia de los sensores
+	this->_pinData 		= pinDatosSensor;
+	this->_pinClock 	= pinRelojSensor;
+	this->_presult		= NULL;
+	this->_stat_reg		= 0x00;
+	
+	pinMode(this->_pinClock, OUTPUT);
+	resetConnection();
+	putByte(SOFT_RESET);
+	
+	
+	
+}
 /* ================  Métodos Públicos ================ */
 
 
 int Camara::obtenerTemperatura()
 {
 	meas(0, &this->_rawData, true);
-  return (int)round(calcTemp(this->_rawData));
+	this->temperatura = (int)round(calcTemp(this->_rawData));
+  return this->temperatura;
 }
 
 
@@ -112,7 +146,8 @@ int Camara::obtenerHumedad()
 	// Ahora me pongo con la humead en si
 	meas(1, &this->_rawData, true);
 
-  return (int)round(calcHumi(this->_rawData, aux) );
+  this->humedad = (int)round(calcHumi(this->_rawData, aux) );
+  return this->humedad;
 }
 
 
@@ -136,32 +171,27 @@ bool Camara::obtenerEstado()
 	
 	if ( lectura == HIGH )
 	{
-    this->_estadoAntiguo = true; // cambiamos el estado
+    this->estado = true; // cambiamos el estado
 		return true; // la cámara está encendida
 	}
 	else
 	{
-		this->_estadoAntiguo = false; // cambiamos el estado
+		this->estado = false; // cambiamos el estado
 		return false; // la cámara está apagada
 	}
 
 }
 
 
-bool Camara::obtenerUltimoEstado()
-{
-	return this->_estadoAntiguo;
-}
 
 bool Camara::comprobarCambioEstado()
 {
-	bool estadoNuevo; // Variable para comparar
-  bool estadoAux;
-  estadoAux = obtenerUltimoEstado();
+  bool estadoAntes; // Variable para comparar
+  estadoAntes = this->estado;
 
-	estadoNuevo = obtenerEstado();
+	obtenerEstado();
 
-	if (estadoNuevo != estadoAux)
+	if (this->estado != estadoAntes)
 	{
 		return true;
 	}
