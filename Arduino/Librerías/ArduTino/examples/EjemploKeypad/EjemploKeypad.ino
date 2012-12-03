@@ -56,5 +56,5 @@ void loop()
 		Serial.print("La tecla pulsada es ");
 		Serial.println(teclaNombre);
 	}
-	//delay(200);
+	delay(200);
 }

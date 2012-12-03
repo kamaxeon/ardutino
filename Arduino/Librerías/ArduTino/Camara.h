@@ -90,14 +90,22 @@ class Camara
 	 * @param pinRelojSensor Pin de reloj del sensor SHT1X
 	 */
     Camara(int pinEstado, int pinApagado, int pinDatosSensor, int pinRelojSensor);
+	/** Inicializa la camara, suponiendo siempre que la cámara está
+	 * encendida
+	 * @param pinEstado Pin que comprueba el estado de la cámara
+	 * @param pinApagado Pin para lanzar el apagado de la cámara
+	 * @param pinDatosSensor Pin de datos del sensor SHT1X
+	 * @param pinRelojSensor Pin de reloj del sensor SHT1X
+	 */
+    Camara(int pinEstado, int pinApagado, int pinDatosSensor, int pinRelojSensor, int id);
     /** Obtiene la temperatura del sensor en Celsius
      *  @return Un entero con el valor 
      */
     int	obtenerTemperatura();
-    /** Obtiene la humedad del sensor
+    /** Obtiene la temperatura del sensor
      * @return Un entero con el valor
      */
-    int	obtenerHumedad();
+    int	obtenerHumedad();   
     /** Activa el interruptor de apagado de la cámara durante 3 segundos
      */
     void apagar();
@@ -106,18 +114,16 @@ class Camara
      * contrario
      */
     bool obtenerEstado();
-    /** Obtiene el último valor conocido de la cámara sin obtener el
-     * actual
-     * @return verdadero si estaba encendida, o falso en caso contrario
-     */
-    bool obtenerUltimoEstado();	
     /** Comprueba el estado actual de la cámara con el último conocido
      * @return verdadero si el estado de la cámara a cambiado, o
      * falso en caso contrario
      */
     bool comprobarCambioEstado();
+    int humedad;
+    int temperatura;
+    int estado;
+    int id;
   private:
-    int _estadoAntiguo;
     int _pinEstado;
     int _pinApagado;
 		uint8_t _pinData;

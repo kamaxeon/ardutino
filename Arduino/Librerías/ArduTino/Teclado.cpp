@@ -157,7 +157,6 @@ int Teclado::obtenerTeclaActual()
 
   // Devuelvo el valor convirtiendo de analógico a la posición del vector
   this->_ultimaTecla = convertirADC(valorAnalogico);
-	delay(200);
   return this->_ultimaTecla;
 }
 

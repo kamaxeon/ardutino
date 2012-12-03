@@ -30,10 +30,8 @@ const int pinRelojSensor    = 44;
 
 Camara camara(pinEstado, pinApagado, pinDatosSensor, pinRelojSensor);
 
-int temperatura;
-int humedad;
+
 String textoEstado;
-boolean estado;
 boolean cambioEstado;
 String textoCambioEstado;
 boolean ultimoEstado;
@@ -43,18 +41,17 @@ void setup()
 {
 	Serial.begin(9600); // Definimos el puerto serial
 	Serial.println("Arrancando el ejemplo"); // Empezamos ;-)
+  delay(500);
 }
 
 
 void loop()
 {
 	// Recogemos los valores
-	temperatura   = camara.obtenerTemperatura();
-	humedad       = camara.obtenerHumedad();
-	estado        = camara.obtenerEstado();
-	ultimoEstado  = camara.obtenerUltimoEstado();
-	cambioEstado  = camara.comprobarCambioEstado();
-	if (estado)
+	camara.obtenerTemperatura();
+	camara.obtenerHumedad();
+	ultimoEstado  = camara.obtenerEstado();
+	if (ultimoEstado)
 	{
 		textoEstado = "encendida";
 	}
@@ -63,7 +60,7 @@ void loop()
 		textoEstado = "apagada";
 	}
 
-	if (cambioEstado)
+	if (camara.comprobarCambioEstado())
 	{
 		textoCambioEstado = "El estado de la camara ha cambiado";
 	}
@@ -81,9 +78,9 @@ void loop()
 		textoUltimoEstado = "apagada";
 	}
 	Serial.print("Temperatura: ");
-	Serial.println(temperatura);
+	Serial.println(camara.temperatura);
 	Serial.print("Humedad: ");
-	Serial.println(humedad);
+	Serial.println(camara.humedad);
 	Serial.print("El ultimo estado conocido de la camara era ");
 	Serial.println(textoUltimoEstado);
 	Serial.print("Estado: camara ");
