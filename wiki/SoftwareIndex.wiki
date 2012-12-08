@@ -1,4 +1,8 @@
-==Software==
+==Convenciones==
+
+Se ha utilizado aunque sea un poco más lento tipos *int* y *String*, en detrimento de tipos como *uint8_t*, *uint16_t*, o vectores de *char*. El codigo cabe perfectamente en un Arduino Mega, y por eso se quiere facilitar la lectura y uso del proyecto a costa de disminuir el tamaño y aumentar la velocidad, cuando son despreciables en este caso.
+
+==Librerías propias== 
 
 Para la correcta realización del proyecto se ha desarrollado varias librerías para el uso del !ArduTino, con la idea siempre en mente que el código de control sea lo más pequeño, limpio y claro de entender. Para esto nos basamos en estas librerías:
 
@@ -7,6 +11,8 @@ Para la correcta realización del proyecto se ha desarrollado varias librerías 
  * *Modem*: Basada en la clase modem pero extendiéndola para añadir los métodos para el envío de sms basados en la cámara.
  * *Menú y MenúLCD*: usadas para crear el menú de usuario y su presentación en el LCD
  * *Misc*: Las distintas funciones que no encajan en el resto pero que son necesarias la simplificación del programa princial
+
+==Cambios al core de Arduino==
 
 Se ha realizado una modificación en el core de Arduino para cambiar el tamaño del buffer de los seriales, se ha cambiado de 64 a 128 bytes. Para eso se ha modificado la línea 43 del fichero !HardwareSerial.cpp
 {{{
