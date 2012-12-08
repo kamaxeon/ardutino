@@ -6,4 +6,10 @@ Para la correcta realización del proyecto se ha desarrollado varias librerías 
  * *Teclado*: es la encargada de una forma minimalista de comprobar si hemos pulsado alguna tecla y decirnos cual
  * *Modem*: Basada en la clase modem pero extendiéndola para añadir los métodos para el envío de sms basados en la cámara.
  * *Menú y MenúLCD*: usadas para crear el menú de usuario y su presentación en el LCD
- * *Misc*: Las distintas funciones que no encajan en el resto pero que son necesarias la simplificación del programa princial 
+ * *Misc*: Las distintas funciones que no encajan en el resto pero que son necesarias la simplificación del programa princial
+
+Se ha realizado una modificación en el core de Arduino para cambiar el tamaño del buffer de los seriales, se ha cambiado de 64 a 128 bytes. Para eso se ha modificado la línea 43 del fichero HardwareSerial.cpp
+{{{
+//  #define SERIAL_BUFFER_SIZE 64
+  #define SERIAL_BUFFER_SIZE 128
+}}} 
