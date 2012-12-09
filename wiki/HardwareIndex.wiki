@@ -53,4 +53,18 @@ http://ardutino.googlecode.com/svn/wiki/imagenes/Ardutino_prototipo1.jpg
 
 http://ardutino.googlecode.com/svn/wiki/imagenes//Ardutino_prototipo2.jpg
 
+===Creación del cable modem nulo===
 
+El cable debe tener conectores db9 machos (aunque en una imagen diga que son hembras), en estas tres imágenes se puede ver sin problemas.
+
+ * Vista física del cable
+
+http://ardutino.googlecode.com/svn/wiki/imagenes/null.jpg
+
+ * Vista desde atrás
+
+http://ardutino.googlecode.com/svn/wiki/imagenes/nullcable.jpg
+
+ * Vista desde delante
+
+http://ardutino.googlecode.com/svn/wiki/imagenes/rs232_2.jpg
