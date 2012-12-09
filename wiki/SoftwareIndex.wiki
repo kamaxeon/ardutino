@@ -6,7 +6,40 @@ Se ha utilizado aunque sea un poco más lento tipos *int* y *String*, en detrime
 
 Para la correcta realización del proyecto se ha desarrollado varias librerías para el uso del !ArduTino, con la idea siempre en mente que el código de control sea lo más pequeño, limpio y claro de entender. Para esto nos basamos en estas librerías:
 
- * *Cámara*: es la encargada de comprobar el estado de la cámara y darnos valores de temperatura y humedad del sensor que lleva asociado (basada en parte en la librería SHT1X)
+===Camara===
+
+====Uso y definición====
+ * Es la encargada de comprobar el estado de la camara, leer los valores del sensor que lleva asociado y su apagado, cada cámara lleva asociado un sensor tipo SHT1X. La lectura de los sensores se ha realizado usando la librería de [http://code.google.com/p/arms22/downloads/detail?name=Sensirion-arduino-100.zip&can=2&q= Sensirion]
+
+====Constructor====
+ * El constructor es muy simple, lo único que debemos pasarle son los valores de los pines para comprobar el estado, apagado, el pin de datos y reloj del sensor, el parámetro de id es opcional.
+
+ * Ejemplo
+{{{
+
+const int pinEstado1         = 29;
+const int pinApagado1        = 51;
+const int pinDatosSensor1    = 40;
+const int pinRelojSensor1    = 44;
+const int id1                = 1;
+
+
+Camara camara1(pinEstado1, pinApagado1, pinDatosSensor1, pinRelojSensor1, id1);
+}}}
+
+====Atributos====
+ * La clase presenta 4 atributos públicos:
+   * *humedad*-> Valor entero que representa el % de la humedad relativa
+   * *temperatura*-> Valor entero que representa la temperatura en grados Celsius
+   * *estado*-> Valor booleano que representa el estado de la cámara
+   * *id*-> Valor entero que representa el id dado a la cámara
+
+====Métodos====
+ * La clase presenta los siguientes métodos público:
+   * actualizarValores() -> no necesita ningún argumento ni devuelve nada, simplemente actualiza los atributos *humedad*, *temperatura* y *estado*.
+   * apagar() -> no necesita ningún argumento ni devuelve nada, lo único que hace es activar durante 3 segundos el pin que debe estar conectado al apagado de la cámara
+   * comprobarCambioEstado() -> no necesita ningún argumento y devuelve true o false si ha cambiado el estado, también actualiza el valor del atributo *estado*
+
  * *Teclado*: es la encargada de una forma minimalista de comprobar si hemos pulsado alguna tecla y decirnos cual
  * *Modem*: Basada en la clase modem pero extendiéndola para añadir los métodos para el envío de sms basados en la cámara.
  * *Menú y MenúLCD*: usadas para crear el menú de usuario y su presentación en el LCD
