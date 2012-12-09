@@ -17,6 +17,8 @@ Para la correcta realización del proyecto se ha desarrollado varias librerías 
  * Ejemplo
 {{{
 
+#include <Camara.h>
+
 const int pinEstado1         = 29;
 const int pinApagado1        = 51;
 const int pinDatosSensor1    = 40;
@@ -36,12 +38,75 @@ Camara camara1(pinEstado1, pinApagado1, pinDatosSensor1, pinRelojSensor1, id1);
 
 ====Métodos====
  * La clase presenta los siguientes métodos público:
-   * actualizarValores() -> no necesita ningún argumento ni devuelve nada, simplemente actualiza los atributos *humedad*, *temperatura* y *estado*.
-   * apagar() -> no necesita ningún argumento ni devuelve nada, lo único que hace es activar durante 3 segundos el pin que debe estar conectado al apagado de la cámara
-   * comprobarCambioEstado() -> no necesita ningún argumento y devuelve true o false si ha cambiado el estado, también actualiza el valor del atributo *estado*
+   * *actualizarValores()* -> no necesita ningún argumento ni devuelve nada, simplemente actualiza los atributos *humedad*, *temperatura* y *estado*.
+   * *apagar()* -> no necesita ningún argumento ni devuelve nada, lo único que hace es activar durante 3 segundos el pin que debe estar conectado al apagado de la cámara
+   * *comprobarCambioEstado()* -> no necesita ningún argumento y devuelve true o false si ha cambiado el estado, también actualiza el valor del atributo *estado*
 
- * *Teclado*: es la encargada de una forma minimalista de comprobar si hemos pulsado alguna tecla y decirnos cual
+===Teclado===
+
+====Uso y definición====
+ * Librería creada específicamente para manejar el keypad de analógico de [http://www.seeedstudio.com/depot/electronic-brick-adkey-module-p-500.html Seeed Studio]
+
+====Constructor====
+ * Para crear un objeto lo único que debemos pasarle es el pin de lectura, un vector de enteros con los valores que debemos recibir al pulsar los botones y el número de botones.
+
+ * Ejemplo
+{{{
+
+#include <Teclado.h>
+
+// Valores del teclado, siempre se debería poner un número algo mayor del
+// que nos devuelva el keypad
+int valoresAnalogicos[] = {200, 450, 800, 970, 1100};
+
+
+// Definimos el número de teclas, también podemos poner el número
+// directamente
+int numeroTeclas = sizeof(valoresAnalogicos)/sizeof(int);
+
+// Definimos el teclado en sí
+Teclado teclado(pinKeypad, valoresAnalogicos, numeroTeclas);
+}}}
+
+====Atributos====
+ * Sólo presenta un atributo público
+   * *ultimaTecla* -> Valor entero representado la tecla pulsada en relación al vector de valores pasados al constructor
+
+====Métodos====
+ * Sólo presenta un método público
+   * *comprobarPulsacionNueva()* -> no necesita ningún parámetro y devuelve true o false en caso de haber pulsado una tecla nueva, a su vez actualiza el valor del atributo *ultimaTecla*
+
+===Modem===
+
+====Uso y definición====
+ * Librería creadad para controla a un modem TC35 conectado al Arduino, la función de dicha clase es controlar el modem y recoger quien llama o envía sms, el modem debe estar conectado al Serial1 del Arduino, es un requisito fundamental.
+
+====Constructor====
+ * Para crear un objeto tipo modem, lo único que debemos pasarle es la velocidad de comunicación en baudios.
+
+ * Ejemplo
+{{{
+// Incluímos la librería del modem
+#include <Modem.h>
+
+// Creacion del objeto modem
+const int velocidad = 9600;
+Modem modem(velocidad);
+}}}
+
+====Atributos====
+ * La clase presenta los siguientes atributos públicos:
+   * *idLlamada* -> Valor entero largo, que representa un identificador interno de cuando se recibió la última llamada
+   * *numeroLlamada* -> String que representa el DiD de la última llamada
+   * *idSms* -> Valor entero largo, que representa un identificador interno de cuando se recibió el último Sms
+   * *numeroSms* -> String que representa el DiD del último Sms
+   * *textoSms* -> String que representa el texto del último Sms
+
+====Métodos====
+ * La clase presenta los siguientes métodos públicos
+   * *inicilizar()* -> no necesita ningún parámetro y es necesario llamarlo dentro de la función *setup()* del sketch de Arduino, borrar los diez primeros sms de la SIM, en teoría no debería hacer ninguno pero se borrar 10 por si hubiera alguno.
+   * *comprobarSerial()* -> no necesita ningún argumento y no devuelve nada, lo único que hace es leer el serial y en caso de recibir una llamada o un sms actua. En caso de recibir una llamada automáticamente la corta y actualiza *idLlamada* y *numeroLlamada*, en caso de recibir un sms lo lee actualizando las variables *idSms*, *numeroSms* y *textoSms* y luego borra el sms recibido de la tarjeta SIM.
  * *Modem*: Basada en la clase modem pero extendiéndola para añadir los métodos para el envío de sms basados en la cámara.
- * *Menú y MenúLCD*: usadas para crear el menú de usuario y su presentación en el LCD
- * *Misc*: Las distintas funciones que no encajan en el resto pero que son necesarias la simplificación del programa princial
+
+ * *Menú y MenúLCD*: usadas para crear el menú de usuario y su presentación en el LCD (por documentar)
 
