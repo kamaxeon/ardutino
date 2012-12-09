@@ -106,7 +106,7 @@ Modem modem(velocidad);
  * La clase presenta los siguientes métodos públicos
    * *inicilizar()* -> no necesita ningún parámetro y es necesario llamarlo dentro de la función *setup()* del sketch de Arduino, borrar los diez primeros sms de la SIM, en teoría no debería hacer ninguno pero se borrar 10 por si hubiera alguno.
    * *comprobarSerial()* -> no necesita ningún argumento y no devuelve nada, lo único que hace es leer el serial y en caso de recibir una llamada o un sms actua. En caso de recibir una llamada automáticamente la corta y actualiza *idLlamada* y *numeroLlamada*, en caso de recibir un sms lo lee actualizando las variables *idSms*, *numeroSms* y *textoSms* y luego borra el sms recibido de la tarjeta SIM.
-   * *enviarSms(tfno, texto) -> necesita dos argumentos tipo string, no devuelve nada, enviando un sms.
+   * *enviarSms(tfno, texto)* -> necesita dos argumentos tipo string, no devuelve nada, enviando un sms.
 
 
  * *Menú y MenúLCD*: usadas para crear el menú de usuario y su presentación en el LCD (por documentar)
