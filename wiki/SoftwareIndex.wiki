@@ -55,6 +55,9 @@ Camara camara1(pinEstado1, pinApagado1, pinDatosSensor1, pinRelojSensor1, id1);
 
 #include <Teclado.h>
 
+// El pin de lectura
+int pinKeypad = 0;
+
 // Valores del teclado, siempre se debería poner un número algo mayor del
 // que nos devuelva el keypad
 int valoresAnalogicos[] = {200, 450, 800, 970, 1100};
