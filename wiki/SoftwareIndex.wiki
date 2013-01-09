@@ -104,6 +104,7 @@ Modem modem(velocidad);
    * *idSms* -> Valor entero largo, que representa un identificador interno de cuando se recibió el último Sms
    * *numeroSms* -> String que representa el DiD del último Sms
    * *textoSms* -> String que representa el texto del último Sms
+   * *fechaSms* -> String que devuelve la fecha del último Sms recogida de la hora GSM en formato aammddhhmm
 
 ====Métodos====
  * La clase presenta los siguientes métodos públicos
